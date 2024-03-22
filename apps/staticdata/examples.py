@@ -6,16 +6,13 @@ from rest_framework.decorators import api_view
 from rest_framework import generics
 
 from .models import identifier_type
-from .queries import *
+from .db.queries import *
 from .serializers import *
 
 from howtoquant.utils import *
 
 
 def raw_sql_example(request):
-    '''
-    
-    '''
 
     data = identifier_type.objects.raw(identifier_type_select_all)#[:2]  # slicing = return first two rows
 
@@ -38,6 +35,7 @@ def direct_sql_example(request):
     return render(request, "sandbox.html", {'data': data})
 
 
+# SERIALIZERS EXAMPLES
 @api_view(['GET', 'POST'])
 def api_identifier_types(request):
 
@@ -55,14 +53,12 @@ def api_identifier_types(request):
 
 @api_view(['GET', 'PUT', 'DELETE'])
 def api_identifier_type(request, id):
-    try:
-        data = identifier_type.objects.get(pk=id)  # cannot figure out how to do this raw instead of via Django model =(
-    except identifier_type.DoesNotExist:
+    data = dict_fetch_one(identifier_type_select_where_id, [id])
+    if  not data:
         return Response(status=status.HTTP_404_NOT_FOUND)
 
     if request.method == 'GET':
-        serializer = IdentifierTypeSerializer(data)
-        return Response({"identifier_type": serializer.data})
+        return JsonResponse({"identifier_type": data})
 
     elif request.method == 'PUT':
         serializer = IdentifierTypeSerializer(data, data=request.data)
@@ -70,12 +66,16 @@ def api_identifier_type(request, id):
             serializer.save()
             return Response(serializer.data)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
     elif request.method == 'DELETE':
-        data.delete()
+        delete_where(identifier_type_delete_where_id, [id])
+        # alternativelly via Django ORM:
+        # data = identifier_type.objects.get(pk=id)
+        # data.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
 
 
-# GENERIC VIEWS API EXAMPLES
+# GENERIC VIEWS API EXAMPLES - DON'T WORK WITH RAW SQL
 class IdentifierTypesCR(generics.ListCreateAPIView): 
     queryset = dict_fetch_all(identifier_type_select_all) # does not update after put
     # queryset = identifier_type.objects.all()  # alternative- Django ORM updates after PUT

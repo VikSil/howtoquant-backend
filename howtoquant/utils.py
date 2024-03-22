@@ -31,3 +31,10 @@ def dict_fetch_all(query, *args):
         return [dict(zip([col[0] for col in desc], row)) for row in rows]
     else:
         return None
+
+def delete_where(query, *args):
+    cursor = connection.cursor()
+    cursor.execute(query, *args)
+    connection.commit()
+    return cursor.rowcount 
+        
