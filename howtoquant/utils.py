@@ -1,4 +1,8 @@
-def dictfetch(cursor, rowcount):
+from django.db import connection
+
+def dict_fetch(query, rowcount, *args):
+    cursor = connection.cursor()
+    cursor.execute(query, *args)
     desc = cursor.description
     rows = cursor.fetchmany(rowcount)
     if rows:
@@ -6,7 +10,10 @@ def dictfetch(cursor, rowcount):
     else:
         return None
 
-def dictfetchone(cursor):
+
+def dict_fetch_one(query, *args):
+    cursor = connection.cursor()
+    cursor.execute(query, *args)
     desc = cursor.description
     row = cursor.fetchone()
     if row:
@@ -14,7 +21,10 @@ def dictfetchone(cursor):
     else:
         return None
 
-def dictfetchall(cursor):
+
+def dict_fetch_all(query, *args):
+    cursor = connection.cursor()
+    cursor.execute(query, *args)
     desc = cursor.description
     rows = cursor.fetchall()
     if rows:
