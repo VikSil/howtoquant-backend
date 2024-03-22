@@ -3,6 +3,7 @@ from django.http import JsonResponse
 from rest_framework.response import Response
 from rest_framework import status
 from rest_framework.decorators import api_view
+from rest_framework import generics
 
 from .models import identifier_type
 from .queries import *
@@ -74,4 +75,19 @@ def api_identifier_type(request, id):
         return Response(status=status.HTTP_204_NO_CONTENT)
 
 
+# GENERIC VIEWS API EXAMPLES
+class IdentifierTypesCR(generics.ListCreateAPIView): 
+    queryset = dict_fetch_all(identifier_type_select_all) # does not update after put
+    # queryset = identifier_type.objects.all()  # alternative- Django ORM updates after PUT
+    serializer_class = IdentifierTypeSerializer
 
+    # overriding list method is not strictly necessary, but can be useful to put the data on a key
+    def list(self, request):
+        data = self.get_queryset()
+        serializer = IdentifierTypeSerializer(data, many=True)
+        return JsonResponse({"identifier_types": serializer.data}, safe=False)
+
+class IndentifierTypeRUD(generics.RetrieveUpdateDestroyAPIView):
+    queryset = dict_fetch_all(identifier_type_select_all) # doing it this way defeats the purpose of dict_fetch_one
+    serializer_class = IdentifierTypeSerializer
+    lookup_field = "id"
