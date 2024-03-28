@@ -61,7 +61,7 @@ def api_identifier_type(request, id):
         return JsonResponse({"identifier_type": data})
 
     elif request.method == 'PUT':
-        serializer = IdentifierTypeSerializer(data, data=request.data)
+        serializer = CreateIdentifierTypeSerializer(data, data=request.data)
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data)
@@ -75,10 +75,15 @@ def api_identifier_type(request, id):
         return Response(status=status.HTTP_204_NO_CONTENT)
 
 
+# Using nested serializers/ nested JSON - tutorial:
+# https://www.youtube.com/watch?v=reDUKLuboI4
+
+
 # GENERIC VIEWS API EXAMPLES - DON'T WORK WITH RAW SQL
 class IdentifierTypesCR(generics.ListCreateAPIView): 
-    queryset = dict_fetch_all(identifier_type_select_all) # does not update after put
+    # queryset = dict_fetch_all(identifier_type_select_all) # does not update after put
     # queryset = identifier_type.objects.all()  # alternative- Django ORM updates after PUT
+    queryset = identifier_type.objects.raw(identifier_type_select_all)  # does not update after put
     serializer_class = IdentifierTypeSerializer
 
     # overriding list method is not strictly necessary, but can be useful to put the data on a key

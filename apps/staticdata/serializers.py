@@ -4,5 +4,10 @@ from .models import *
 class IdentifierTypeSerializer (serializers.ModelSerializer):
     class Meta:
         model = identifier_type
-        fields = ['id', 'type_name']
-        
+        fields = '__all__'
+
+# POST serializer should be separate from GET serializer and fields can be specified
+class CreateIdentifierTypeSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = identifier_type
+        fields = ['type_name'] 
