@@ -33,23 +33,28 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
-    "rest_framework",
-    "apps.accounting",
-    "apps.config",
-    "apps.marketdata",
-    "apps.staticdata",
-    "apps.usermanagement",
     "django.contrib.admin",
     "django.contrib.auth",
     "django.contrib.contenttypes",
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
+    # External
+    "rest_framework",
+    "corsheaders",
+    # Internal
+    "apps.accounting",
+    "apps.classifiers",
+    "apps.config",
+    "apps.marketdata",
+    "apps.staticdata",
+    "apps.usermanagement",
 ]
 
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
+    "corsheaders.middleware.CorsMiddleware",
     "django.middleware.common.CommonMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
     "django.contrib.auth.middleware.AuthenticationMiddleware",
@@ -124,3 +129,6 @@ STATIC_URL = "static/"
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
+
+# Solution from https://www.youtube.com/watch?v=EzJdpp2l0bA
+CORS_ALLOWED_ORIGINS = ["http://localhost:5173",]
