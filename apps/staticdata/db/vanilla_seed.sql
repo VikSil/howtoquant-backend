@@ -4,6 +4,7 @@ INSERT INTO staticdata_identifier_type VALUES
 (3, 'Sedol'),
 (4, 'RIC'),
 (5, 'Internal');
+(6, 'BBG Exchange Code');
 
 INSERT INTO staticdata_instrument_class VALUES
 (1, 'Equity', 'Simple Stock');
