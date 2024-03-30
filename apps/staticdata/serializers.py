@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import *
+from ..classifiers.models import identifier_type
 
 class IdentifierTypeSerializer (serializers.ModelSerializer):
     class Meta:
