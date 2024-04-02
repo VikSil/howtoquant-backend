@@ -24,7 +24,7 @@ class identifier(models.Model):
     code = models.CharField(max_length=25, unique=True)
     identifier_type_id = models.ForeignKey("classifiers.identifier_type", on_delete=models.PROTECT)
     instrument_id = models.ForeignKey(instrument, on_delete=models.CASCADE)
-    owner_or_id = models.ForeignKey(organization, on_delete=models.PROTECT)
+    owner_org_id = models.ForeignKey(organization, on_delete=models.PROTECT)
 
 
 class equity(models.Model):
