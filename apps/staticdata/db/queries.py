@@ -26,3 +26,11 @@ equities_select_all = '''
     WHERE i.owner_org_id_id = 1
     ;
 '''
+
+identifiers_select_all = '''
+    SELECT i.id, i.code, itype.type_name AS type, inst.id AS inst_id, inst.short_name as instrument FROM staticdata_identifier AS i
+    JOIN classifiers_identifier_type AS itype ON i.identifier_type_id_id = itype.id
+    JOIN staticdata_instrument AS inst ON i.instrument_id_id = inst.id
+    WHERE i.owner_org_id_id = 1
+    ;
+'''
