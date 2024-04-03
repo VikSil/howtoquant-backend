@@ -2,6 +2,6 @@ from django.urls import path
 from . import views
 
 urlpatterns = [
-    # Default landing page
-    path("", views.index, name="index")
+    path("", views.index, name="index"),
+    path("api/prices/new", views.get_prices, name="api_get_prices"),
 ]
