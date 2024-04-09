@@ -24,11 +24,12 @@ def index(request):
     )
 
 
-@api_view(['GET'])
+@api_view(['PUT'])
 def get_prices(request):
 
-    if request.method == 'GET':
+    if request.method == 'PUT':
         body = request.data
+        print(body)
 
         try:
             validate(instance=body, schema=new_price_request)
@@ -42,7 +43,10 @@ def get_prices(request):
 
         yfin.pdr_override()
         df = web.get_data_yahoo(ticker, start=start_dt, end=end_dt)
+
+        df = df.reset_index()
+        df['Ticker'] = ticker
         # truncate decimals to two places, Yahoo has 10
-        df_json = df.to_json(double_precision=2, date_format='iso')  
+        df_json = df.to_json(double_precision=2, date_format='iso', orient='records')
 
         return JsonResponse({"prices": json.loads(df_json)}, safe=False)

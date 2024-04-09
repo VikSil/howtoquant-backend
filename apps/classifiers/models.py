@@ -35,3 +35,7 @@ class industry_sector(models.Model):
 class industry_subsector(models.Model):
     subsector_name = models.CharField(max_length=255, unique=True)
     sector_id = models.ForeignKey(industry_sector, on_delete = models.CASCADE)
+
+
+class market_data_source(models.Model):
+    source_name = models.CharField(max_length=100, unique=True)
