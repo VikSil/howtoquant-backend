@@ -25,7 +25,7 @@ class country(models.Model):
     short_name = models.CharField(max_length=20)
     ISO2 = models.CharField(max_length=2, unique=True)
     ISO3 = models.CharField(max_length=3, unique=True)
-    ccy_id = models.ForeignKey(currency, on_delete=models.PROTECT)
+    ccy = models.ForeignKey(currency, on_delete=models.PROTECT)
 
 
 class industry_sector(models.Model):
@@ -34,7 +34,7 @@ class industry_sector(models.Model):
 
 class industry_subsector(models.Model):
     subsector_name = models.CharField(max_length=255, unique=True)
-    sector_id = models.ForeignKey(industry_sector, on_delete = models.CASCADE)
+    sector = models.ForeignKey(industry_sector, on_delete = models.CASCADE)
 
 
 class market_data_source(models.Model):

@@ -35,3 +35,6 @@ INSERT INTO classifiers_industry_sector VALUES
 INSERT INTO classifiers_industry_subsector VALUES
 (1, 'Automotive', 1),
 (2, 'Telecommunications', 2);
+
+INSERT INTO classifiers_market_data_source VALUES
+(1, 'Yahoo Fianance');
