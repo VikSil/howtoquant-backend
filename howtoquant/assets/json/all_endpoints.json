@@ -1,0 +1,61 @@
+{
+    "endpoints":{
+    "staticdata":{
+        "GET /api/equities/all":{
+            "description":"returns a list of all equities in users's organization",
+            "queries":[],
+            "requestBody":{},
+            "exampleResponse":{
+                "equities": [
+                    {
+                    "id": 1,
+                    "name": "Tesla Inc",
+                    "short_name": "Tesla",
+                    "issuer": "Tesla",
+                    "base_ccy": "USD",
+                    "domicile": "USA"
+                    }]
+                }
+            },
+        "GET /api/idenitifiers/all":{
+            "description":"returns a list of all identifiers in users's organization",
+            "queries":[],
+            "requestBody":{},
+            "exampleResponse":{
+                "identifiers": [
+                    {
+                    "id": 1,
+                    "code": "TSLA",
+                    "type": "BBG Ticker",
+                    "inst_id": 1,
+                    "instrument": "Tesla"
+                    }]
+                }
+            }  
+        },    
+    "marketdata":{
+        "PUT /api/prices/new":{
+            "description":"returns daily market prices and volume from Yahoo Finance for ticker and period",
+            "queries":[],
+            "requestBody":{
+                "ticker":"TSLA",
+                "date_from": "2024-03-01",
+                "date_to": "2024-04-01"
+            },
+            "exampleResponse":{
+                "prices": [
+                    {
+                        "Date": "2024-03-01T00:00:00.000",
+                        "Open": 200.52,
+                        "High": 204.52,
+                        "Low": 198.5,
+                        "Close": 202.64,
+                        "Adj Close": 202.64,
+                        "Volume": 82099200,
+                        "Ticker": "TSLA"
+                    }]
+                }
+            } 
+        }
+    }
+}
