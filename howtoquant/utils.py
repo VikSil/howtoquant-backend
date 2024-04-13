@@ -32,9 +32,21 @@ def dict_fetch_all(query, *args):
     else:
         return None
 
+
+def fetch_one_value(query, *args):
+    cursor = connection.cursor()
+    cursor.execute(query, *args)
+    desc = cursor.description
+    row = cursor.fetchone()
+    if row:
+        result = dict(zip([col[0] for col in desc], row))
+        return result[desc[0][0]]
+    else:
+        return None
+
+
 def delete_where(query, *args):
     cursor = connection.cursor()
     cursor.execute(query, *args)
     connection.commit()
     return cursor.rowcount 
-        
