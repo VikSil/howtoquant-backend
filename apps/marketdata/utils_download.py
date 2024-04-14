@@ -13,7 +13,8 @@ from .db.queries import value_spec_select_name_by_id
 
 def download_spec(spec_id: int, tickers: list, start_dt, end_dt):
 
-    market_data = pd.DataFrame() 
+    # pd.set_option('display.float_format', '{:.10f}'.format) # forces 10 dp formatting on print
+    new_market_data = pd.DataFrame()
     try:
         request_value_spec = value_spec.objects.filter(pk=spec_id)[0]
         new_download = save_download(request_value_spec, start_dt, end_dt)
@@ -27,25 +28,14 @@ def download_spec(spec_id: int, tickers: list, start_dt, end_dt):
                 download_batch = get_yahoo_data(ticker, start_dt, end_dt)
 
                 if download_batch is not None:
-                    for series_name, series in download_batch.items():
 
-                        request_ticker = identifier.objects.filter(code=ticker)[0]
-                        request_instrument = request_ticker.instrument
-                        data_value_field = value_field.objects.filter(field_name=series_name)[0]
-                        # DOING THIS IN A LOOP IS INCREADIBLY SLOW
-                        # NEED TO REWRITE BY SENDING ALL market_data TO THE DB once
-                        if data_value_field:
-                            save_download_data(
-                                new_download.id,
-                                data_value_field.id,
-                                spec_id,
-                                request_ticker.id,
-                                request_instrument.id,
-                                bid_price=series,
-                                ask_price=series,
-                            )
+                    ticker_id = identifier.objects.filter(code=ticker)[0].id
+                    instrument_id = identifier.objects.filter(code=ticker)[0].instrument.id
+                    save_batch = transform_yf_data(download_batch, new_download.id, spec_id, ticker_id, instrument_id)
+                    new_market_data = pd.concat([new_market_data, save_batch])
 
-                    # market_data = pd.concat([market_data, download_batch])
+            new_market_data.reset_index()
+            save_download_data(new_market_data)
 
         new_download.complete_datetime = timezone.now()
         new_download.save()
@@ -99,16 +89,7 @@ def save_download_tickers(tickers: list, download: object):
         return e
 
 
-def save_download_data(
-    download_id, value_field_id, value_spec_id, ticker_id, instrument_id, **kwargs
-):
-    save_df = pd.DataFrame(kwargs)
-    save_df['download_id'] = download_id
-    save_df['value_date'] = save_df.index
-    save_df['instrument_id'] = instrument_id
-    save_df['value_field_id'] = value_field_id
-    save_df['value_spec_id'] = value_spec_id
-    save_df['ticker_id'] = ticker_id
+def save_download_data(data: object):
 
     db_user = settings.DATABASES['default']['USER']
     db_password = settings.DATABASES['default']['PASSWORD']
@@ -118,9 +99,30 @@ def save_download_data(
 
     try:
         database_url = f'mysql://{db_user}:{db_password}@{db_host}:{db_port}/{db_name}'
-        print(database_url)
-        engine = create_engine(database_url, echo = False)
-        save_df.to_sql(download_data._meta.db_table, if_exists = 'append', con = engine, index = False)
+        engine = create_engine(database_url, echo=False)
+        data.to_sql(download_data._meta.db_table, if_exists='append', con=engine, index=False)
 
     except Exception as e:
         print(e)
+
+
+def transform_yf_data(yf_data: object, download_id: int, spec_id: int, ticker_id: int, instrument_id :int):
+    transformed_data = pd.DataFrame()
+    for series_name, series in yf_data.items():
+        value_field_id = value_field.objects.filter(field_name=series_name)[0].id
+
+        d = {
+            'bid_price': series,
+            'ask_price': series,
+            'download_id': download_id,
+            'value_spec_id': spec_id,
+            'instrument_id': instrument_id,
+            'ticker_id': ticker_id,
+            'value_field_id': value_field_id,
+        }
+        series_data = pd.DataFrame(d)
+        series_data['value_date'] = series_data.index
+
+        transformed_data = pd.concat([transformed_data, series_data])
+
+    return transformed_data
