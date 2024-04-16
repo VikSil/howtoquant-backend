@@ -39,3 +39,4 @@ class industry_subsector(models.Model):
 
 class market_data_source(models.Model):
     source_name = models.CharField(max_length=100, unique=True)
+    function_name = models.CharField(max_length=100, unique=False, blank=True, null=True)

@@ -11,7 +11,7 @@ from pandas_datareader import data as web
 import yfinance as yfin
 
 from .schemas import new_price_request
-from .utils_download import download_spec
+from .utils_download import download_market_data
 
 def index(request):
     """
@@ -40,6 +40,6 @@ def get_prices(request):
         start_dt = dt.datetime.strptime(body['date_from'], '%Y-%m-%d').date()
         end_dt = dt.datetime.strptime(body['date_to'], '%Y-%m-%d').date()
 
-        download_id = download_spec(1, tickers, start_dt, end_dt)
+        download_id = download_market_data('Yahoo Finance Prices', tickers, start_dt, end_dt)
 
         return JsonResponse({"download_id": download_id}, safe=False)

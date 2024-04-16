@@ -37,4 +37,4 @@ INSERT INTO classifiers_industry_subsector VALUES
 (2, 'Telecommunications', 2);
 
 INSERT INTO classifiers_market_data_source VALUES
-(1, 'Yahoo Fianance');
+(1, 'Yahoo Finance Prices','get_yf_price_data');
