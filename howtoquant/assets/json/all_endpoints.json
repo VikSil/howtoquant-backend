@@ -35,7 +35,7 @@
         },    
     "marketdata":{
         "PUT /api/prices/new":{
-            "description":"returns daily market prices and volume from Yahoo Finance for ticker and period",
+            "description":"triggers download of daily market prices and volume from Yahoo Finance for ticker and period and returns download id",
             "queries":[],
             "requestBody":{
                 "tickers":["TSLA","VOD"],
@@ -45,7 +45,23 @@
             "exampleResponse":{
                 "download_id": 5
                 }
-            } 
+            },
+        "GET /api/prices/download/:downloadId" :{
+            "description":"returns price fields saved by the identified download",
+            "queries":[],
+            "requestBody":{},
+            "exampleResponse":{
+                "prices": [{
+                        "value_date": "2024-03-01",
+                        "bid_price": 8.95,
+                        "ask_price": 8.95,
+                        "ticker": "VOD",
+                        "value_field": "Open",
+                        "source": "Yahoo Finance Prices"
+                    }]
+                }
+            }
         }
+        
     }
 }
