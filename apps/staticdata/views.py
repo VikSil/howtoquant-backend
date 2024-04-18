@@ -2,8 +2,8 @@ from django.shortcuts import render
 from django.http import JsonResponse
 from rest_framework.decorators import api_view
 
-from .db.queries import equities_select_all, identifiers_select_all
-from howtoquant.utils import dict_fetch_all
+from .db.queries import equities_select_all, identifiers_select_all, identifiers_select_all_codes
+from howtoquant.utils import dict_fetch_all, list_fetch_all
 
 
 def index(request):
@@ -30,3 +30,9 @@ def all_identifiers(request):
     if request.method == 'GET':
         data = dict_fetch_all(identifiers_select_all)
         return JsonResponse({"identifiers": data}, safe=False)
+
+@api_view(['GET'])
+def all_identifier_codes(request):
+
+    data = list_fetch_all(identifiers_select_all_codes)
+    return JsonResponse({"codes": data}, safe=False)

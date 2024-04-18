@@ -34,3 +34,5 @@ identifiers_select_all = '''
     WHERE i.owner_org_id = 1
     ;
 '''
+
+identifiers_select_all_codes = 'SELECT code FROM staticdata_identifier'

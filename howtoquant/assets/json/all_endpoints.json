@@ -34,6 +34,24 @@
             }  
         },    
     "marketdata":{
+        "GET /api/prices":{
+            "description":"gets prices saved in price ladder",
+            "queries":[],
+            "requestBody":{},
+            "exampleResponse":{
+                "prices": [
+                    {
+                        "id": 1,
+                        "value_date": "2024-04-10",
+                        "bid_price": 12.0,
+                        "ask_price": 12.0,
+                        "description": "Open",
+                        "code": "TSLA",
+                        "short_name": "Tesla"
+                    }
+                ]
+                }
+            },
         "PUT /api/prices/new":{
             "description":"triggers download of daily market prices and volume from Yahoo Finance for ticker and period and returns download id",
             "queries":[],
@@ -60,7 +78,19 @@
                         "source": "Yahoo Finance Prices"
                     }]
                 }
+            },
+        "PUT /api/prices/download":{
+            "description":"triggers saving of prices from a download to the price ladder. Has two options - 'missing' only saves the prices that are missing from the ladder, 'overrideall' saves all prices from the download and overrides any existing prices.",
+            "queries":[],
+            "requestBody":{
+                    "download_id": 4,
+                    "options":"overrideall"
+            },
+            "exampleResponse":{
+                "result": "OK"
+                }
             }
+
         }
         
     }

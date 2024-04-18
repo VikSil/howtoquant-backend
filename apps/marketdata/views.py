@@ -10,10 +10,10 @@ import datetime as dt
 from pandas_datareader import data as web
 import yfinance as yfin
 
-from .schemas import new_price_request
+from .schemas import new_price_request, download_save_request
 from .utils_download import download_market_data
-from .db.queries import download_data_select_prices
-from howtoquant.utils import dict_fetch_all
+from .db.queries import download_data_select_prices, price_ladder_select_all, save_download_prices_proc
+from howtoquant.utils import dict_fetch_all, trigger_proc
 
 def index(request):
     """
@@ -26,8 +26,13 @@ def index(request):
     )
 
 
-@api_view(['PUT'])
+@api_view(['GET'])
 def get_prices(request):
+    data = dict_fetch_all(price_ladder_select_all)
+    return JsonResponse({"prices": data}, safe=False)
+
+@api_view(['PUT'])
+def put_prices(request):
 
     if request.method == 'PUT':
         body = request.data
@@ -58,3 +63,20 @@ def get_download_prices(request, download_id):
     else:
         return HttpResponseBadRequest('Download Not Found', status=404)
 
+@api_view(['PUT'])
+def put_download_prices(request):
+    body =request.data
+    print(body)
+    try:
+        validate(instance=body, schema = download_save_request)
+
+    except ValidationError as e:
+        return HttpResponseBadRequest('Request validation failed', status=400)
+
+    download_id = body['download_id']
+    if body['options'] == 'missing':
+        options = 0 # only fill out missing values
+    else:
+        options = 1 # save and override all
+    result = trigger_proc(save_download_prices_proc, [download_id, options])
+    return JsonResponse({"result": result}, safe=False)
