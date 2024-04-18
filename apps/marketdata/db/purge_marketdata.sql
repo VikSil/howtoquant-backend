@@ -1,0 +1,9 @@
+delete from marketdata_analytics_ladder;
+delete from marketdata_price_ladder;
+delete from marketdata_xrate_ladder;
+delete from marketdata_download_data;
+delete from marketdata_download_tickers;
+delete from marketdata_download;
+delete from marketdata_value_field_to_spec;
+delete from marketdata_value_field;
+delete from marketdata_value_spec;
