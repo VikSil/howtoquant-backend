@@ -21,8 +21,8 @@ class currency(models.Model):
     ISO = models.CharField(max_length = 3, unique = True)
 
 class country(models.Model):
-    name = models.CharField(max_length=75)
-    short_name = models.CharField(max_length=20)
+    name = models.CharField(max_length=150)
+    short_name = models.CharField(max_length=40)
     ISO2 = models.CharField(max_length=2, unique=True)
     ISO3 = models.CharField(max_length=3, unique=True)
     ccy = models.ForeignKey(currency, on_delete=models.PROTECT)
