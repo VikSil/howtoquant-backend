@@ -4,11 +4,8 @@ from django.http import HttpResponseBadRequest
 from rest_framework.decorators import api_view
 from jsonschema import validate
 from jsonschema.exceptions import ValidationError
-
-import json
 import datetime as dt
-from pandas_datareader import data as web
-import yfinance as yfin
+
 
 from .schemas import new_price_request, download_save_request
 from .utils_download import download_market_data
@@ -66,10 +63,9 @@ def get_download_prices(request, download_id):
 @api_view(['PUT'])
 def put_download_prices(request):
     body =request.data
-    print(body)
+
     try:
         validate(instance=body, schema = download_save_request)
-
     except ValidationError as e:
         return HttpResponseBadRequest('Request validation failed', status=400)
 

@@ -11,7 +11,7 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 """
 
 from pathlib import Path
-from .env_prod import production_DB
+from .env_dev import production_DB
 
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.

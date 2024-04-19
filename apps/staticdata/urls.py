@@ -6,6 +6,7 @@ urlpatterns = [
     # Default landing page
     path("", views.index, name="index"),
     path("api/equities/all", views.all_equities, name="api_all_equities"),
+    path("api/instruments", views.instruments, name="api_instruments"),
     path("api/idenitifiers/all", views.all_identifiers, name="api_all_identifiers"),
     path("api/idenitifiers/codes", views.all_identifier_codes, name="api_all_identifier_codes"),
     # path("raw_sql_example", examples.raw_sql_example, name="raw_sql_example"),

@@ -17,7 +17,7 @@ INSERT INTO classifiers_instrument_class VALUES
 (2, 'Unspecified','Unspecified'),
 (3, 'None','None'),
 (4, 'Other','Other'),
-(5, 'Equity', 'Simple Stock');
+(5, 'Equity', 'Common Stock');
 
 INSERT INTO classifiers_currency VALUES
 (1, 'Unknown','Unknown',0,'XYZ'),
