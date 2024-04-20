@@ -7,10 +7,16 @@ from rest_framework.decorators import api_view
 from jsonschema import validate
 from jsonschema.exceptions import ValidationError
 
-from .db.queries import equities_select_all, identifiers_select_all, identifiers_select_all_codes
+from .db.queries import (
+    equities_select_all,
+    identifiers_select_all,
+    identifiers_select_all_codes,
+    instruments_select_where_id,
+    ticker_select_where_code,
+)
 from .schemas import new_instrument_request
 from .utils_download import get_or_save_organization, save_equity
-from howtoquant.utils import dict_fetch_all, list_fetch_all
+from howtoquant.utils import dict_fetch_all,dict_fetch_one, list_fetch_all, fetch_one_value
 from howtoquant.env_dev import polygon_API_key
 
 def index(request):
@@ -98,3 +104,13 @@ def instruments(request):
             status = 'NOK'
 
     return JsonResponse({"result": result, 'status':status}, safe=False)
+
+
+@api_view(['GET'])
+def instrument_by_ticker(request,ticker):
+    inst_id = fetch_one_value(ticker_select_where_code, [ticker])
+    if inst_id:
+        data = dict_fetch_one(instruments_select_where_id, [inst_id])
+        return JsonResponse({"instrument_data": data}, safe=False)
+    else:
+        return JsonResponse({"instrument_data": {}}, safe=False)

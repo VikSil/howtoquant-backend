@@ -17,7 +17,7 @@
                     }]
                 }
             },
-        "GET /api/idenitifiers/all":{
+        "GET /api/identifiers/all":{
             "description":"returns a list of all identifiers in users's organization",
             "queries":[],
             "requestBody":{},
@@ -31,27 +31,54 @@
                     "instrument": "Tesla"
                     }]
                 }
-            }  
-        },    
-    "marketdata":{
-        "GET /api/prices":{
-            "description":"gets prices saved in price ladder",
+            },
+        "GET /api/identifiers/codes":{
+            "description":"returns a list of all identifier codes",
             "queries":[],
             "requestBody":{},
             "exampleResponse":{
-                "prices": [
-                    {
-                        "id": 1,
-                        "value_date": "2024-04-10",
-                        "bid_price": 12.0,
-                        "ask_price": 12.0,
-                        "description": "Open",
-                        "code": "TSLA",
-                        "short_name": "Tesla"
-                    }
+                "codes": [
+                    "TSLA",
+                    "VOD",
+                    "VOW"
                 ]
                 }
             },
+        "GET /api/instruments/:ticker":{
+            "description":"returns insturment details",
+            "queries":[],
+            "requestBody":{},
+            "exampleResponse":{
+                "instrument_data": {
+                    "id": 1,
+                    "issuer": "Tesla",
+                    "instrument_class": "Common Stock",
+                    "domicile": "USA",
+                    "ccy": "USD",
+                    "sector_name": "Automotive",
+                    "ticker": "TSLA",
+                    "ticker_type": "BBG Ticker"
+                }
+                }
+            },
+            "PUT /api/instruments":{
+                "description":"triggers instrument data download and returns object ids",
+                "queries":[],
+                "requestBody":{
+                    "ticker":"META",
+                    "service":"polygon.io"
+                },
+                "exampleResponse":{
+                    "result": {
+                        "organization": 17,
+                        "instrument_id": 18,
+                        "equity_id": 12
+                    },
+                    "status": "OK"
+                }
+                }
+        },    
+    "marketdata":{
         "PUT /api/prices/new":{
             "description":"triggers download of daily market prices and volume from Yahoo Finance for ticker and period and returns download id",
             "queries":[],
@@ -89,8 +116,24 @@
             "exampleResponse":{
                 "result": "OK"
                 }
+            },
+            "GET /api/prices":{
+                "description":"gets all prices from price ladder",
+                "queries":[],
+                "requestBody":{},
+                "exampleResponse":{
+                    "prices": [
+                        {
+                            "id": 1,
+                            "value_date": "2024-04-10",
+                            "bid_price": 12.0,
+                            "ask_price": 12.0,
+                            "instrument": "Vodafone",
+                            "value_field": "Open",
+                            "source": "Unknown"
+                        }]
+                    }
             }
-
         }
         
     }

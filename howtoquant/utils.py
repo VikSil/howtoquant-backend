@@ -17,7 +17,7 @@ def dict_fetch_one(query, *args):
     desc = cursor.description
     row = cursor.fetchone()
     if row:
-        return [dict(zip([col[0] for col in desc], row))]
+        return dict(zip([col[0] for col in desc], row))
     else:
         return None
 
