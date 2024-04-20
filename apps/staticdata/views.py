@@ -113,4 +113,4 @@ def instrument_by_ticker(request,ticker):
         data = dict_fetch_one(instruments_select_where_id, [inst_id])
         return JsonResponse({"instrument_data": data}, safe=False)
     else:
-        return JsonResponse({"instrument_data": {}}, safe=False)
+        return HttpResponseBadRequest('Ticker Not Found', status=404)
