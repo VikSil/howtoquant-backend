@@ -2,14 +2,13 @@ from django.db.models import Q
 
 from .models import organization, equity, identifier, instrument
 from apps.classifiers.models import (
-    identifier_type,
     industry_sector,
     industry_subsector,
     instrument_class,
     country,
     currency,
-    identifier_type,
     organization_type,
+    identifier_type
 )
 
 
@@ -32,6 +31,25 @@ def get_or_save_organization(name: str, description: str):
         )
         new_organization.save()
         return new_organization
+
+
+def get_or_save_ticker(ticker:str, inst_id:int):
+    try:
+        existing_ticker = identifier.objects.get(code =ticker)
+    except identifier.DoesNotExist:
+        existing_ticker = None
+
+    if existing_ticker:
+        return existing_ticker
+    else:
+        new_ticker = identifier.objects.create(
+            code=ticker,
+            identifier_type=identifier_type.objects.get(type_name='BBG Ticker'),
+            instrument=instrument.objects.get(pk=inst_id),
+            owner_org=organization.objects.get(pk=1),
+        )
+        new_ticker.save()
+        return new_ticker
 
 
 def save_equity(

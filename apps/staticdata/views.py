@@ -15,7 +15,7 @@ from .db.queries import (
     ticker_select_where_code,
 )
 from .schemas import new_instrument_request
-from .utils_download import get_or_save_organization, save_equity
+from .utils_download import get_or_save_organization, save_equity, get_or_save_ticker
 from howtoquant.utils import dict_fetch_all,dict_fetch_one, list_fetch_all, fetch_one_value
 from howtoquant.env_dev import polygon_API_key
 
@@ -80,10 +80,13 @@ def instruments(request):
                         response.json()['results']['sic_description'],
                     )
 
+                    inst_ticker = get_or_save_ticker(ticker, new_cs.instrument_id)
+
                     result = {
                         "organization":inst_org.id,
                         "instrument_id": new_cs.instrument_id,
                         "equity_id": new_cs.id,
+                        "ticker_id":inst_ticker.id
                     }
                     status = 'OK'
                 else:

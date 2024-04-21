@@ -72,7 +72,9 @@
                     "result": {
                         "organization": 17,
                         "instrument_id": 18,
-                        "equity_id": 12
+                        "equity_id": 12,
+                        "ticker_id":7
+
                     },
                     "status": "OK"
                 }
