@@ -3,12 +3,12 @@
 #------------------------------------------------------------
 
 INSERT INTO marketdata_value_field VALUES
-(1,'Open', 'Open',1),
-(2,'High','High',1),
-(3,'Low','Low',1),
-(4,'Close','Close',1),
-(5,'Adjusted Close','Adj Close',1),
-(6,'Volume','Volume',1);
+(1,'Open', 'Open',5),
+(2,'High','High',5),
+(3,'Low','Low',5),
+(4,'Close','Close',5),
+(5,'Adjusted Close','Adj Close',5),
+(6,'Volume','Volume',5);
 
 delimiter //
 DROP PROCEDURE IF EXISTS populate_value_fields //

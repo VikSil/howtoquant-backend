@@ -17,7 +17,8 @@ from .db.queries import (
 from .schemas import new_instrument_request
 from .utils_download import get_or_save_organization, save_equity, get_or_save_ticker
 from howtoquant.utils import dict_fetch_all,dict_fetch_one, list_fetch_all, fetch_one_value
-from howtoquant.env_dev import polygon_API_key
+from howtoquant.settings import POLYGON_API_KEY
+
 
 def index(request):
     """
@@ -64,7 +65,7 @@ def instruments(request):
 
     if service == 'polygon.io':
         try:
-            url = f'https://api.polygon.io/v3/reference/tickers/{ticker}?apiKey={polygon_API_key}'
+            url = f'https://api.polygon.io/v3/reference/tickers/{ticker}?apiKey={POLYGON_API_KEY}'
             response =requests.get(url)
             if response.status_code == 200:
                 if response.json()['results']['type'] == 'CS':

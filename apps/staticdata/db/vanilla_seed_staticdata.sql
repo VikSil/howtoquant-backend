@@ -1,7 +1,7 @@
 INSERT INTO staticdata_organization (id, short_name, long_name, org_type_id, description) VALUES
 (1, 'Public Domain', 'The Public Domain Organization', 5,'The Default Internal Organization that owns all publically accessible data');
 
-INSERT INTO staticdata_organization VALUES
+INSERT INTO staticdata_organization (id, short_name, long_name, org_type_id, owner_org_id, description) VALUES
 (2, 'Unknown', 'Unknown',1,1,'Unknown Organization'),
 (3, 'Unspecified', 'Unspecified',2,1,'Unspecified Organization'),
 (4, 'None', 'None',3,1,'No Organization'),

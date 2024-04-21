@@ -79,21 +79,6 @@ def save_download(start_dt, end_dt):
         return e
 
 
-# def save_download(value_spec: object, start_dt, end_dt):
-#     try:
-#         new_download = download.objects.create(
-#             value_spec=value_spec,
-#             requested_start_date=start_dt,
-#             requested_end_date=end_dt,
-#             owner_org=organization.objects.filter(pk=1)[0],
-#         )
-#         new_download.save()
-#         return new_download
-
-#     except Exception as e:
-#         return e
-
-
 def save_download_tickers(tickers: list, download: object):
     try:
         for ticker in tickers: # REFACTOR TO RETRIEVE ALL TICKER OBJECTS AT ONCE AND SAVE DATAFRAME IN ONE GO
@@ -143,24 +128,3 @@ def transform_yf_data(yf_data: object, download_id: int, ticker_id: int, instrum
 
     return transformed_data
 
-
-# def transform_yf_data(yf_data: object, download_id: int, spec_id: int, ticker_id: int, instrument_id :int):
-#     transformed_data = pd.DataFrame()
-#     for series_name, series in yf_data.items():
-#         value_field_id = value_field.objects.filter(field_name=series_name)[0].id
-
-#         d = {
-#             'bid_price': series,
-#             'ask_price': series,
-#             'download_id': download_id,
-#             'value_spec_id': spec_id,
-#             'instrument_id': instrument_id,
-#             'ticker_id': ticker_id,
-#             'value_field_id': value_field_id,
-#         }
-#         series_data = pd.DataFrame(d)
-#         series_data['value_date'] = series_data.index
-
-#         transformed_data = pd.concat([transformed_data, series_data])
-
-#     return transformed_data
