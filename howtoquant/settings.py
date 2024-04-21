@@ -11,21 +11,24 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 """
 
 from pathlib import Path
-from .env_dev import production_DB
+from environ import Env
 
-
-# Build paths inside the project like this: BASE_DIR / 'subdir'.
+# Build paths inside the project like this: location = BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-
-# Quick-start development settings - unsuitable for production
-# See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
+env = Env()
+location = BASE_DIR / 'howtoquant/.envs'
+env.read_env(BASE_DIR /'howtoquant/.envs/.env_dev')
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = "django-insecure-i@3hu=vvpb5hv2o$x7^a&6u2j*7u8*j#c%755w(w(f=y8o4rb("
+SECRET_KEY = env('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+ENVIRONMENT = env('ENVIRONMENT')
+if ENVIRONMENT == 'development':
+    DEBUG =True
+else:
+    DEBUG = False
 
 ALLOWED_HOSTS = []
 
@@ -86,7 +89,20 @@ WSGI_APPLICATION = "howtoquant.wsgi.application"
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
-DATABASES = {"default": production_DB}
+DATABASES = {
+    "default": {
+        'ENGINE': env('DB_ENGINE'),
+        'NAME': env('DB_NAME'),
+        'USER': env('DB_USER'),
+        'PASSWORD': env('DB_PASSWORD'),
+        'HOST': env('DB_HOST'),
+        'PORT': env('DB_PORT'),
+        'STORAGE_ENGINE': 'MyISAM / INNODB / ETC',
+        'OPTIONS': {
+            "init_command": "SET foreign_key_checks = 0;",
+        },
+    }
+}
 
 
 # Password validation
@@ -132,3 +148,6 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 # Solution from https://www.youtube.com/watch?v=EzJdpp2l0bA
 CORS_ALLOWED_ORIGINS = ["http://localhost:5173",]
+
+
+POLYGON_API_KEY = env('POLYGON_API_KEY')
