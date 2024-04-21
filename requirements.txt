@@ -1,2 +1,9 @@
 Django==4.2.5
+django_environ==0.11.2
 djangorestframework==3.15.0
+jsonschema==4.21.1
+pandas==2.2.2
+pandas_datareader==0.10.0
+Requests==2.31.0
+SQLAlchemy==2.0.29
+yfinance==0.2.37
