@@ -7,3 +7,6 @@ pandas_datareader==0.10.0
 Requests==2.31.0
 SQLAlchemy==2.0.29
 yfinance==0.2.37
+django-cors-headers==2.0.0
+django-utils-six==2.0.0
+mysqlclient==2.2.4
