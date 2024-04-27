@@ -55,11 +55,11 @@ INSTALLED_APPS = [
 ]
 
 MIDDLEWARE = [
-    "django.middleware.security.SecurityMiddleware",
-    "django.contrib.sessions.middleware.SessionMiddleware",
     "corsheaders.middleware.CorsMiddleware",
     "django.middleware.common.CommonMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
+    "django.middleware.security.SecurityMiddleware",
+    "django.contrib.sessions.middleware.SessionMiddleware",
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
@@ -148,6 +148,6 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 # Solution from https://www.youtube.com/watch?v=EzJdpp2l0bA
 CORS_ALLOWED_ORIGINS = ["http://localhost:5173",]
-
+# CORS_ORIGIN_ALLOW_ALL = True
 
 POLYGON_API_KEY = env('POLYGON_API_KEY')
