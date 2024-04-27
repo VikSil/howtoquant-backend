@@ -9,16 +9,22 @@ class value_field(models.Model):
     market_data_source = models.ForeignKey(
         "classifiers.market_data_source", on_delete=models.PROTECT, related_name="value_field_source"
     )
+    created_date = models.DateTimeField(blank=False, null=False, auto_now_add=True, unique=False)
+
 
 class value_spec(models.Model):
     name = models.CharField(max_length=30, unique=True)
     description = models.CharField(max_length=255, blank=True, null=True)    
     ladder = models.ForeignKey(ContentType, on_delete=models.CASCADE)
     owner_org = models.ForeignKey("staticdata.organization", on_delete=models.PROTECT, related_name="value_spec_owner")
+    created_date = models.DateTimeField(blank=False, null=False, auto_now_add=True, unique=False)
+
 
 class value_field_to_spec(models.Model):
     value_field = models.ForeignKey(value_field, on_delete=models.PROTECT, related_name="value_field_to_spec_field")
     value_spec = models.ForeignKey(value_spec, on_delete=models.PROTECT, related_name="value_field_to_spec_spec")
+    created_date = models.DateTimeField(blank=False, null=False, auto_now_add=True, unique=False)
+
 
 class download(models.Model):
     start_datetime = models.DateTimeField(blank=False, null=False, auto_now_add=True, unique=False)
@@ -27,10 +33,14 @@ class download(models.Model):
     requested_end_date = models.DateField(blank=False, null=False, unique=False)
     owner_org = models.ForeignKey("staticdata.organization", on_delete=models.PROTECT, related_name="download_owner")
     pending = models.BooleanField(blank=False, null=False, default=True)
+    created_date = models.DateTimeField(blank=False, null=False, auto_now_add=True, unique=False)
+
 
 class download_tickers(models.Model):
     download = models.ForeignKey(download, on_delete=models.CASCADE)
     ticker = models.ForeignKey("staticdata.identifier", on_delete=models.CASCADE)
+    created_date = models.DateTimeField(blank=False, null=False, auto_now_add=True, unique=False)
+
 
 class download_data(models.Model):
     download = models.ForeignKey(download, on_delete=models.DO_NOTHING, related_name = "data_download")
@@ -41,6 +51,7 @@ class download_data(models.Model):
     rate_value = models.FloatField(null=True,blank=True,unique=False,validators=[MinValueValidator(0.0)],)
     value_field = models.ForeignKey(value_field, on_delete=models.PROTECT, related_name="download_value_field")
     ticker = models.ForeignKey("staticdata.identifier", on_delete=models.CASCADE)
+    created_date = models.DateTimeField(blank=False, null=False, auto_now_add=True, unique=False)
 
 
 class price_ladder(models.Model):
@@ -52,6 +63,8 @@ class price_ladder(models.Model):
     ticker = models.ForeignKey("staticdata.identifier", on_delete=models.CASCADE)
     download = models.ForeignKey(download, on_delete=models.DO_NOTHING, related_name = "price_download")
     owner_org = models.ForeignKey("staticdata.organization", on_delete=models.PROTECT, related_name="price_owner")
+    created_date = models.DateTimeField(blank=False, null=False, auto_now_add=True, unique=False)
+
 
 class xrate_ladder(models.Model):
     value_date = models.DateField(blank=False, null=False, unique=False)
@@ -62,6 +75,8 @@ class xrate_ladder(models.Model):
     ticker = models.ForeignKey("staticdata.identifier", on_delete=models.CASCADE)
     download = models.ForeignKey(download, on_delete=models.DO_NOTHING, related_name="xrate_download")
     owner_org = models.ForeignKey("staticdata.organization", on_delete=models.PROTECT, related_name="xrate_owner")
+    created_date = models.DateTimeField(blank=False, null=False, auto_now_add=True, unique=False)
+
 
 class analytics_ladder(models.Model):
     value_date = models.DateField(blank=False, null=False, unique=False)
@@ -71,3 +86,4 @@ class analytics_ladder(models.Model):
     ticker = models.ForeignKey("staticdata.identifier", on_delete=models.CASCADE)
     download = models.ForeignKey(download, on_delete=models.DO_NOTHING, related_name="analytics_download")
     owner_org = models.ForeignKey("staticdata.organization", on_delete=models.PROTECT, related_name="analytics_owner")
+    created_date = models.DateTimeField(blank=False, null=False, auto_now_add=True, unique=False)

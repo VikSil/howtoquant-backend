@@ -1,17 +1,21 @@
 from django.db import models
+from django.contrib.auth.models import User
 
 
 class identifier_type(models.Model):
     type_name = models.CharField(max_length=25, unique=True)
+    created_date = models.DateTimeField(blank=False, null=False, auto_now_add=True, unique=False)
 
 
 class organization_type(models.Model):
     type_name = models.CharField(max_length=100, unique=True)
+    created_date = models.DateTimeField(blank=False, null=False, auto_now_add=True, unique=False)
 
 
 class instrument_class(models.Model):
     instrument_type = models.CharField(max_length=25)
     instrument_class = models.CharField(max_length=50, unique=True)
+    created_date = models.DateTimeField(blank=False, null=False, auto_now_add=True, unique=False)
 
 
 class currency(models.Model):
@@ -19,6 +23,8 @@ class currency(models.Model):
     minor_unit = models.CharField(max_length=30)
     major_to_minor = models.SmallIntegerField()
     ISO = models.CharField(max_length = 3, unique = True)
+    created_date = models.DateTimeField(blank=False, null=False, auto_now_add=True, unique=False)
+
 
 class country(models.Model):
     name = models.CharField(max_length=150)
@@ -26,17 +32,21 @@ class country(models.Model):
     ISO2 = models.CharField(max_length=2, unique=True)
     ISO3 = models.CharField(max_length=3, unique=True)
     ccy = models.ForeignKey(currency, on_delete=models.PROTECT)
+    created_date = models.DateTimeField(blank=False, null=False, auto_now_add=True, unique=False)
 
 
 class industry_sector(models.Model):
     sector_name = models.CharField(max_length=100, unique=True)
+    created_date = models.DateTimeField(blank=False, null=False, auto_now_add=True, unique=False)
 
 
 class industry_subsector(models.Model):
     subsector_name = models.CharField(max_length=255, unique=True)
     sector = models.ForeignKey(industry_sector, on_delete = models.CASCADE)
+    created_date = models.DateTimeField(blank=False, null=False, auto_now_add=True, unique=False)
 
 
 class market_data_source(models.Model):
     source_name = models.CharField(max_length=100, unique=True)
     function_name = models.CharField(max_length=100, unique=False, blank=True, null=True)
+    created_date = models.DateTimeField(blank=False, null=False, auto_now_add=True, unique=False)
