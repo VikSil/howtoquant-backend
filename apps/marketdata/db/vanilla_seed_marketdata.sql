@@ -2,7 +2,7 @@
 # Seed Data
 #------------------------------------------------------------
 
-INSERT INTO marketdata_value_field VALUES
+INSERT INTO marketdata_value_field (id, description, field_name, market_data_source_id) VALUES
 (1,'Open', 'Open',5),
 (2,'High','High',5),
 (3,'Low','Low',5),
@@ -38,7 +38,7 @@ delimiter ;
 
 CALL populate_value_fields();
 
-INSERT INTO marketdata_value_field_to_spec VALUES
+INSERT INTO marketdata_value_field_to_spec (id, value_field_id, value_spec_id) VALUES
 (1,1,1),
 (2,2,2),
 (3,3,3),

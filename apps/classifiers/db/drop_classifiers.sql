@@ -1,0 +1,8 @@
+DROP TABLE classifiers_country;
+DROP TABLE classifiers_currency;
+DROP TABLE classifiers_identifier_type;
+DROP TABLE classifiers_instrument_class;
+DROP TABLE classifiers_market_data_source;
+DROP TABLE classifiers_organization_type;
+DROP TABLE classifiers_industry_subsector;
+DROP TABLE classifiers_industry_sector;

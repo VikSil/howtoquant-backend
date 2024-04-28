@@ -1,4 +1,5 @@
 from django.db import models
+from django.utils.timezone import now
 from django.contrib.contenttypes.fields import GenericForeignKey
 from django.contrib.contenttypes.models import ContentType
 
@@ -8,8 +9,8 @@ class organization(models.Model):
     long_name = models.CharField(max_length=255, unique=True)
     description = models.CharField(max_length=255, blank=True, null=True)
     owner_org = models.ForeignKey('self', on_delete=models.PROTECT, blank=True, null=True)
-    created_date = models.DateTimeField(blank=False, null=False, auto_now_add=True, unique=False)
-
+    created_date = models.DateTimeField(default=now, blank=True, unique=False)
+    update_date = models.DateTimeField(default=now, blank=True, unique=False)
 
 class instrument(models.Model):
     '''
@@ -24,20 +25,20 @@ class instrument(models.Model):
     base_ccy = models.ForeignKey("classifiers.currency", on_delete=models.PROTECT)
     issuer = models.ForeignKey(organization, on_delete=models.PROTECT, related_name = "instrument_issuer")
     owner_org = models.ForeignKey(organization, on_delete=models.PROTECT, related_name="instrument_owner")
-    created_date = models.DateTimeField(blank=False, null=False, auto_now_add=True, unique=False)
-
+    created_date = models.DateTimeField(default=now, blank=True, unique=False)
+    update_date = models.DateTimeField(default=now, blank=True, unique=False)
 
 class identifier(models.Model):
     code = models.CharField(max_length=25, unique=True)
     identifier_type = models.ForeignKey("classifiers.identifier_type", on_delete=models.PROTECT)
     instrument = models.ForeignKey(instrument, on_delete=models.CASCADE)
-    owner_org = models.ForeignKey(organization, on_delete=models.PROTECT)
-    created_date = models.DateTimeField(blank=False, null=False, auto_now_add=True, unique=False)
-
+    created_date = models.DateTimeField(default=now, blank=True, unique=False)
+    update_date = models.DateTimeField(default=now, blank=True, unique=False)
 
 class equity(models.Model):
     instrument = models.ForeignKey(instrument, on_delete=models.CASCADE)
-    dividend_frequency = models.SmallIntegerField(default = 4)
+    dividend_frequency = models.SmallIntegerField(default = 0)
     sector = models.ForeignKey("classifiers.industry_sector", on_delete=models.PROTECT, default =1)
     subsector = models.ForeignKey("classifiers.industry_subsector", on_delete=models.PROTECT, default=1)
-    created_date = models.DateTimeField(blank=False, null=False, auto_now_add=True, unique=False)
+    created_date = models.DateTimeField(default=now, blank=True, unique=False)
+    update_date = models.DateTimeField(default=now, blank=True, unique=False)

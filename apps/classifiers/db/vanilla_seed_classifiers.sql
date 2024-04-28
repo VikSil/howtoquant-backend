@@ -1,4 +1,4 @@
-INSERT INTO classifiers_identifier_type VALUES
+INSERT INTO classifiers_identifier_type (id, type_name) VALUES
 (1, 'Unknown'),
 (2, 'Unspecified'),
 (3, 'None'),
@@ -12,14 +12,14 @@ INSERT INTO classifiers_identifier_type VALUES
 (11, 'CIK'),
 (12, 'FIGI');
 
-INSERT INTO classifiers_instrument_class VALUES
+INSERT INTO classifiers_instrument_class (id, instrument_type, instrument_class) VALUES
 (1, 'Unknown','Unknown'),
 (2, 'Unspecified','Unspecified'),
 (3, 'None','None'),
 (4, 'Other','Other'),
 (5, 'Equity', 'Common Stock');
 
-INSERT INTO classifiers_currency VALUES
+INSERT INTO classifiers_currency (id, major_unit, minor_unit, major_to_minor, ISO) VALUES
 (1, 'Unknown','Unknown',0,'XYZ'),
 (2, 'Unspecified','Unspecified',0,'XZY'),
 (3, 'None','None',0,'YXZ'),
@@ -179,7 +179,7 @@ INSERT INTO classifiers_currency VALUES
 (157,'Zambian kwacha','Ngwee',100,'ZMW'),
 (158,'Ugandan shilling','',0,'UGX');
 
-INSERT INTO classifiers_country VALUES
+INSERT INTO classifiers_country (id, name, short_name, ISO2, ISO3, ccy_id) VALUES
 (1, 'Unknown','Unknown','XX','XYZ',1),
 (2, 'Unspecified','Unspecified','YY','XZY',2),
 (3, 'None','None','XY','YXZ',3),
@@ -432,7 +432,7 @@ INSERT INTO classifiers_country VALUES
 (250,'The Republic of Zambia','Zambia','ZM','ZMB',157),
 (251,'The Republic of Zimbabwe','Zimbabwe','ZW','ZWE',5);
 
-INSERT INTO classifiers_organization_type VALUES
+INSERT INTO classifiers_organization_type (id, type_name) VALUES
 (1, 'Unknown'),
 (2, 'Unspecified'),
 (3, 'None'),
@@ -441,7 +441,7 @@ INSERT INTO classifiers_organization_type VALUES
 (6, 'Headquarters'),
 (7, 'Issuer');
 
-INSERT INTO classifiers_industry_sector VALUES
+INSERT INTO classifiers_industry_sector (id, sector_name) VALUES
 (1, 'Unknown'),
 (2, 'Unspecified'),
 (3, 'None'),
@@ -449,7 +449,7 @@ INSERT INTO classifiers_industry_sector VALUES
 (5, 'Automotive'),
 (6, 'Telecommunications');
 
-INSERT INTO classifiers_industry_subsector VALUES
+INSERT INTO classifiers_industry_subsector (id, subsector_name, sector_id) VALUES
 (1, 'Unknown',1),
 (2, 'Unspecified',2),
 (3, 'None',3),
@@ -457,7 +457,7 @@ INSERT INTO classifiers_industry_subsector VALUES
 (5, 'Automotive', 5),
 (6, 'Telecommunications', 6);
 
-INSERT INTO classifiers_market_data_source VALUES
+INSERT INTO classifiers_market_data_source (id, source_name, function_name) VALUES
 (1, 'Unknown',''),
 (2, 'Unspecified',''),
 (3, 'None',''),
