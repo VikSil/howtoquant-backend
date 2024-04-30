@@ -16,7 +16,7 @@ def download_market_data(source_name: str, tickers: list, start_dt, end_dt):
     try:
         new_download = save_download(start_dt, end_dt)
         save_download_tickers(tickers, new_download)
-        source = market_data_source.objects.filter(source_name=source_name)[0]
+        source = market_data_source.objects.get(source_name=source_name)
 
         for ticker in tickers:
             download_batch = eval(
@@ -31,8 +31,9 @@ def download_market_data(source_name: str, tickers: list, start_dt, end_dt):
             )
 
             if download_batch is not None:
-                ticker_id = identifier.objects.filter(code=ticker)[0].id
-                instrument_id = identifier.objects.filter(code=ticker)[0].instrument.id
+                
+                ticker_id = identifier.objects.get(code=ticker).id
+                instrument_id = identifier.objects.get(code=ticker).instrument.id
                 # THE CORRESPONDING TRANSFORMATION FUNCTION SHOULD BE RETRIEVED FROM DB AS WELL
                 save_batch = transform_yf_data(download_batch, new_download.id, ticker_id, instrument_id)
                 new_market_data = pd.concat([new_market_data, save_batch])
@@ -71,7 +72,7 @@ def save_download(start_dt, end_dt):
         new_download = download.objects.create(
             requested_start_date=start_dt,
             requested_end_date=end_dt,
-            owner_org=organization.objects.filter(pk=1)[0],
+            owner_org=organization.objects.get(pk=1),
         )
         new_download.save()
         return new_download
@@ -84,7 +85,7 @@ def save_download_tickers(tickers: list, download: object):
     try:
         for ticker in tickers: # REFACTOR TO RETRIEVE ALL TICKER OBJECTS AT ONCE AND SAVE DATAFRAME IN ONE GO
             add_ticker = download_tickers.objects.create(
-                download=download, ticker=identifier.objects.filter(code=ticker)[0]
+                download=download, ticker=identifier.objects.get(code=ticker)
             )
             add_ticker.save()
 
@@ -112,7 +113,7 @@ def save_download_data(data: object):
 def transform_yf_data(yf_data: object, download_id: int, ticker_id: int, instrument_id: int):
     transformed_data = pd.DataFrame()
     for series_name, series in yf_data.items():
-        value_field_id = value_field.objects.filter(field_name=series_name)[0].id
+        value_field_id = value_field.objects.get(field_name=series_name).id
 
         d = {
             'bid_price': series,
@@ -128,4 +129,3 @@ def transform_yf_data(yf_data: object, download_id: int, ticker_id: int, instrum
         transformed_data = pd.concat([transformed_data, series_data])
 
     return transformed_data
-

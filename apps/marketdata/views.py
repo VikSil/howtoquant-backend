@@ -46,7 +46,10 @@ def put_prices(request):
 
         download_id = download_market_data('Yahoo Finance Prices', tickers, start_dt, end_dt)
 
-        return JsonResponse({'status': "OK", 'data': {"download_id": download_id}}, safe=False)
+        if download_id:
+            return JsonResponse({'status': "OK", 'data': {"download_id": download_id}}, safe=False)
+        else:
+            return HttpResponseBadRequest('Download Failed', status=503)
 
 
 @api_view(['GET'])
@@ -62,7 +65,7 @@ def get_download_prices(request, download_id):
 
 @api_view(['PUT'])
 def put_download_prices(request):
-    body =request.data
+    body = request.data
 
     try:
         validate(instance=body, schema = download_save_request)
@@ -75,4 +78,5 @@ def put_download_prices(request):
     else:
         options = 1 # save and override all
     result = trigger_proc(save_download_prices_proc, [download_id, options])
+    print(result)
     return JsonResponse({'status': "OK", 'data': {"result": result}}, safe=False)
