@@ -41,6 +41,7 @@ def download_market_data(source_name: str, tickers: list, start_dt, end_dt):
             save_download_data(new_market_data)
 
         new_download.complete_datetime = timezone.now()
+        new_download.pending = 0
         new_download.save()
 
         return new_download.id
