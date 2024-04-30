@@ -6,60 +6,68 @@
             "queries":[],
             "requestBody":{},
             "exampleResponse":{
-                "equities": [
-                    {
-                    "id": 1,
-                    "name": "Tesla Inc",
-                    "short_name": "Tesla",
-                    "issuer": "Tesla",
-                    "base_ccy": "USD",
-                    "domicile": "USA"
-                    }]
-                }
+                "status": "OK",
+                "data": {
+                    "equities": [
+                        {
+                        "id": 1,
+                        "name": "Tesla Inc",
+                        "short_name": "Tesla",
+                        "issuer": "Tesla",
+                        "base_ccy": "USD",
+                        "domicile": "USA"
+                        }]
+                }}
             },
         "GET /api/identifiers/all":{
             "description":"returns a list of all identifiers in users's organization",
             "queries":[],
             "requestBody":{},
             "exampleResponse":{
-                "identifiers": [
-                    {
-                    "id": 1,
-                    "code": "TSLA",
-                    "type": "BBG Ticker",
-                    "inst_id": 1,
-                    "instrument": "Tesla"
-                    }]
-                }
+                "status": "OK",
+                "data": {
+                    "identifiers": [
+                        {
+                        "id": 1,
+                        "code": "TSLA",
+                        "type": "BBG Ticker",
+                        "inst_id": 1,
+                        "instrument": "Tesla"
+                        }]
+                    }}
             },
         "GET /api/identifiers/codes":{
             "description":"returns a list of all identifier codes",
             "queries":[],
             "requestBody":{},
             "exampleResponse":{
+                "status": "OK",
+                "data": {
                 "codes": [
                     "TSLA",
                     "VOD",
                     "VOW"
                 ]
-                }
+                }}
             },
         "GET /api/instruments/:ticker":{
-            "description":"returns insturment details",
+            "description":"returns instrument details",
             "queries":[],
             "requestBody":{},
             "exampleResponse":{
-                "instrument_data": {
-                    "id": 1,
-                    "issuer": "Tesla",
-                    "instrument_class": "Common Stock",
-                    "domicile": "USA",
-                    "ccy": "USD",
-                    "sector_name": "Automotive",
-                    "ticker": "TSLA",
-                    "ticker_type": "BBG Ticker"
-                }
-                }
+                "status": "OK",
+	            "data": {
+                    "instrument_data": {
+                        "id": 1,
+                        "issuer": "Tesla",
+                        "instrument_class": "Common Stock",
+                        "domicile": "USA",
+                        "ccy": "USD",
+                        "sector_name": "Automotive",
+                        "ticker": "TSLA",
+                        "ticker_type": "BBG Ticker"
+                    }
+                }}
             },
             "PUT /api/instruments":{
                 "description":"triggers instrument data download and returns object ids",
@@ -69,7 +77,7 @@
                     "service":"polygon.io"
                 },
                 "exampleResponse":{
-                    "result": {
+                    "data": {
                         "organization": 17,
                         "instrument_id": 18,
                         "equity_id": 12,
@@ -90,14 +98,18 @@
                 "date_to": "2024-04-01"
             },
             "exampleResponse":{
+                "status": "OK",
+                "data": {
                 "download_id": 5
-                }
+                }}
             },
         "GET /api/prices/download/:downloadId" :{
             "description":"returns price fields saved by the identified download",
             "queries":[],
             "requestBody":{},
             "exampleResponse":{
+                "status": "OK",
+                "data": {
                 "prices": [{
                         "value_date": "2024-03-01",
                         "bid_price": 8.95,
@@ -106,7 +118,7 @@
                         "value_field": "Open",
                         "source": "Yahoo Finance Prices"
                     }]
-                }
+                }}
             },
         "PUT /api/prices/download":{
             "description":"triggers saving of prices from a download to the price ladder. Has two options - 'missing' only saves the prices that are missing from the ladder, 'overrideall' saves all prices from the download and overrides any existing prices.",
@@ -116,25 +128,29 @@
                     "options":"overrideall"
             },
             "exampleResponse":{
-                "result": "OK"
-                }
+                "status": "OK",
+                "data": {
+                    "result": "OK"
+                }}
             },
             "GET /api/prices":{
                 "description":"gets all prices from price ladder",
                 "queries":[],
                 "requestBody":{},
                 "exampleResponse":{
-                    "prices": [
-                        {
-                            "id": 1,
-                            "value_date": "2024-04-10",
-                            "bid_price": 12.0,
-                            "ask_price": 12.0,
-                            "instrument": "Vodafone",
-                            "value_field": "Open",
-                            "source": "Unknown"
-                        }]
-                    }
+                    "status": "OK",
+                    "data": {
+                        "prices": [
+                            {
+                                "id": 1,
+                                "value_date": "2024-04-10",
+                                "bid_price": 12.0,
+                                "ask_price": 12.0,
+                                "instrument": "Vodafone",
+                                "value_field": "Open",
+                                "source": "Yahoo Finance Prices"
+                            }]
+                    }}
             }
         }
         

@@ -46,7 +46,6 @@ def get_or_save_ticker(ticker:str, inst_id:int):
             code=ticker,
             identifier_type=identifier_type.objects.get(type_name='BBG Ticker'),
             instrument=instrument.objects.get(pk=inst_id),
-            owner_org=organization.objects.get(pk=1),
         )
         new_ticker.save()
         return new_ticker

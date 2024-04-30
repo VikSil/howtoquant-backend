@@ -35,7 +35,7 @@ def all_equities(request):
 
     if request.method == 'GET':
         data = dict_fetch_all(equities_select_all)
-        return JsonResponse({"equities": data}, safe=False)
+        return JsonResponse({'status': "OK", 'data': {"equities": data}}, safe=False)
 
 
 @api_view(['GET'])
@@ -43,13 +43,13 @@ def all_identifiers(request):
 
     if request.method == 'GET':
         data = dict_fetch_all(identifiers_select_all)
-        return JsonResponse({"identifiers": data}, safe=False)
+        return JsonResponse({'status': "OK", 'data': {"identifiers": data}}, safe=False)
 
 @api_view(['GET'])
 def all_identifier_codes(request):
 
     data = list_fetch_all(identifiers_select_all_codes)
-    return JsonResponse({"codes": data}, safe=False)
+    return JsonResponse({'status': "OK", 'data': {"codes": data}}, safe=False)
 
 @api_view(['PUT'])
 def instruments(request):
@@ -107,7 +107,7 @@ def instruments(request):
             result = str(e)
             status = 'NOK'
 
-    return JsonResponse({"result": result, 'status':status}, safe=False)
+    return JsonResponse({"data": result, 'status':status}, safe=False)
 
 
 @api_view(['GET'])
@@ -115,6 +115,6 @@ def instrument_by_ticker(request,ticker):
     inst_id = fetch_one_value(ticker_select_where_code, [ticker])
     if inst_id:
         data = dict_fetch_one(instruments_select_where_id, [inst_id])
-        return JsonResponse({"instrument_data": data}, safe=False)
+        return JsonResponse({'status': "OK", 'data': {"instrument_data": data}}, safe=False)
     else:
         return HttpResponseBadRequest('Ticker Not Found', status=404)

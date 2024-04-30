@@ -26,7 +26,7 @@ def index(request):
 @api_view(['GET'])
 def get_prices(request):
     data = dict_fetch_all(price_ladder_select_all)
-    return JsonResponse({"prices": data}, safe=False)
+    return JsonResponse({'status': "OK", 'data': {"prices": data}}, safe=False)
 
 @api_view(['PUT'])
 def put_prices(request):
@@ -46,7 +46,7 @@ def put_prices(request):
 
         download_id = download_market_data('Yahoo Finance Prices', tickers, start_dt, end_dt)
 
-        return JsonResponse({"download_id": download_id}, safe=False)
+        return JsonResponse({'status': "OK", 'data': {"download_id": download_id}}, safe=False)
 
 
 @api_view(['GET'])
@@ -56,7 +56,7 @@ def get_download_prices(request, download_id):
         for price in data:
             price['bid_price'] = round(price['bid_price'],2)
             price['ask_price'] = round(price['ask_price'],2)
-        return JsonResponse({"prices": data}, safe=False)
+        return JsonResponse({'status': "OK", 'data': {"prices": data}}, safe=False)
     else:
         return HttpResponseBadRequest('Download Not Found', status=404)
 
@@ -75,4 +75,4 @@ def put_download_prices(request):
     else:
         options = 1 # save and override all
     result = trigger_proc(save_download_prices_proc, [download_id, options])
-    return JsonResponse({"result": result}, safe=False)
+    return JsonResponse({'status': "OK", 'data': {"result": result}}, safe=False)
