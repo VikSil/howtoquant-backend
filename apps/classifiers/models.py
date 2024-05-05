@@ -2,7 +2,6 @@ from django.db import models
 from django.utils.timezone import now
 
 
-
 class identifier_type(models.Model):
     type_name = models.CharField(max_length=25, unique=True)
     created_date = models.DateTimeField(default=now, blank=True, unique=False)
@@ -51,5 +50,38 @@ class industry_subsector(models.Model):
 class market_data_source(models.Model):
     source_name = models.CharField(max_length=100, unique=True)
     function_name = models.CharField(max_length=100, unique=False, blank=True, null=True)
+    created_date = models.DateTimeField(default=now, blank=True, unique=False)
+    update_date = models.DateTimeField(default=now, blank=True, unique=False)
+
+
+class accounting_method(models.Model):
+    method_name = models.CharField(max_length=25, unique=True)
+    description = models.CharField(max_length=255, blank= True, null = True)
+    created_date = models.DateTimeField(default=now, blank=True, unique=False)
+    update_date = models.DateTimeField(default=now, blank=True, unique=False)
+
+
+class trade_status(models.Model):
+    code = models.CharField(max_length=1, unique=True)
+    name = models.CharField(max_length=25, unique=True)
+    description = models.CharField(max_length=255, blank=True, null=True)
+    created_date = models.DateTimeField(default=now, blank=True, unique=False)
+    update_date = models.DateTimeField(default=now, blank=True, unique=False)
+
+
+class position_type(models.Model):
+    type_name = models.CharField(max_length=60, unique=True)
+    created_date = models.DateTimeField(default=now, blank=True, unique=False)
+    update_date = models.DateTimeField(default=now, blank=True, unique=False)
+
+
+class accrual_type(models.Model):
+    type_name = models.CharField(max_length=40, unique=True)
+    created_date = models.DateTimeField(default=now, blank=True, unique=False)
+    update_date = models.DateTimeField(default=now, blank=True, unique=False)
+
+
+class asset_flow_type(models.Model):
+    type_name = models.CharField(max_length=60, unique=True)
     created_date = models.DateTimeField(default=now, blank=True, unique=False)
     update_date = models.DateTimeField(default=now, blank=True, unique=False)
