@@ -77,17 +77,17 @@ def instruments(request):
             url = f'https://api.polygon.io/v3/reference/tickers/{ticker}?apiKey={POLYGON_API_KEY}'
             response = requests.get(url)
             if response.status_code == 200:
-                if response.json()['results']['type'] == 'CS':
+                if response.json().get('results').get('type') == 'CS':
                     inst_org = get_or_save_organization('Issuer',
-                        response.json()['results']['name'], response.json()['results']['description']
+                        response.json()['results']['name'], response.json().get('results').get('description')
                     )
 
                     new_cs = save_equity(
                         response.json()['results']['name'],
                         inst_org,
-                        response.json()['results']['locale'],
-                        response.json()['results']['currency_name'],
-                        response.json()['results']['sic_description'],
+                        response.json().get('results').get('locale'),
+                        response.json().get('results').get('currency_name'),
+                        response.json().get('results').get('sic_description'),
                     )
 
                     inst_ticker = get_or_save_ticker(ticker, new_cs.instrument_id)
