@@ -23,6 +23,27 @@
           }
         }
       },
+      "GET /api/currencies": {
+        "description": "returns a list of all possible currencies",
+        "queries": [],
+        "requestBody": {},
+        "exampleResponse": {
+          "status": "OK",
+          "data": {
+            "countries": [
+                {
+                    "id": 5,
+                    "major_unit": "United States Dollar",
+                    "minor_unit": "Cent",
+                    "major_to_minor": 100,
+                    "ISO": "USD",
+                    "created": "2024-05-19T21:54:11",
+                    "updated": "2024-05-19T21:54:11"
+                }
+            ]
+          }
+        }
+      },
       "GET /api/inst_class": {
         "description": "returns a list of known instrument classes",
         "queries": [],
