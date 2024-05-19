@@ -10,3 +10,6 @@ source E:\05_Ultimate_Brain\Finance_Skills\HowToQuant\backend\apps\staticdata\db
 
 source E:\05_Ultimate_Brain\Finance_Skills\HowToQuant\backend\apps\marketdata\db\db_setup_marketdata.sql
 source E:\05_Ultimate_Brain\Finance_Skills\HowToQuant\backend\apps\marketdata\db\vanilla_seed_marketdata.sql
+
+source E:\05_Ultimate_Brain\Finance_Skills\HowToQuant\backend\apps\accounting\db\db_setup_accounting.sql
+source E:\05_Ultimate_Brain\Finance_Skills\HowToQuant\backend\apps\accounting\db\vanilla_seed_accounting.sql

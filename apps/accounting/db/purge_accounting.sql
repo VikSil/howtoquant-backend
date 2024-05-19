@@ -1,0 +1,13 @@
+delete from accounting_position_snapshot;
+delete from accounting_fifo_pnl;
+delete from accounting_weighted_pnl;
+delete from accounting_asset_ladder;
+delete from accounting_cash_ladder;
+delete from accounting_asset_flow;
+delete from accounting_accrual_ladder;
+delete from accounting_cash_position;
+delete from accounting_instrument_position;
+delete from accounting_trade;
+delete from accounting_strategy;
+delete from accounting_book;
+delete from accounting_broker_account;

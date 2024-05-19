@@ -6,3 +6,8 @@ DROP TABLE classifiers_market_data_source;
 DROP TABLE classifiers_organization_type;
 DROP TABLE classifiers_industry_subsector;
 DROP TABLE classifiers_industry_sector;
+DROP TABLE classifiers_accounting_method;
+DROP TABLE classifiers_accrual_type;
+DROP TABLE classifiers_asset_flow_type;
+DROP TABLE classifiers_position_type;
+DROP TABLE classifiers_trade_status;

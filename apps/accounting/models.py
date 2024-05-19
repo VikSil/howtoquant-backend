@@ -25,8 +25,8 @@ class broker_account(models.Model):
     broker_org = models.ForeignKey('staticdata.organization', on_delete=models.PROTECT, related_name='account_broker')
     external_name = models.CharField(max_length=100, blank=True, null=True)
     cash_account = models.BooleanField(blank=False, null=False, default=False)
-    created_date = models.DateTimeField(default=now, blank=True, unique=False)
-    update_date = models.DateTimeField(default=now, blank=True, unique=False)
+    created = models.DateTimeField(default=now, blank=True, unique=False)
+    updated = models.DateTimeField(default=now, blank=True, unique=False)
 
 
 class book(models.Model):
@@ -38,16 +38,16 @@ class book(models.Model):
     external_name = models.CharField(max_length=100, blank=True, null=True)
     accounting_method = models.ForeignKey('classifiers.accounting_method', on_delete=models.PROTECT)
     base_ccy = models.ForeignKey('classifiers.currency', on_delete=models.PROTECT, related_name='book_ccy')
-    created_date = models.DateTimeField(default=now, blank=True, unique=False)
-    update_date = models.DateTimeField(default=now, blank=True, unique=False)
+    created = models.DateTimeField(default=now, blank=True, unique=False)
+    updated = models.DateTimeField(default=now, blank=True, unique=False)
 
 
 class strategy(models.Model):
     name = models.CharField(max_length=100, unique=True)
     description = models.CharField(max_length=255, blank=True, null=True)
     owner_org = models.ForeignKey('staticdata.organization', on_delete=models.PROTECT, related_name='strategy_owner')
-    created_date = models.DateTimeField(default=now, blank=True, unique=False)
-    update_date = models.DateTimeField(default=now, blank=True, unique=False)
+    created = models.DateTimeField(default=now, blank=True, unique=False)
+    updated = models.DateTimeField(default=now, blank=True, unique=False)
 
 
 class trade(models.Model):
@@ -71,8 +71,8 @@ class trade(models.Model):
     counterparty = models.ForeignKey('staticdata.organization', on_delete=models.PROTECT, related_name='trade_account')
     gross_consideration = models.FloatField(unique=False, validators=[MinValueValidator(0.0)])
     settlement_base_xrate = models.FloatField(unique=False, validators=[validate_greater_than_zero], default=1)
-    created_date = models.DateTimeField(default=now, blank=True, unique=False)
-    update_date = models.DateTimeField(default=now, blank=True, unique=False)
+    created = models.DateTimeField(default=now, blank=True, unique=False)
+    updated = models.DateTimeField(default=now, blank=True, unique=False)
 
 
 class instrument_position(models.Model):
@@ -89,8 +89,8 @@ class instrument_position(models.Model):
     position_type = models.ForeignKey(
         'classifiers.position_type', on_delete=models.PROTECT, related_name='instrument_position_position_type'
     )
-    created_date = models.DateTimeField(default=now, blank=True, unique=False)
-    update_date = models.DateTimeField(default=now, blank=True, unique=False)
+    created = models.DateTimeField(default=now, blank=True, unique=False)
+    updated = models.DateTimeField(default=now, blank=True, unique=False)
 
 
 class cash_position(models.Model):
@@ -106,8 +106,8 @@ class cash_position(models.Model):
     instrument_position = models.ForeignKey(
         instrument_position, on_delete=models.CASCADE, related_name='cash_position_instrument_position'
     )
-    created_date = models.DateTimeField(default=now, blank=True, unique=False)
-    update_date = models.DateTimeField(default=now, blank=True, unique=False)
+    created = models.DateTimeField(default=now, blank=True, unique=False)
+    updated = models.DateTimeField(default=now, blank=True, unique=False)
 
 
 class accrual_ladder(models.Model):
@@ -120,8 +120,8 @@ class accrual_ladder(models.Model):
     )
     today_quantity = models.FloatField(unique=False)
     cumulative_quantity = models.FloatField(unique=False)
-    created_date = models.DateTimeField(default=now, blank=True, unique=False)
-    update_date = models.DateTimeField(default=now, blank=True, unique=False)
+    created = models.DateTimeField(default=now, blank=True, unique=False)
+    updated = models.DateTimeField(default=now, blank=True, unique=False)
 
 
 class asset_flow(models.Model):
@@ -137,16 +137,16 @@ class asset_flow(models.Model):
     )
     ccy = models.ForeignKey('classifiers.currency', on_delete=models.PROTECT, related_name='asset_flow_ccy')
     xrate = models.FloatField(unique=False, validators=[validate_greater_than_zero], default=1)
-    created_date = models.DateTimeField(default=now, blank=True, unique=False)
-    update_date = models.DateTimeField(default=now, blank=True, unique=False)
+    created = models.DateTimeField(default=now, blank=True, unique=False)
+    updated = models.DateTimeField(default=now, blank=True, unique=False)
 
 
 class cash_ladder(models.Model):
     position = models.ForeignKey(cash_position, on_delete=models.CASCADE, related_name='cash_ladder_cash_position')
     date = models.DateTimeField(default=now)
     quantity = models.FloatField(unique=False)
-    created_date = models.DateTimeField(default=now, blank=True, unique=False)
-    update_date = models.DateTimeField(default=now, blank=True, unique=False)
+    created = models.DateTimeField(default=now, blank=True, unique=False)
+    updated = models.DateTimeField(default=now, blank=True, unique=False)
 
 
 class asset_ladder(models.Model):
@@ -160,8 +160,8 @@ class asset_ladder(models.Model):
     value_scheme_id = models.ForeignKey(
         'marketdata.value_scheme', on_delete=models.PROTECT, related_name='asset_ladder_value_scheme'
     )
-    created_date = models.DateTimeField(default=now, blank=True, unique=False)
-    update_date = models.DateTimeField(default=now, blank=True, unique=False)
+    created = models.DateTimeField(default=now, blank=True, unique=False)
+    updated = models.DateTimeField(default=now, blank=True, unique=False)
 
 
 class weighted_pnl(models.Model):
@@ -179,8 +179,8 @@ class weighted_pnl(models.Model):
     daily_total_pnl = models.FloatField(unique=False)
     daily_instrument_pnl = models.FloatField(unique=False)
     daily_fx_pnl = models.FloatField(unique=False)
-    created_date = models.DateTimeField(default=now, blank=True, unique=False)
-    update_date = models.DateTimeField(default=now, blank=True, unique=False)
+    created = models.DateTimeField(default=now, blank=True, unique=False)
+    updated = models.DateTimeField(default=now, blank=True, unique=False)
 
 
 class fifo_pnl(models.Model):
@@ -198,8 +198,8 @@ class fifo_pnl(models.Model):
     daily_total_pnl = models.FloatField(unique=False)
     daily_instrument_pnl = models.FloatField(unique=False)
     daily_fx_pnl = models.FloatField(unique=False)
-    created_date = models.DateTimeField(default=now, blank=True, unique=False)
-    update_date = models.DateTimeField(default=now, blank=True, unique=False)
+    created = models.DateTimeField(default=now, blank=True, unique=False)
+    updated = models.DateTimeField(default=now, blank=True, unique=False)
 
 
 class position_snapshot(models.Model):
@@ -242,5 +242,5 @@ class position_snapshot(models.Model):
     fifo_daily_total_pnl = models.FloatField(unique=False)
     fifo_daily_instrument_pnl = models.FloatField(unique=False)
     fifo_daily_fx_pnl = models.FloatField(unique=False)
-    created_date = models.DateTimeField(default=now, blank=True, unique=False)
-    update_date = models.DateTimeField(default=now, blank=True, unique=False)
+    created = models.DateTimeField(default=now, blank=True, unique=False)
+    updated = models.DateTimeField(default=now, blank=True, unique=False)

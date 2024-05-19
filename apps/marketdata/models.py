@@ -12,8 +12,8 @@ class value_field(models.Model):
     market_data_source = models.ForeignKey(
         'classifiers.market_data_source', on_delete=models.PROTECT, related_name='value_field_source'
     )
-    created_date = models.DateTimeField(default=now, blank=True, unique=False)
-    update_date = models.DateTimeField(default=now, blank=True, unique=False)
+    created = models.DateTimeField(default=now, blank=True, unique=False)
+    updated = models.DateTimeField(default=now, blank=True, unique=False)
 
 
 class value_spec(models.Model):
@@ -21,20 +21,20 @@ class value_spec(models.Model):
     description = models.CharField(max_length=255, blank=True, null=True)    
     ladder = models.ForeignKey(ContentType, on_delete=models.CASCADE)
     owner_org = models.ForeignKey('staticdata.organization', on_delete=models.PROTECT, related_name='value_spec_owner')
-    created_date = models.DateTimeField(default=now, blank=True, unique=False)
-    update_date = models.DateTimeField(default=now, blank=True, unique=False)
+    created = models.DateTimeField(default=now, blank=True, unique=False)
+    updated = models.DateTimeField(default=now, blank=True, unique=False)
 
 
 class value_field_to_spec(models.Model):
     value_field = models.ForeignKey(value_field, on_delete=models.PROTECT, related_name='value_field_to_spec_field')
     value_spec = models.ForeignKey(value_spec, on_delete=models.PROTECT, related_name='value_field_to_spec_spec')
-    created_date = models.DateTimeField(default=now, blank=True, unique=False)
-    update_date = models.DateTimeField(default=now, blank=True, unique=False)
+    created = models.DateTimeField(default=now, blank=True, unique=False)
+    updated = models.DateTimeField(default=now, blank=True, unique=False)
 
 class value_scheme_pref(models.Model):
     description = models.CharField(max_length=100, unique=True)
-    created_date = models.DateTimeField(default=now, blank=True, unique=False)
-    update_date = models.DateTimeField(default=now, blank=True, unique=False)
+    created = models.DateTimeField(default=now, blank=True, unique=False)
+    updated = models.DateTimeField(default=now, blank=True, unique=False)
 
 class value_scheme(models.Model):
     name = models.CharField(max_length=50, unique=True)
@@ -42,15 +42,15 @@ class value_scheme(models.Model):
     ladder = models.ForeignKey(ContentType, on_delete=models.CASCADE, related_name = 'value_scheme_ladder')
     active = models.BooleanField(blank=False, null=False, default=True)
     owner_org = models.ForeignKey('staticdata.organization', on_delete=models.PROTECT, related_name='value_scheme_owner')
-    created_date = models.DateTimeField(default=now, blank=True, unique=False)
-    update_date = models.DateTimeField(default=now, blank=True, unique=False)
+    created = models.DateTimeField(default=now, blank=True, unique=False)
+    updated = models.DateTimeField(default=now, blank=True, unique=False)
 
 class value_scheme_order(models.Model):
     value_scheme = models.ForeignKey(value_scheme, on_delete=models.CASCADE, related_name = 'value_scheme_order_scheme')
     order = models.SmallIntegerField()
     value_field = models.ForeignKey(value_field, on_delete=models.PROTECT, related_name='value_schme_order_value_field')
-    created_date = models.DateTimeField(default=now, blank=True, unique=False)
-    update_date = models.DateTimeField(default=now, blank=True, unique=False)
+    created = models.DateTimeField(default=now, blank=True, unique=False)
+    updated = models.DateTimeField(default=now, blank=True, unique=False)
 
 
 class value_scheme_rule(models.Model):
@@ -71,8 +71,8 @@ class value_scheme_rule(models.Model):
     )
     effective_date_from = models.DateTimeField(default=now)
     effective_date_to = models.DateTimeField(default=END_OF_TIME)
-    created_date = models.DateTimeField(default=now, blank=True, unique=False)
-    update_date = models.DateTimeField(default=now, blank=True, unique=False)
+    created = models.DateTimeField(default=now, blank=True, unique=False)
+    updated = models.DateTimeField(default=now, blank=True, unique=False)
 
 
 class download(models.Model):
@@ -82,14 +82,14 @@ class download(models.Model):
     requested_end_date = models.DateField(blank=False, null=False, unique=False)
     owner_org = models.ForeignKey('staticdata.organization', on_delete=models.PROTECT, related_name='download_owner')
     pending = models.BooleanField(blank=False, null=False, default=True)
-    created_date = models.DateTimeField(default=now, blank=True, unique=False)
-    update_date = models.DateTimeField(default=now, blank=True, unique=False)
+    created = models.DateTimeField(default=now, blank=True, unique=False)
+    updated = models.DateTimeField(default=now, blank=True, unique=False)
 
 class download_tickers(models.Model):
     download = models.ForeignKey(download, on_delete=models.CASCADE)
     ticker = models.ForeignKey('staticdata.identifier', on_delete=models.CASCADE)
-    created_date = models.DateTimeField(default=now, blank=True, unique=False)
-    update_date = models.DateTimeField(default=now, blank=True, unique=False)
+    created = models.DateTimeField(default=now, blank=True, unique=False)
+    updated = models.DateTimeField(default=now, blank=True, unique=False)
 
 class download_data(models.Model):
     download = models.ForeignKey(download, on_delete=models.DO_NOTHING, related_name = 'data_download')
@@ -100,8 +100,8 @@ class download_data(models.Model):
     rate_value = models.FloatField(null=True,blank=True,unique=False,validators=[MinValueValidator(0.0)])
     value_field = models.ForeignKey(value_field, on_delete=models.PROTECT, related_name='download_value_field')
     ticker = models.ForeignKey('staticdata.identifier', on_delete=models.CASCADE)
-    created_date = models.DateTimeField(default=now, blank=True, unique=False)
-    update_date = models.DateTimeField(default=now, blank=True, unique=False)
+    created = models.DateTimeField(default=now, blank=True, unique=False)
+    updated = models.DateTimeField(default=now, blank=True, unique=False)
 
 class price_ladder(models.Model):
     value_date = models.DateField(blank=False, null=False, unique=False)
@@ -112,8 +112,8 @@ class price_ladder(models.Model):
     ticker = models.ForeignKey('staticdata.identifier', on_delete=models.CASCADE)
     download = models.ForeignKey(download, on_delete=models.DO_NOTHING, related_name = 'price_download')
     owner_org = models.ForeignKey('staticdata.organization', on_delete=models.PROTECT, related_name='price_owner')
-    created_date = models.DateTimeField(default=now, blank=True, unique=False)
-    update_date = models.DateTimeField(default=now, blank=True, unique=False)
+    created = models.DateTimeField(default=now, blank=True, unique=False)
+    updated = models.DateTimeField(default=now, blank=True, unique=False)
 
 class xrate_ladder(models.Model):
     value_date = models.DateField(blank=False, null=False, unique=False)
@@ -124,8 +124,8 @@ class xrate_ladder(models.Model):
     ticker = models.ForeignKey('staticdata.identifier', on_delete=models.CASCADE)
     download = models.ForeignKey(download, on_delete=models.DO_NOTHING, related_name='xrate_download')
     owner_org = models.ForeignKey('staticdata.organization', on_delete=models.PROTECT, related_name='xrate_owner')
-    created_date = models.DateTimeField(default=now, blank=True, unique=False)
-    update_date = models.DateTimeField(default=now, blank=True, unique=False)
+    created = models.DateTimeField(default=now, blank=True, unique=False)
+    updated = models.DateTimeField(default=now, blank=True, unique=False)
 
 class analytics_ladder(models.Model):
     value_date = models.DateField(blank=False, null=False, unique=False)
@@ -135,5 +135,5 @@ class analytics_ladder(models.Model):
     ticker = models.ForeignKey('staticdata.identifier', on_delete=models.CASCADE)
     download = models.ForeignKey(download, on_delete=models.DO_NOTHING, related_name='analytics_download')
     owner_org = models.ForeignKey('staticdata.organization', on_delete=models.PROTECT, related_name='analytics_owner')
-    created_date = models.DateTimeField(default=now, blank=True, unique=False)
-    update_date = models.DateTimeField(default=now, blank=True, unique=False)
+    created = models.DateTimeField(default=now, blank=True, unique=False)
+    updated = models.DateTimeField(default=now, blank=True, unique=False)

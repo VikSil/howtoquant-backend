@@ -6,9 +6,9 @@ INSERT INTO staticdata_organization (id, short_name, long_name, org_type_id, own
 (3, 'Unspecified', 'Unspecified',2,1,'Unspecified Organization'),
 (4, 'None', 'None',3,1,'No Organization'),
 (5, 'Other','Other',4,1,'Other Organization'),
-(6, 'Tesla', 'Tesla Inc',7, 1,  'Tesla Inc'),
-(7, 'Vodafone', 'Vodafone Group Plc',7, 1,  'Vodafone Group Plc'),
-(8, 'VW', 'Volkswagen Group',7, 1,  'Volkswagen');
+(6, 'Tesla', 'Tesla Inc',8, 1,  'Tesla Inc'),
+(7, 'Vodafone', 'Vodafone Group Plc',8, 1,  'Vodafone Group Plc'),
+(8, 'VW', 'Volkswagen Group',8, 1,  'Volkswagen');
 
 INSERT INTO staticdata_instrument (id, name, short_name, domicile_id, base_ccy_id, instrument_class_id, issuer_id, owner_org_id) VALUES
 (1, 'Tesla Inc', 'Tesla', 5, 5, 5, 6,1),
