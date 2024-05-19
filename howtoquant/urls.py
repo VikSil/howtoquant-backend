@@ -10,4 +10,5 @@ urlpatterns = [
     path("staticdata/", include("apps.staticdata.urls")),
     path("marketdata/", include("apps.marketdata.urls")),
     path("accounting/", include("apps.accounting.urls")),
+    path("classifiers/", include("apps.classifiers.urls")),
 ]
