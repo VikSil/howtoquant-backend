@@ -1,7 +1,7 @@
 {
     "endpoints":{
     "staticdata":{
-        "GET /api/equities/all":{
+        "GET /api/equities":{
             "description":"returns a list of all equities in users's organization",
             "queries":[],
             "requestBody":{},
@@ -19,7 +19,7 @@
                         }]
                 }}
             },
-        "GET /api/identifiers/all":{
+        "GET /api/identifiers":{
             "description":"returns a list of all identifiers in users's organization",
             "queries":[],
             "requestBody":{},
@@ -50,7 +50,7 @@
                 ]
                 }}
             },
-        "GET /api/instruments/:ticker":{
+        "GET /api/equities/:ticker":{
             "description":"returns instrument details",
             "queries":[],
             "requestBody":{},
