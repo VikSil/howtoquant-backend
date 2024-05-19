@@ -2,7 +2,8 @@ import requests
 from django.shortcuts import render
 from django.http import JsonResponse
 from django.http import HttpResponseBadRequest
-from django.db.models.query import QuerySet
+from django.core import serializers
+from django.forms.models import model_to_dict
 from rest_framework.decorators import api_view
 from jsonschema import validate
 from jsonschema.exceptions import ValidationError
@@ -65,7 +66,7 @@ def instruments(request):
 
     try:
         validate(instance=body, schema=new_instrument_request)
-    except ValidationError as e:
+    except ValidationError:
         return HttpResponseBadRequest('Request validation failed', status=400)
 
     ticker = body['ticker']
@@ -77,7 +78,7 @@ def instruments(request):
             response = requests.get(url)
             if response.status_code == 200:
                 if response.json()['results']['type'] == 'CS':
-                    inst_org = get_or_save_organization(
+                    inst_org = get_or_save_organization('Issuer',
                         response.json()['results']['name'], response.json()['results']['description']
                     )
 
@@ -114,5 +115,26 @@ def instruments(request):
         except Exception as e:
             result = str(e)
             status = 'NOK'
+
+    return JsonResponse({"data": result, 'status': status}, safe=False)
+
+
+@api_view(['POST'])
+def organizations(request):
+    body = request.data
+
+    try:
+        validate(instance=body, schema=new_organization)
+    except ValidationError:
+        return HttpResponseBadRequest('Request validation failed', status=400)
+
+    try:
+        org = get_or_save_organization(**{key:value for key, value in body.items() if value is not None})
+        result = model_to_dict(org)
+    except Exception as e:
+        result = str(e)
+        status = 'NOK'
+    else:
+        status = 'OK'
 
     return JsonResponse({"data": result, 'status': status}, safe=False)

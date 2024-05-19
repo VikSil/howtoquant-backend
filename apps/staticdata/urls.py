@@ -9,4 +9,5 @@ urlpatterns = [
     path("api/identifiers/codes", views.all_identifier_codes, name="api_all_identifier_codes"),
     path("api/identifiers", views.identifiers, name="api_identifiers"),
     path("api/instruments", views.instruments, name="api_instruments"),
+    path("api/organizations", views.organizations, name="api_organizations"),
 ]

@@ -5,7 +5,7 @@ from django.contrib.contenttypes.models import ContentType
 
 class organization(models.Model):
     org_type = models.ForeignKey('classifiers.organization_type', on_delete=models.PROTECT)
-    short_name = models.CharField(max_length=25, unique=True)
+    short_name = models.CharField(max_length=25)
     long_name = models.CharField(max_length=255, unique=True)
     description = models.CharField(max_length=255, blank=True, null=True)
     owner_org = models.ForeignKey('self', on_delete=models.PROTECT, blank=True, null=True)

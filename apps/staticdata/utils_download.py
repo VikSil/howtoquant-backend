@@ -12,7 +12,7 @@ from apps.classifiers.models import (
 )
 
 
-def get_or_save_organization(name: str, description: str):
+def get_or_save_organization(org_type: str, name: str, description: str = '', **kwargs):
     try:
         existing_org = organization.objects.get(Q(short_name=name) | Q(long_name=name))
     except organization.DoesNotExist:
@@ -23,12 +23,14 @@ def get_or_save_organization(name: str, description: str):
 
     else:
         new_organization = organization.objects.create(
-            org_type=organization_type.objects.get(type_name='Issuer'),
+            org_type=organization_type.objects.get(type_name=org_type),
             short_name=name[:25],
             long_name=name,
             description=description[:255],
             owner_org=organization.objects.get(pk=1),
         )
+        if 'long_name' in kwargs:
+            new_organization.long_name = kwargs.get('long_name')
         new_organization.save()
         return new_organization
 
