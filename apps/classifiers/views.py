@@ -4,6 +4,7 @@ from howtoquant.utils import dict_fetch_all
 
 from .db.queries import *
 
+
 @api_view(['GET'])
 def org_types(request):
     if request.method == 'GET':
@@ -16,3 +17,10 @@ def inst_classes(request):
     if request.method == 'GET':
         data = dict_fetch_all(instrument_class_select_specified)
         return JsonResponse({'status': "OK", 'data': {"inst_classes": data}}, safe=False)
+
+
+@api_view(['GET'])
+def countries(request):
+    if request.method == 'GET':
+        data = dict_fetch_all(country_select_all)
+        return JsonResponse({'status': "OK", 'data': {"countries": data}}, safe=False)

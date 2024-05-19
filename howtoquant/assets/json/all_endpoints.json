@@ -1,6 +1,47 @@
 {
   "endpoints": {
     "classifiers": {
+      "GET /api/countries": {
+        "description": "returns a list of all possible countries",
+        "queries": [],
+        "requestBody": {},
+        "exampleResponse": {
+          "status": "OK",
+          "data": {
+            "countries": [
+              {
+                "id": 9,
+                "name": "Japan",
+                "short_name": "Japan",
+                "ISO2": "JP",
+                "ISO3": "JPN",
+                "created": "2024-05-19T21:54:11",
+                "updated": "2024-05-19T21:54:11",
+                "ccy_id": 9
+              }
+            ]
+          }
+        }
+      },
+      "GET /api/inst_class": {
+        "description": "returns a list of known instrument classes",
+        "queries": [],
+        "requestBody": {},
+        "exampleResponse": {
+          "status": "OK",
+          "data": {
+            "inst_classes": [
+              {
+                "id": 5,
+                "instrument_type": "Equity",
+                "instrument_class": "Common Stock",
+                "created": "2024-05-19T21:54:11",
+                "updated": "2024-05-19T21:54:11"
+              }
+            ]
+          }
+        }
+      },
       "GET /api/org_types": {
         "description": "returns a list of all possible organization types",
         "queries": [],
@@ -18,27 +59,7 @@
             ]
           }
         }
-      },
-      "GET /api/inst_class": {
-        "description": "returns a list of known instrument classes",
-        "queries": [],
-        "requestBody": {},
-        "exampleResponse": {
-          "status": "OK",
-          "data": {
-            "inst_classes": [
-                {
-                    "id": 5,
-                    "instrument_type": "Equity",
-                    "instrument_class": "Common Stock",
-                    "created": "2024-05-19T21:54:11",
-                    "updated": "2024-05-19T21:54:11"
-                }
-            ]
-          }
-        }
       }
-
     },
     "marketdata": {
       "PUT /api/prices/new": {
