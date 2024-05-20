@@ -31,3 +31,17 @@ def currencies(request):
     if request.method == 'GET':
         data = dict_fetch_all(currency_select_all)
         return JsonResponse({'status': "OK", 'data': {"currencies": data}}, safe=False)
+
+
+@api_view(['GET'])
+def sectors(request):
+    if request.method == 'GET':
+        data = dict_fetch_all(industry_sector_select_all)
+        return JsonResponse({'status': "OK", 'data': {"sectors": data}}, safe=False)
+
+
+@api_view(['GET'])
+def subsectors(request):
+    if request.method == 'GET':
+        data = dict_fetch_all(industry_subsector_select_all)
+        return JsonResponse({'status': "OK", 'data': {"subsectors": data}}, safe=False)

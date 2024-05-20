@@ -6,4 +6,6 @@ urlpatterns = [
     path("api/currencies", views.currencies, name="api_currencies"),
     path("api/inst_classes", views.inst_classes, name="api_inst_classes"),
     path("api/org_types", views.org_types, name="api_org_types"),
+    path("api/sectors", views.sectors, name="api_sectors"),
+    path("api/subsectors", views.subsectors, name="api_subsectors"),
 ]

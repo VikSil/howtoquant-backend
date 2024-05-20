@@ -31,15 +31,15 @@
           "status": "OK",
           "data": {
             "countries": [
-                {
-                    "id": 5,
-                    "major_unit": "United States Dollar",
-                    "minor_unit": "Cent",
-                    "major_to_minor": 100,
-                    "ISO": "USD",
-                    "created": "2024-05-19T21:54:11",
-                    "updated": "2024-05-19T21:54:11"
-                }
+              {
+                "id": 5,
+                "major_unit": "United States Dollar",
+                "minor_unit": "Cent",
+                "major_to_minor": 100,
+                "ISO": "USD",
+                "created": "2024-05-19T21:54:11",
+                "updated": "2024-05-19T21:54:11"
+              }
             ]
           }
         }
@@ -76,6 +76,43 @@
                 "type_name": "Issuer",
                 "created": "2024-04-30T16:42:00",
                 "updated": "2024-04-30T16:42:00"
+              }
+            ]
+          }
+        }
+      },
+      "GET /api/sectors": {
+        "description": "returns a list of all possible industry sectors",
+        "queries": [],
+        "requestBody": {},
+        "exampleResponse": {
+          "status": "OK",
+          "data": {
+            "sectors": [
+              {
+                "id": 5,
+                "sector_name": "Automotive",
+                "created": "2024-05-19T21:54:12",
+                "updated": "2024-05-19T21:54:12"
+              }
+            ]
+          }
+        }
+      },
+      "GET /api/subsectors": {
+        "description": "returns a list of all possible industry subsectors",
+        "queries": [],
+        "requestBody": {},
+        "exampleResponse": {
+          "status": "OK",
+          "data": {
+            "subsectors": [
+              {
+                "id": 5,
+                "subsector_name": "Automotive",
+                "created": "2024-05-19T21:54:12",
+                "updated": "2024-05-19T21:54:12",
+                "sector_id": 5
               }
             ]
           }
