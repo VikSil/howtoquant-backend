@@ -8,4 +8,5 @@ urlpatterns = [
     path("api/org_types", views.org_types, name="api_org_types"),
     path("api/sectors", views.sectors, name="api_sectors"),
     path("api/subsectors", views.subsectors, name="api_subsectors"),
+    path("api/ticker_types", views.ticker_types, name="api_ticker_types"),
 ]

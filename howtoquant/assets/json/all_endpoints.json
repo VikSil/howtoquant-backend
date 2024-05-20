@@ -117,6 +117,24 @@
             ]
           }
         }
+      },
+      "GET /api/ticker_types": {
+        "description": "returns a list of all known ticker types",
+        "queries": [],
+        "requestBody": {},
+        "exampleResponse": {
+          "status": "OK",
+          "data": {
+            "subsectors": [
+              {
+                "id": 5,
+                "type_name": "ISIN",
+                "created": "2024-05-19T21:54:11",
+                "updated": "2024-05-19T21:54:11"
+              }
+            ]
+          }
+        }
       }
     },
     "marketdata": {
