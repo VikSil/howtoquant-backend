@@ -440,7 +440,8 @@ INSERT INTO classifiers_organization_type (id, type_name) VALUES
 (5, 'Internal'),
 (6, 'Headquarters'),
 (7, 'Fund'),
-(8, 'Issuer');
+(8, 'Issuer'),
+(9, 'Prime Broker');
 
 INSERT INTO classifiers_industry_sector (id, sector_name) VALUES
 (1, 'Unknown'),
@@ -464,3 +465,7 @@ INSERT INTO classifiers_market_data_source (id, source_name, function_name) VALU
 (3, 'None',''),
 (4, 'Other',''),
 (5, 'Yahoo Finance Prices','get_yf_price_data');
+
+INSERT INTO classifiers_accounting_method (id, method_name, description) VALUES
+(1, 'FIFO', 'First In, First Out'),
+(2, 'Weighted Avg', 'Weighted Average Accounting');

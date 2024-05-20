@@ -6,3 +6,4 @@ delete from classifiers_currency;
 delete from classifiers_instrument_class;
 delete from classifiers_organization_type;
 delete from classifiers_identifier_type;
+delete from classifiers_accounting_method;

@@ -1,3 +1,4 @@
+source E:\05_Ultimate_Brain\Finance_Skills\HowToQuant\backend\apps\accounting\db\purge_accounting.sql
 source E:\05_Ultimate_Brain\Finance_Skills\HowToQuant\backend\apps\marketdata\db\purge_marketdata.sql
 source E:\05_Ultimate_Brain\Finance_Skills\HowToQuant\backend\apps\staticdata\db\purge_staticdata.sql
 source E:\05_Ultimate_Brain\Finance_Skills\HowToQuant\backend\apps\classifiers\db\purge_classifiers.sql

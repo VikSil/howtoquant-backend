@@ -32,7 +32,7 @@ class broker_account(models.Model):
 class book(models.Model):
     fund_org = models.ForeignKey('staticdata.organization', on_delete=models.PROTECT, related_name='book_fund')
     name = models.CharField(max_length=100)
-    default_account_id = models.ForeignKey(
+    default_account = models.ForeignKey(
         broker_account, on_delete=models.SET_DEFAULT, default=2, related_name='book_default_account'
     )
     external_name = models.CharField(max_length=100, blank=True, null=True)
