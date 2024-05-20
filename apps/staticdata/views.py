@@ -8,13 +8,7 @@ from rest_framework.decorators import api_view
 from jsonschema import validate
 from jsonschema.exceptions import ValidationError
 
-from .db.queries import (
-    equities_select_all,
-    identifiers_select_all,
-    identifiers_select_all_codes,
-    instruments_select_where_id,
-    ticker_select_where_code,
-)
+from .db.queries import *
 from .schemas import *
 from .utils_download import get_or_save_organization, save_equity, get_or_save_ticker
 from howtoquant.utils import dict_fetch_all, dict_fetch_one, list_fetch_all, fetch_one_value
@@ -119,22 +113,37 @@ def instruments(request):
     return JsonResponse({"data": result, 'status': status}, safe=False)
 
 
-@api_view(['POST'])
+@api_view(['GET', 'POST'])
 def organizations(request):
-    body = request.data
+    if request.method == 'GET':
+        org_type_param = request.GET.get('org_type', None)
+        try:
+            if org_type_param != None:
+                data = dict_fetch_all(organization_select_where_type, [org_type_param])
+            else:
+                data = dict_fetch_all(organization_select_all)
+        except Exception as e:
+            data = str(e)
+            status = 'NOK'
+        else:
+            status = 'OK'
 
-    try:
-        validate(instance=body, schema=new_organization)
-    except ValidationError:
-        return HttpResponseBadRequest('Request validation failed', status=400)
+        return JsonResponse({"data": {"organizations": data}, 'status': status}, safe=False)
 
-    try:
-        org = get_or_save_organization(**{key:value for key, value in body.items() if value is not None})
-        result = model_to_dict(org)
-    except Exception as e:
-        result = str(e)
-        status = 'NOK'
-    else:
-        status = 'OK'
+    elif request.method == 'POST':
+        body = request.data
+        try:
+            validate(instance=body, schema=new_organization)
+        except ValidationError:
+            return HttpResponseBadRequest('Request validation failed', status=400)
 
-    return JsonResponse({"data": result, 'status': status}, safe=False)
+        try:
+            org = get_or_save_organization(**{key:value for key, value in body.items() if value is not None})
+            result = model_to_dict(org)
+        except Exception as e:
+            result = str(e)
+            status = 'NOK'
+        else:
+            status = 'OK'
+
+        return JsonResponse({"data": result, 'status': status}, safe=False)

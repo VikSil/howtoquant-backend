@@ -236,6 +236,28 @@
           }
         }
       },
+      "GET /api/equities/:ticker": {
+        "description": "returns instrument details",
+        "queries": [],
+        "requestBody": {},
+        "exampleResponse": {
+          "status": "OK",
+          "data": {
+            "instrument_data": {
+              "id": 1,
+              "issuer": "Tesla",
+              "instrument_class": "Common Stock",
+              "domicile": "USA",
+              "ccy": "USD",
+              "sector_name": "Automotive",
+              "ticker": "TSLA",
+              "ticker_type": "BBG Ticker",
+              "created": "2024-05-19T16:39:37.972Z",
+              "updated": "2024-05-19T16:39:37.972Z"
+            }
+          }
+        }
+      },
       "GET /api/identifiers": {
         "description": "returns a list of all identifiers in users's organization",
         "queries": [],
@@ -268,46 +290,23 @@
           }
         }
       },
-      "GET /api/equities/:ticker": {
-        "description": "returns instrument details",
-        "queries": [],
+      "GET /api/organizations": {
+        "description": "returns a list of all organizations of a given type (all types if type is not supplied)",
+        "queries": ["org_type"],
         "requestBody": {},
         "exampleResponse": {
           "status": "OK",
           "data": {
-            "instrument_data": {
-              "id": 1,
-              "issuer": "Tesla",
-              "instrument_class": "Common Stock",
-              "domicile": "USA",
-              "ccy": "USD",
-              "sector_name": "Automotive",
-              "ticker": "TSLA",
-              "ticker_type": "BBG Ticker",
-              "created": "2024-05-19T16:39:37.972Z",
-              "updated": "2024-05-19T16:39:37.972Z"
-            }
+            "orgnizations": [
+              {
+                "id": 10,
+                "short_name": "Master Fund",
+                "long_name": "Silver Pine Master Fund",
+                "description": "Silver Pine Master Fund",
+                "parent": "Silver Pine"
+              }
+            ]
           }
-        }
-      },
-      "PUT /api/instruments": {
-        "description": "triggers instrument data download and returns object ids",
-        "queries": [],
-        "requestBody": {
-          "ticker": "META",
-          "service": "polygon.io"
-        },
-        "requiredKeys": ["ticker", "service"],
-        "exampleResponse": {
-          "data": {
-            "organization": 17,
-            "instrument_id": 18,
-            "equity_id": 12,
-            "ticker_id": 7,
-            "created": "2024-05-19T16:39:37.972Z",
-            "updated": "2024-05-19T16:39:37.972Z"
-          },
-          "status": "OK"
         }
       },
       "POST /api/organizations": {
@@ -328,6 +327,26 @@
             "long_name": "Volkswagen",
             "description": "German car manufacturer",
             "owner_org": 1,
+            "created": "2024-05-19T16:39:37.972Z",
+            "updated": "2024-05-19T16:39:37.972Z"
+          },
+          "status": "OK"
+        }
+      },
+      "PUT /api/instruments": {
+        "description": "triggers instrument data download and returns object ids",
+        "queries": [],
+        "requestBody": {
+          "ticker": "META",
+          "service": "polygon.io"
+        },
+        "requiredKeys": ["ticker", "service"],
+        "exampleResponse": {
+          "data": {
+            "organization": 17,
+            "instrument_id": 18,
+            "equity_id": 12,
+            "ticker_id": 7,
             "created": "2024-05-19T16:39:37.972Z",
             "updated": "2024-05-19T16:39:37.972Z"
           },

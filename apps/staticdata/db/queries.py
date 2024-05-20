@@ -1,22 +1,3 @@
-identifier_type_queries = {
-    'select_all': "SELECT * FROM staticdata_identifier_type",
-
-}
-
-identifier_type_select_all = "SELECT * FROM staticdata_identifier_type"
-
-# this is invoked by cursor.execute(identifier_type_select_where_id, [s_variable])
-# multiple variables are all referred to as %s and replced with values from the list in order
-identifier_type_select_where_id = "SELECT * FROM staticdata_identifier_type WHERE id = %s"
-
-identifier_type_delete_where_id  = "DELETE FROM staticdata_identifier_type WHERE id = %s"
-
-equities_with_inst_type_select_all = '''SELECT eq.id, eq.name, inst_class.instrument_type, inst_class.instrument_class
-    FROM staticdata_equity eq 
-    JOIN staticdata_instrument_class inst_class
-    ON eq.instrument_class_id = inst_class.id
-    '''
-
 equities_select_all = '''
     select i.id, i.name, i.short_name, org.short_name as issuer, ccy.ISO as base_ccy, ctry.short_name as domicile from staticdata_equity as eq
     JOIN staticdata_instrument as i ON eq.instrument_id = i.id 
@@ -26,6 +7,14 @@ equities_select_all = '''
     WHERE i.owner_org_id = 1
     ;
 '''
+
+identifier_type_select_all = "SELECT * FROM staticdata_identifier_type"
+
+# this is invoked by cursor.execute(identifier_type_select_where_id, [s_variable])
+# multiple variables are all referred to as %s and replced with values from the list in order
+identifier_type_select_where_id = 'SELECT * FROM staticdata_identifier_type WHERE id = %s'
+
+identifier_type_delete_where_id = 'DELETE FROM staticdata_identifier_type WHERE id = %s'
 
 identifiers_select_all = '''
     SELECT i.id, i.code, itype.type_name AS type, inst.id AS inst_id, inst.short_name as instrument FROM staticdata_identifier AS i
@@ -48,6 +37,19 @@ instruments_select_where_id = '''
     LEFT JOIN staticdata_identifier AS t ON i.id = t.instrument_id
     LEFT JOIN classifiers_identifier_type AS tt ON t.identifier_type_id = tt.id
     WHERE i.id = %s
+'''
+
+organization_select_all = '''
+    SELECT o.id, o.short_name, o.long_name, o.description, oo.short_name as parent FROM staticdata_organization o
+    LEFT JOIN classifiers_organization_type AS ot ON o.org_type_id = ot.id
+    LEFT JOIN staticdata_organization AS oo ON o.owner_org_id = oo.id
+'''
+
+organization_select_where_type = '''
+    SELECT o.id, o.short_name, o.long_name, o.description, oo.short_name as parent FROM staticdata_organization o
+    LEFT JOIN classifiers_organization_type AS ot ON o.org_type_id = ot.id
+    LEFT JOIN staticdata_organization AS oo ON o.owner_org_id = oo.id
+    WHERE ot.type_name = %s
 '''
 
 ticker_select_where_code = 'SELECT instrument_id FROM staticdata_identifier WHERE code = %s'
