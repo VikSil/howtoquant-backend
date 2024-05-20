@@ -1,5 +1,65 @@
 {
   "endpoints": {
+    "accounting": {
+      "GET /api/books": {
+        "description": "returns a list of all books",
+        "queries": [],
+        "requestBody": {},
+        "exampleResponse": {
+          "status": "OK",
+          "data": {
+            "books": [
+              {
+                "id": 1,
+                "name": "Long Short",
+                "external_name": "SP MF LS",
+                "accounting_method": "FIFO",
+                "base_currency": "USD",
+                "broker_account": "Morgan Sachs Account",
+                "fund_name": "Master Fund"
+              }
+            ]
+          }
+        }
+      },
+      "GET /api/pbaccounts": {
+        "description": "returns a list of all prime broker accounts",
+        "queries": [],
+        "requestBody": {},
+        "exampleResponse": {
+          "status": "OK",
+          "data": {
+            "pbaccounts": [
+              {
+                "id": 1,
+                "account_name": "Morgan Sachs Account",
+                "external_name": "MS000000010",
+                "broker": "Master Fund",
+                "fund": "Master Fund",
+                "account_type": "Regular Account"
+              }
+            ]
+          }
+        }
+      },
+      "GET /api/strategies": {
+        "description": "returns a list of all strategies",
+        "queries": [],
+        "requestBody": {},
+        "exampleResponse": {
+          "status": "OK",
+          "data": {
+            "strategies": [
+              {
+                "id": 1,
+                "name": "Long Only",
+                "description": "Long Only Strategy"
+              }
+            ]
+          }
+        }
+      }
+    },
     "classifiers": {
       "GET /api/countries": {
         "description": "returns a list of all possible countries",

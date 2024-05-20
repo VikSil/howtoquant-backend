@@ -2,7 +2,6 @@ import requests
 from django.shortcuts import render
 from django.http import JsonResponse
 from django.http import HttpResponseBadRequest
-from django.core import serializers
 from django.forms.models import model_to_dict
 from rest_framework.decorators import api_view
 from jsonschema import validate
@@ -72,8 +71,8 @@ def instruments(request):
             response = requests.get(url)
             if response.status_code == 200:
                 if response.json().get('results').get('type') == 'CS':
-                    inst_org = get_or_save_organization('Issuer',
-                        response.json()['results']['name'], response.json().get('results').get('description')
+                    inst_org = get_or_save_organization(
+                        'Issuer', response.json()['results']['name'], response.json().get('results').get('description')
                     )
 
                     new_cs = save_equity(
@@ -138,7 +137,7 @@ def organizations(request):
             return HttpResponseBadRequest('Request validation failed', status=400)
 
         try:
-            org = get_or_save_organization(**{key:value for key, value in body.items() if value is not None})
+            org = get_or_save_organization(**{key: value for key, value in body.items() if value is not None})
             result = model_to_dict(org)
         except Exception as e:
             result = str(e)
