@@ -58,6 +58,26 @@
             ]
           }
         }
+      },
+      "POST /api/strategies": {
+        "description": "saves strategy to database",
+        "queries": [],
+        "requestBody": {
+          "name": "My Strategy",
+          "description": "The Best of All Strategies"
+        },
+        "requiredKeys": ["name"],
+        "exampleResponse": {
+          "data": {
+            "id": 8,
+            "name": "My Strategy",
+            "description": "The Best of All Strategies",
+            "owner_org": 9,
+            "created": "2024-05-21T02:30:47.262Z",
+            "updated": "2024-05-21T02:30:47.262Z"
+          },
+          "status": "OK"
+        }
       }
     },
     "classifiers": {
@@ -370,7 +390,7 @@
         }
       },
       "POST /api/organizations": {
-        "description": "save organisation to database",
+        "description": "saves organisation to database",
         "queries": [],
         "requestBody": {
           "org_type": "Issuer",
