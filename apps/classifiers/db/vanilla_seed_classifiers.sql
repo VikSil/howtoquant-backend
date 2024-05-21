@@ -179,6 +179,10 @@ INSERT INTO classifiers_currency (id, major_unit, minor_unit, major_to_minor, IS
 (157,'Zambian kwacha','Ngwee',100,'ZMW'),
 (158,'Ugandan shilling','',0,'UGX');
 
+update classifiers_currency
+set active = 1
+where id < 10;
+
 INSERT INTO classifiers_country (id, name, short_name, ISO2, ISO3, ccy_id) VALUES
 (1, 'Unknown','Unknown','XX','XYZ',1),
 (2, 'Unspecified','Unspecified','YY','XZY',2),
@@ -431,6 +435,10 @@ INSERT INTO classifiers_country (id, name, short_name, ISO2, ISO3, ccy_id) VALUE
 (249,'The Republic of Yemen','Yemen','YE','YEM',156),
 (250,'The Republic of Zambia','Zambia','ZM','ZMB',157),
 (251,'The Republic of Zimbabwe','Zimbabwe','ZW','ZWE',5);
+
+update classifiers_country
+set active = 1
+where id < 10;
 
 INSERT INTO classifiers_organization_type (id, type_name) VALUES
 (1, 'Unknown'),

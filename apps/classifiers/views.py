@@ -8,14 +8,16 @@ from .db.queries import *
 @api_view(['GET'])
 def countries(request):
     if request.method == 'GET':
-        data = dict_fetch_all(country_select_all)
+        active_param = request.GET.get('active', 1)
+        data = dict_fetch_all(country_select_all, [active_param])
         return JsonResponse({'status': "OK", 'data': {"countries": data}}, safe=False)
 
 
 @api_view(['GET'])
 def currencies(request):
     if request.method == 'GET':
-        data = dict_fetch_all(currency_select_all)
+        active_param = request.GET.get('active', 1)
+        data = dict_fetch_all(currency_select_all, [active_param])
         return JsonResponse({'status': "OK", 'data': {"currencies": data}}, safe=False)
 
 

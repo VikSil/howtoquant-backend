@@ -8,9 +8,10 @@ from jsonschema import validate
 from jsonschema.exceptions import ValidationError
 
 from .db.queries import *
+from ..classifiers.db.queries import country_set_active_where_iso2, currency_set_active
 from .schemas import *
 from .utils_download import get_or_save_organization, save_equity, get_or_save_ticker
-from howtoquant.utils import dict_fetch_all, dict_fetch_one, list_fetch_all, fetch_one_value
+from howtoquant.utils import dict_fetch_all, dict_fetch_one, list_fetch_all, fetch_one_value, execute_where
 from howtoquant.settings import POLYGON_API_KEY
 
 
@@ -75,13 +76,19 @@ def instruments(request):
                         'Issuer', response.json()['results']['name'], response.json().get('results').get('description')
                     )
 
+                    ccy = response.json().get('results').get('currency_name')
+                    country = response.json().get('results').get('locale')
+
                     new_cs = save_equity(
                         response.json()['results']['name'],
                         inst_org,
-                        response.json().get('results').get('locale'),
-                        response.json().get('results').get('currency_name'),
+                        country,
+                        ccy,
                         response.json().get('results').get('sic_description'),
                     )
+
+                    activate_ccy = execute_where(currency_set_active, ccy)
+                    activate_country = execute_where(country_set_active_where_iso2, country)
 
                     inst_ticker = get_or_save_ticker(ticker, new_cs.instrument_id)
 

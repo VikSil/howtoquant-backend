@@ -52,10 +52,9 @@ def fetch_one_value(query, *args):
     else:
         return None
 
-
-def delete_where(query, *args):
+def execute_where(query, *args):
     cursor = connection.cursor()
-    cursor.execute(query, *args)
+    cursor.execute(query, list(args))
     connection.commit()
     return cursor.rowcount 
 

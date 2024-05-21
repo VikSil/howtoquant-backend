@@ -63,7 +63,7 @@
     "classifiers": {
       "GET /api/countries": {
         "description": "returns a list of all possible countries",
-        "queries": [],
+        "queries": ["active"],
         "requestBody": {},
         "exampleResponse": {
           "status": "OK",
@@ -85,7 +85,7 @@
       },
       "GET /api/currencies": {
         "description": "returns a list of all possible currencies",
-        "queries": [],
+        "queries": ["active"],
         "requestBody": {},
         "exampleResponse": {
           "status": "OK",
