@@ -396,7 +396,8 @@
           "org_type": "Issuer",
           "name": "VW",
           "long_name": "Volkswagen",
-          "description": "German car manufacturer"
+          "description": "German car manufacturer",
+          "owner_org": "Public Domain"
         },
         "requiredKeys": ["org_type", "name"],
         "exampleResponse": {

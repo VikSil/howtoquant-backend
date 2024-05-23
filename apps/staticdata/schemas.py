@@ -7,7 +7,7 @@ new_instrument_request = {
     "required": ["ticker", "service"],
     "additionalProperties": False,
 }
- 
+
 new_organization = {
     "type": "object",
     "properties": {
@@ -15,7 +15,9 @@ new_organization = {
         "name": {"type": "string"},
         "long_name": {"type": "string"},
         "description": {"type": "string"},
+        "owner_org": {"type": "string"},
+        "owner_org_type": {"type": "string"},
     },
-    "required": ["org_type","name"],
+    "required": ["org_type", "name"],
     "additionalProperties": False,
 }

@@ -12,27 +12,48 @@ from apps.classifiers.models import (
 )
 
 
-def get_or_save_organization(org_type: str, name: str, description: str = '', **kwargs):
+def get_org_by_name_and_type(name: str, **kwargs):
     try:
-        existing_org = organization.objects.get(Q(short_name=name) | Q(long_name=name))
+        if 'org_type' in kwargs: # if org_type is stated, use it in query
+            existing_org = organization.objects.filter(
+                org_type__in=organization_type.objects.filter(type_name__in=kwargs['org_type'])
+            ).get(Q(short_name=name) | Q(long_name=name))
+        else: # if org_type is not stated, query by name only
+            existing_org = organization.objects.get(Q(short_name=name) | Q(long_name=name))
     except organization.DoesNotExist:
         existing_org = None
+    return existing_org
 
+
+def get_or_save_organization(org_type: str, name: str, description: str = '', **kwargs):
+    existing_org = get_org_by_name_and_type(name)
     if existing_org:
         return existing_org
 
     else:
-        new_organization = organization.objects.create(
+        owner_org=None
+        if 'owner_org' in kwargs: # if owner org explicitly stated
+            owner_org_type = ['Headquarters', 'Fund'] # if owner org type not stated, assume values
+            if 'owner_org_type' in kwargs: # or use explicitly stated owner org type
+                owner_org_type = kwargs['owner_org_type']
+            owner_org = get_org_by_name_and_type(name=kwargs['owner_org'], org_type=owner_org_type) # find owner org
+        if not owner_org: # if owner org not known
+            if org_type in ['Fund', 'Book', 'Strategy']: # for these types the owner is user's headquarters
+                owner_org = get_org_by_name_and_type(name='Silver Pine', org_type=['Headquarters'])
+            else:
+                owner_org = organization.objects.get(pk=1) # default the new org to Public Domain
+
+        new_org = organization.objects.create(
             org_type=organization_type.objects.get(type_name=org_type),
             short_name=name[:25],
             long_name=name,
             description=description[:255],
-            owner_org=organization.objects.get(pk=1),
+            owner_org=owner_org,
         )
         if 'long_name' in kwargs:
-            new_organization.long_name = kwargs.get('long_name')
-        new_organization.save()
-        return new_organization
+            new_org.long_name = kwargs.get('long_name')
+        new_org.save()
+        return new_org
 
 
 def get_or_save_ticker(ticker:str, inst_id:int):
