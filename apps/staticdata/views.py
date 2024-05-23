@@ -27,6 +27,18 @@ def index(request):
 
 
 @api_view(['GET'])
+def all_fund_names(request):
+    data = list_fetch_all(organizations_select_all_fund_names)
+    return JsonResponse({'status': "OK", 'data': {"fund_names": data}}, safe=False)
+
+
+@api_view(['GET'])
+def all_identifier_codes(request):
+    data = list_fetch_all(identifiers_select_all_codes)
+    return JsonResponse({'status': "OK", 'data': {"codes": data}}, safe=False)
+
+
+@api_view(['GET'])
 def equities(request, ticker=None):
     if request.method == 'GET':
         if ticker == None:  # list of all equities requested
@@ -46,12 +58,6 @@ def identifiers(request):
     if request.method == 'GET':
         data = dict_fetch_all(identifiers_select_all)
         return JsonResponse({'status': "OK", 'data': {"identifiers": data}}, safe=False)
-
-
-@api_view(['GET'])
-def all_identifier_codes(request):
-    data = list_fetch_all(identifiers_select_all_codes)
-    return JsonResponse({'status': "OK", 'data': {"codes": data}}, safe=False)
 
 
 @api_view(['PUT'])

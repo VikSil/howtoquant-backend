@@ -45,6 +45,13 @@ organization_select_all = '''
     LEFT JOIN staticdata_organization AS oo ON o.owner_org_id = oo.id
 '''
 
+organizations_select_all_fund_names = '''
+    SELECT short_name FROM staticdata_organization
+    WHERE org_type_id in (
+	    SELECT id FROM classifiers_organization_type
+        WHERE type_name in ('Headquarters', 'Fund'))
+'''
+
 organization_select_where_type = '''
     SELECT o.id, o.short_name, o.long_name, o.description, oo.short_name as parent FROM staticdata_organization o
     LEFT JOIN classifiers_organization_type AS ot ON o.org_type_id = ot.id

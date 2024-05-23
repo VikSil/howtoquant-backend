@@ -389,6 +389,17 @@
           }
         }
       },
+      "GET /api/organizations/fund_names": {
+        "description": "returns a list of all fund names and headquarters name",
+        "queries": [],
+        "requestBody": {},
+        "exampleResponse": {
+          "status": "OK",
+          "data": {
+            "fund_names": ["Master Fund", "Silver Pine"]
+          }
+        }
+      },
       "POST /api/organizations": {
         "description": "saves organisation to database",
         "queries": [],
