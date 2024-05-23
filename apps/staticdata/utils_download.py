@@ -43,7 +43,7 @@ def get_or_save_organization(org_type: str, name: str, description: str = '', **
             else:
                 owner_org = organization.objects.get(pk=1) # default the new org to Public Domain
 
-        new_org = organization.objects.create(
+        new_org = organization(
             org_type=organization_type.objects.get(type_name=org_type),
             short_name=name[:25],
             long_name=name,
@@ -52,6 +52,7 @@ def get_or_save_organization(org_type: str, name: str, description: str = '', **
         )
         if 'long_name' in kwargs:
             new_org.long_name = kwargs.get('long_name')
+
         new_org.save()
         return new_org
 
@@ -70,7 +71,6 @@ def get_or_save_ticker(ticker:str, inst_id:int):
             identifier_type=identifier_type.objects.get(type_name='BBG Ticker'),
             instrument=instrument.objects.get(pk=inst_id),
         )
-        new_ticker.save()
         return new_ticker
 
 
@@ -128,7 +128,6 @@ def save_instrument(name: str, inst_class: str, domicile: str, base_ccy: str, is
         issuer=issuer,
         owner_org=organization.objects.get(pk=1),
     )
-    new_instrument.save()
     return new_instrument
 
 
@@ -158,11 +157,9 @@ def update_equity(parent_inst: object, **kwargs):
 
 def save_industry_sector(name: str):
     new_sector = industry_sector.objects.create(sector_name=name[:100])
-    new_sector.save()
     return new_sector
 
 
 def save_industry_subsector(name: str, sector: object):
     new_subsector = industry_subsector.objects.create(subsector_name=name[:255], sector=sector)
-    new_subsector.save()
     return new_subsector

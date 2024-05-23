@@ -150,7 +150,7 @@ def organizations(request):
             return HttpResponseBadRequest('Request validation failed', status=400)
 
         try:
-            org = get_or_save_organization(**{key: value for key, value in body.items() if value is not None})
+            org = get_or_save_organization(**{key: value for key, value in body.items() if value is not None and value !=''})
             result = model_to_dict(org)
         except Exception as e:
             result = str(e)

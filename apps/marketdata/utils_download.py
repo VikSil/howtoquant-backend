@@ -74,7 +74,6 @@ def save_download(start_dt, end_dt):
             requested_end_date=end_dt,
             owner_org=organization.objects.get(pk=1),
         )
-        new_download.save()
         return new_download
 
     except Exception as e:
@@ -87,7 +86,6 @@ def save_download_tickers(tickers: list, download: object):
             add_ticker = download_tickers.objects.create(
                 download=download, ticker=identifier.objects.get(code=ticker)
             )
-            add_ticker.save()
 
     except Exception as e:
         return e
