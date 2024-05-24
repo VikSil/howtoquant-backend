@@ -7,7 +7,7 @@ books_select_all = '''
 '''
 
 pbaccounts_select_all = '''
-    SELECT acc.id, acc.account_name, acc.external_name, b.short_name as broker, f.short_name as fund,
+    SELECT acc.id, acc.account_name, acc.external_name, b.short_name AS broker, f.short_name AS fund,
     CASE
       WHEN acc.cash_account = 0 THEN 'Regular Account'
       WHEN acc.cash_account = 1 THEN 'Cash Account'
@@ -18,8 +18,11 @@ pbaccounts_select_all = '''
 '''
 
 pbaccounts_select_all_names = '''
-    SELECT account_name from accounting_broker_account as acc
-    
+    SELECT account_name from accounting_broker_account AS acc
+    LEFT JOIN staticdata_organization AS o ON acc.fund_org_id = o.id
+    LEFT JOIN classifiers_organization_type AS ot ON o.org_type_id = ot.id
+    WHERE ot.type_name in ('Fund', 'Headquarters')
+    AND o.short_name = %s    
 '''
 
 

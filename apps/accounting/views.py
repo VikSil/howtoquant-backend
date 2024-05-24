@@ -25,7 +25,7 @@ def index(request):
     )
 
 
-@api_view(['GET'])
+@api_view(['GET', 'POST'])
 def books(request):
     if request.method == 'GET':
         try:
@@ -74,8 +74,9 @@ def pbaccounts(request):
 @api_view(['GET'])
 def pbaccounts_names(request):
     if request.method == 'GET':
-        data = list_fetch_all(pbaccounts_select_all_names)
-        return JsonResponse({'status': "OK", 'data': {"method_names": data}}, safe=False)
+        fund_name = request.GET.get('fund_name', 'Silver Pine')  # use users headquarters
+        data = list_fetch_all(pbaccounts_select_all_names, [fund_name])
+        return JsonResponse({'status': "OK", 'data': {"account_names": data}}, safe=False)
 
 
 @api_view(['GET', 'POST'])

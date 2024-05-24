@@ -41,6 +41,17 @@
             ]
           }
         }
+      },      
+      "GET /api/pbaccounts/names": {
+        "description": "returns a list of all prime broker account names",
+        "queries": [],
+        "requestBody": {},
+        "exampleResponse": {
+          "status": "OK",
+          "data": {
+            "account_names": ["Morgan Sachs Account","Morgan Sachs Cash Account","Another PB Account"]
+          }
+        }
       },
       "GET /api/strategies": {
         "description": "returns a list of all strategies",
