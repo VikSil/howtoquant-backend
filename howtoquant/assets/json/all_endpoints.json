@@ -65,8 +65,8 @@
         "requestBody": {
           "name": "MS PB Account",
           "external_name": "External 0001",
-          "cash_account":false,
-          "broker_name":"Morgan Sachs",
+          "cash_account": false,
+          "broker_name": "Morgan Sachs",
           "fund_name": "Golden Oak"
         },
         "requiredKeys": ["name", "cash_account", "broker_name", "fund_name"],
@@ -81,30 +81,30 @@
             "created": "2024-05-24T20:35:36.322Z",
             "updated": "2024-05-24T20:35:36.322Z"
           },
-          "status": "OK"        
-      },
-      "POST /api/strategies": {
-        "description": "saves strategy to database",
-        "queries": [],
-        "requestBody": {
-          "name": "My Strategy",
-          "description": "The Best of All Strategies"
-        },
-        "requiredKeys": ["name"],
-        "exampleResponse": {
-          "data": {
-            "id": 8,
-            "name": "My Strategy",
-            "description": "The Best of All Strategies",
-            "owner_org": 9,
-            "created": "2024-05-21T02:30:47.262Z",
-            "updated": "2024-05-21T02:30:47.262Z"
-          },
           "status": "OK"
+        },
+        "POST /api/strategies": {
+          "description": "saves strategy to database",
+          "queries": [],
+          "requestBody": {
+            "name": "My Strategy",
+            "description": "The Best of All Strategies"
+          },
+          "requiredKeys": ["name"],
+          "exampleResponse": {
+            "data": {
+              "id": 8,
+              "name": "My Strategy",
+              "description": "The Best of All Strategies",
+              "owner_org": 9,
+              "created": "2024-05-21T02:30:47.262Z",
+              "updated": "2024-05-21T02:30:47.262Z"
+            },
+            "status": "OK"
+          }
         }
       }
-    }
-  },
+    },
     "classifiers": {
       "GET /api/accounting_methods/names": {
         "description": "returns a list of all accounting method names",
@@ -157,6 +157,17 @@
                 "updated": "2024-05-19T21:54:11"
               }
             ]
+          }
+        }
+      },
+      "GET /api/currencies/codes": {
+        "description": "returns a list of currency ISO codes",
+        "queries": ["active"],
+        "requestBody": {},
+        "exampleResponse": {
+          "status": "OK",
+          "data": {
+            "ccy_codes": ["USD", "EUR", "GBP", "CHF", "JPY"]
           }
         }
       },

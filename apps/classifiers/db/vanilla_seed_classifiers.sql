@@ -181,7 +181,7 @@ INSERT INTO classifiers_currency (id, major_unit, minor_unit, major_to_minor, IS
 
 update classifiers_currency
 set active = 1
-where id < 10;
+where id < 10 and id > 4;
 
 INSERT INTO classifiers_country (id, name, short_name, ISO2, ISO3, ccy_id) VALUES
 (1, 'Unknown','Unknown','XX','XYZ',1),

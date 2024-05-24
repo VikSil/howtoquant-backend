@@ -29,6 +29,14 @@ def currencies(request):
 
 
 @api_view(['GET'])
+def currency_codes(request):
+    if request.method == 'GET':
+        active_param = request.GET.get('active', 1)
+        data = list_fetch_all(currency_select_all_codes, [active_param])
+        return JsonResponse({'status': "OK", 'data': {"ccy_codes": data}}, safe=False)
+
+
+@api_view(['GET'])
 def inst_classes(request):
     if request.method == 'GET':
         data = dict_fetch_all(instrument_class_select_specified)
