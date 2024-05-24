@@ -59,6 +59,30 @@
           }
         }
       },
+      "POST /api/pbaccounts": {
+        "description": "saves prime broker account to database",
+        "queries": [],
+        "requestBody": {
+          "name": "MS PB Account",
+          "external_name": "External 0001",
+          "cash_account":false,
+          "broker_name":"Morgan Sachs",
+          "fund_name": "Golden Oak"
+        },
+        "requiredKeys": ["name", "cash_account", "broker_name", "fund_name"],
+        "exampleResponse": {
+          "data": {
+            "id": 4,
+            "account_name": "MS PB Account",
+            "fund_org": 94,
+            "broker_org": 11,
+            "external_name": "External 0001",
+            "cash_account": false,
+            "created": "2024-05-24T20:35:36.322Z",
+            "updated": "2024-05-24T20:35:36.322Z"
+          },
+          "status": "OK"        
+      },
       "POST /api/strategies": {
         "description": "saves strategy to database",
         "queries": [],
@@ -79,7 +103,8 @@
           "status": "OK"
         }
       }
-    },
+    }
+  },
     "classifiers": {
       "GET /api/accounting_methods/names": {
         "description": "returns a list of all accounting method names",

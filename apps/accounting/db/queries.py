@@ -6,10 +6,6 @@ books_select_all = '''
     LEFT JOIN staticdata_organization AS o ON b.fund_org_id = o.id 
 '''
 
-strategies_select_all = '''
-    SELECT s.id, s.name, s.description FROM accounting_strategy AS s
-'''
-
 pbaccounts_select_all = '''
     SELECT acc.id, acc.account_name, acc.external_name, b.short_name as broker, f.short_name as fund,
     CASE
@@ -19,4 +15,14 @@ pbaccounts_select_all = '''
     FROM accounting_broker_account AS acc
     LEFT JOIN staticdata_organization AS b ON acc.broker_org_id = b.id
     LEFT JOIN staticdata_organization AS f ON acc.fund_org_id = f.id
+'''
+
+pbaccounts_select_all_names = '''
+    SELECT account_name from accounting_broker_account as acc
+    
+'''
+
+
+strategies_select_all = '''
+    SELECT s.id, s.name, s.description FROM accounting_strategy AS s
 '''
