@@ -17,6 +17,6 @@ pbaccounts_select_all = '''
       WHEN acc.cash_account = 1 THEN 'Cash Account'
     END AS account_type
     FROM accounting_broker_account AS acc
-    LEFT JOIN staticdata_organization AS b ON acc.fund_org_id = b.id
+    LEFT JOIN staticdata_organization AS b ON acc.broker_org_id = b.id
     LEFT JOIN staticdata_organization AS f ON acc.fund_org_id = f.id
 '''

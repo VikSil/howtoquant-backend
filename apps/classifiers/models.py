@@ -2,6 +2,13 @@ from django.db import models
 from django.utils.timezone import now
 
 
+class accounting_method(models.Model):
+    method_name = models.CharField(max_length=25, unique=True)
+    description = models.CharField(max_length=255, blank=True, null=True)
+    created = models.DateTimeField(default=now, blank=True, unique=False)
+    updated = models.DateTimeField(default=now, blank=True, unique=False)
+
+
 class identifier_type(models.Model):
     type_name = models.CharField(max_length=25, unique=True)
     created = models.DateTimeField(default=now, blank=True, unique=False)
@@ -58,13 +65,6 @@ class industry_subsector(models.Model):
 class market_data_source(models.Model):
     source_name = models.CharField(max_length=100, unique=True)
     function_name = models.CharField(max_length=100, unique=False, blank=True, null=True)
-    created = models.DateTimeField(default=now, blank=True, unique=False)
-    updated = models.DateTimeField(default=now, blank=True, unique=False)
-
-
-class accounting_method(models.Model):
-    method_name = models.CharField(max_length=25, unique=True)
-    description = models.CharField(max_length=255, blank=True, null=True)
     created = models.DateTimeField(default=now, blank=True, unique=False)
     updated = models.DateTimeField(default=now, blank=True, unique=False)
 

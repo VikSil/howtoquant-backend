@@ -81,6 +81,17 @@
       }
     },
     "classifiers": {
+      "GET /api/accounting_methods/names": {
+        "description": "returns a list of all accounting method names",
+        "queries": [],
+        "requestBody": {},
+        "exampleResponse": {
+          "status": "OK",
+          "data": {
+            "method_names": ["FIFO", "Weighted Avg"]
+          }
+        }
+      },
       "GET /api/countries": {
         "description": "returns a list of all possible countries",
         "queries": ["active"],

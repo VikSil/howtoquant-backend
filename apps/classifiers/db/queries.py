@@ -1,15 +1,17 @@
-country_select_all = "SELECT * FROM classifiers_country WHERE active = %s"
-country_set_active_where_iso2 = "UPDATE classifiers_country SET active = 1 WHERE ISO2 = %s"
+accounting_method_select_all_names  = 'SELECT method_name FROM classifiers_accounting_method'
 
-currency_select_all = "SELECT * FROM classifiers_currency WHERE active = %s"
-currency_set_active = "UPDATE classifiers_currency SET active = 1 WHERE ISO = %s"
+country_select_all = 'SELECT * FROM classifiers_country WHERE active = %s'
+country_set_active_where_iso2 = 'UPDATE classifiers_country SET active = 1 WHERE ISO2 = %s'
 
-identifier_type_select_specified = "SELECT * FROM classifiers_identifier_type WHERE id > 4"
+currency_select_all = 'SELECT * FROM classifiers_currency WHERE active = %s'
+currency_set_active = 'UPDATE classifiers_currency SET active = 1 WHERE ISO = %s'
 
-industry_sector_select_all = "SELECT * FROM classifiers_industry_sector"
+identifier_type_select_specified = 'SELECT * FROM classifiers_identifier_type WHERE id > 4'
 
-industry_subsector_select_all = "SELECT * FROM classifiers_industry_subsector"
+industry_sector_select_all = 'SELECT * FROM classifiers_industry_sector'
 
-instrument_class_select_specified = "SELECT * FROM classifiers_instrument_class WHERE id > 4"
+industry_subsector_select_all = 'SELECT * FROM classifiers_industry_subsector'
 
-organization_type_select_all = "SELECT * FROM classifiers_organization_type"
+instrument_class_select_specified = 'SELECT * FROM classifiers_instrument_class WHERE id > 4'
+
+organization_type_select_all = 'SELECT * FROM classifiers_organization_type'

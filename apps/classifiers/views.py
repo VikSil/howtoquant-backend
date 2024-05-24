@@ -1,8 +1,15 @@
 from django.http import JsonResponse
 from rest_framework.decorators import api_view
-from howtoquant.utils import dict_fetch_all
+from howtoquant.utils import dict_fetch_all, list_fetch_all
 
 from .db.queries import *
+
+
+@api_view(['GET'])
+def accounting_method_names(request):
+    if request.method == 'GET':
+        data = list_fetch_all(accounting_method_select_all_names)
+        return JsonResponse({'status': "OK", 'data': {"method_names": data}}, safe=False)
 
 
 @api_view(['GET'])
