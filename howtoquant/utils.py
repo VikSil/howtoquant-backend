@@ -39,7 +39,7 @@ def list_fetch_all(query, *args):
     if rows:
         return [item for row in rows for item in row]
     else:
-        return None
+        return []
 
 def fetch_one_value(query, *args):
     cursor = connection.cursor()
