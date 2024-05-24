@@ -36,7 +36,25 @@ def books(request):
         else:
             status = 'OK'
         return JsonResponse({'status': status, 'data': {"books": data}}, safe=False)
+    elif request.method == 'POST':
+        body = request.data
+        try:
+            validate(instance=body, schema=new_book)
+        except ValidationError:
+            return HttpResponseBadRequest('Request validation failed', status=400)
 
+        try:
+            book = save_book(**{key: value for key, value in body.items() if value is not None})
+            result = model_to_dict(book)
+        except ObjectDoesNotExist:
+            return HttpResponseBadRequest('Referenced organization does not exist', status=404)
+        except Exception as e:
+            result = str(e)
+            status = 'NOK'
+        else:
+            status = 'OK'
+
+        return JsonResponse({"data": result, 'status': status}, safe=False)
 
 @api_view(['GET', 'POST'])
 def pbaccounts(request):

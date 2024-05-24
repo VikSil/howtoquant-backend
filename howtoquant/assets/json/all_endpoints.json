@@ -41,7 +41,7 @@
             ]
           }
         }
-      },      
+      },
       "GET /api/pbaccounts/names": {
         "description": "returns a list of all prime broker account names",
         "queries": [],
@@ -49,7 +49,11 @@
         "exampleResponse": {
           "status": "OK",
           "data": {
-            "account_names": ["Morgan Sachs Account","Morgan Sachs Cash Account","Another PB Account"]
+            "account_names": [
+              "Morgan Sachs Account",
+              "Morgan Sachs Cash Account",
+              "Another PB Account"
+            ]
           }
         }
       },
@@ -68,6 +72,39 @@
               }
             ]
           }
+        }
+      },
+      "POST /api/books": {
+        "description": "saves a book to database",
+        "queries": [],
+        "requestBody": {
+          "name": "Someones book",
+          "external_name": "External 0001",
+          "acct_method": "FIFO",
+          "base_ccy": "USD",
+          "fund_name": "Golden Oak",
+          "default_account": "MS PB Account"
+        },
+        "requiredKeys": [
+          "name",
+          "acct_method",
+          "base_ccy",
+          "fund_name",
+          "default_account"
+        ],
+        "exampleResponse": {
+          "data": {
+            "id": 3,
+            "fund_org": 94,
+            "name": "Someones book",
+            "default_account": 4,
+            "external_name": "External 0001",
+            "accounting_method": 1,
+            "base_ccy": 5,
+            "created": "2024-05-24T23:39:11.242Z",
+            "updated": "2024-05-24T23:39:11.242Z"
+          },
+          "status": "OK"
         }
       },
       "POST /api/pbaccounts": {
@@ -93,26 +130,26 @@
             "updated": "2024-05-24T20:35:36.322Z"
           },
           "status": "OK"
+        }
+      },
+      "POST /api/strategies": {
+        "description": "saves strategy to database",
+        "queries": [],
+        "requestBody": {
+          "name": "My Strategy",
+          "description": "The Best of All Strategies"
         },
-        "POST /api/strategies": {
-          "description": "saves strategy to database",
-          "queries": [],
-          "requestBody": {
+        "requiredKeys": ["name"],
+        "exampleResponse": {
+          "data": {
+            "id": 8,
             "name": "My Strategy",
-            "description": "The Best of All Strategies"
+            "description": "The Best of All Strategies",
+            "owner_org": 9,
+            "created": "2024-05-21T02:30:47.262Z",
+            "updated": "2024-05-21T02:30:47.262Z"
           },
-          "requiredKeys": ["name"],
-          "exampleResponse": {
-            "data": {
-              "id": 8,
-              "name": "My Strategy",
-              "description": "The Best of All Strategies",
-              "owner_org": 9,
-              "created": "2024-05-21T02:30:47.262Z",
-              "updated": "2024-05-21T02:30:47.262Z"
-            },
-            "status": "OK"
-          }
+          "status": "OK"
         }
       }
     },
