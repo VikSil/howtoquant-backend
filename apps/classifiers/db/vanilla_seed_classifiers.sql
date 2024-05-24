@@ -445,7 +445,7 @@ INSERT INTO classifiers_organization_type (id, type_name) VALUES
 (2, 'Unspecified'),
 (3, 'None'),
 (4, 'Other'),
-(5, 'Internal'),
+(5, 'Public'),
 (6, 'Headquarters'),
 (7, 'Fund'),
 (8, 'Issuer'),

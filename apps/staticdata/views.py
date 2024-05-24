@@ -39,6 +39,12 @@ def all_identifier_codes(request):
 
 
 @api_view(['GET'])
+def all_parent_org_names(request):
+    data = list_fetch_all(organizations_select_all_parent_org_names)
+    return JsonResponse({'status': "OK", 'data': {"org_names": data}}, safe=False)
+
+
+@api_view(['GET'])
 def equities(request, ticker=None):
     if request.method == 'GET':
         if ticker == None:  # list of all equities requested
@@ -150,7 +156,9 @@ def organizations(request):
             return HttpResponseBadRequest('Request validation failed', status=400)
 
         try:
-            org = get_or_save_organization(**{key: value for key, value in body.items() if value is not None and value !=''})
+            org = get_or_save_organization(
+                **{key: value for key, value in body.items() if value is not None and value != ''}
+            )
             result = model_to_dict(org)
         except Exception as e:
             result = str(e)

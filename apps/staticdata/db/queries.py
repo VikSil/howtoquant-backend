@@ -52,6 +52,13 @@ organizations_select_all_fund_names = '''
         WHERE type_name in ('Headquarters', 'Fund'))
 '''
 
+organizations_select_all_parent_org_names = '''
+    SELECT short_name FROM staticdata_organization
+    WHERE org_type_id in (
+	    SELECT id FROM classifiers_organization_type
+        WHERE type_name in ('Headquarters', 'Public'))
+'''
+
 organization_select_where_type = '''
     SELECT o.id, o.short_name, o.long_name, o.description, oo.short_name as parent FROM staticdata_organization o
     LEFT JOIN classifiers_organization_type AS ot ON o.org_type_id = ot.id
