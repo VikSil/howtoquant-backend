@@ -27,6 +27,12 @@ def index(request):
 
 
 @api_view(['GET'])
+def all_broker_names(request):
+    data = list_fetch_all(organizations_select_all_broker_names)
+    return JsonResponse({'status': "OK", 'data': {"broker_names": data}}, safe=False)
+
+
+@api_view(['GET'])
 def all_fund_names(request):
     data = list_fetch_all(organizations_select_all_fund_names)
     return JsonResponse({'status': "OK", 'data': {"fund_names": data}}, safe=False)

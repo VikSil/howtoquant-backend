@@ -52,6 +52,13 @@ organizations_select_all_fund_names = '''
         WHERE type_name in ('Headquarters', 'Fund'))
 '''
 
+organizations_select_all_broker_names = '''
+    SELECT short_name FROM staticdata_organization
+    WHERE org_type_id in (
+	    SELECT id FROM classifiers_organization_type
+        WHERE type_name in ('Prime Broker'))
+'''
+
 organizations_select_all_parent_org_names = '''
     SELECT short_name FROM staticdata_organization
     WHERE org_type_id in (

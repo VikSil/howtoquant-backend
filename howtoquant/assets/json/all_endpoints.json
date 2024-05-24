@@ -389,14 +389,36 @@
           }
         }
       },
+      "GET /api/organizations/broker_names": {
+        "description": "returns a list of all prime broker organization short name",
+        "queries": [],
+        "requestBody": {},
+        "exampleResponse": {
+          "status": "OK",
+          "data": {
+            "broker_names": ["UBS", "Morgan Sachs"]
+          }
+        }
+      },
       "GET /api/organizations/fund_names": {
-        "description": "returns a list of all fund names and headquarters name",
+        "description": "returns a list of all fund short names and headquarters short name",
         "queries": [],
         "requestBody": {},
         "exampleResponse": {
           "status": "OK",
           "data": {
             "fund_names": ["Master Fund", "Silver Pine"]
+          }
+        }
+      },
+      "GET /api/organizations/parent_org_names": {
+        "description": "returns a list of headquarters short name and public organizations short names",
+        "queries": [],
+        "requestBody": {},
+        "exampleResponse": {
+          "status": "OK",
+          "data": {
+            "org_names": ["Public Domain", "Silver Pine"]
           }
         }
       },
