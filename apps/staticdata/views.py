@@ -39,6 +39,12 @@ def all_fund_names(request):
 
 
 @api_view(['GET'])
+def all_issuer_names(request):
+    data = list_fetch_all(organizations_select_all_issuer_names)
+    return JsonResponse({'status': "OK", 'data': {"issuer_names": data}}, safe=False)
+
+
+@api_view(['GET'])
 def all_identifier_codes(request):
     data = list_fetch_all(identifiers_select_all_codes)
     return JsonResponse({'status': "OK", 'data': {"codes": data}}, safe=False)

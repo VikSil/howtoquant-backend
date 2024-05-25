@@ -506,6 +506,17 @@
           }
         }
       },
+      "GET /api/organizations/issuer_names": {
+        "description": "returns a list of all issuer short name",
+        "queries": [],
+        "requestBody": {},
+        "exampleResponse": {
+          "status": "OK",
+          "data": {
+            "issuer_names": ["Tesla", "Walmart Inc"]
+          }
+        }
+      },
       "GET /api/organizations/parent_org_names": {
         "description": "returns a list of headquarters short name and public organizations short names",
         "queries": [],
