@@ -44,6 +44,13 @@ def inst_classes(request):
 
 
 @api_view(['GET'])
+def inst_class_names(request):
+    if request.method == 'GET':
+        data = list_fetch_all(instrument_class_select_all_names)
+        return JsonResponse({'status': "OK", 'data': {"class_names": data}}, safe=False)
+
+
+@api_view(['GET'])
 def org_types(request):
     if request.method == 'GET':
         data = dict_fetch_all(organization_type_select_all)

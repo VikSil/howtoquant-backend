@@ -219,7 +219,7 @@
           }
         }
       },
-      "GET /api/inst_class": {
+      "GET /api/inst_classes": {
         "description": "returns a list of known instrument classes",
         "queries": [],
         "requestBody": {},
@@ -235,6 +235,17 @@
                 "updated": "2024-05-19T21:54:11"
               }
             ]
+          }
+        }
+      },
+      "GET /api/inst_classes/class_names": {
+        "description": "returns a list of all instrument class names",
+        "queries": [],
+        "requestBody": {},
+        "exampleResponse": {
+          "status": "OK",
+          "data": {
+            "class_names": ["Common Stock"]
           }
         }
       },
