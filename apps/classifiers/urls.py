@@ -10,7 +10,9 @@ urlpatterns = [
     path("api/inst_classes/class_names", views.inst_class_names, name="api_inst_class_names"),
     path("api/inst_classes", views.inst_classes, name="api_inst_classes"),
     path("api/org_types", views.org_types, name="api_org_types"),
+    path("api/sectors/names", views.sector_names, name="api_sector_names"),
     path("api/sectors", views.sectors, name="api_sectors"),
+    path("api/subsectors/names", views.subsector_names, name="api_subsectors_names"),
     path("api/subsectors", views.subsectors, name="api_subsectors"),
     path("api/ticker_types", views.ticker_types, name="api_ticker_types"),
 ]

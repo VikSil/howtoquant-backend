@@ -296,6 +296,17 @@
           }
         }
       },
+      "GET /api/sectors/names": {
+        "description": "returns a list of all industry sector names",
+        "queries": [],
+        "requestBody": {},
+        "exampleResponse": {
+          "status": "OK",
+          "data": {
+            "sector_names": ["Automotive", "Telecommunications"]
+          }
+        }
+      },
       "GET /api/subsectors": {
         "description": "returns a list of all possible industry subsectors",
         "queries": [],
@@ -312,6 +323,17 @@
                 "sector_id": 5
               }
             ]
+          }
+        }
+      },
+      "GET /api/subsectors/names": {
+        "description": "returns a list of all industry subsector names",
+        "queries": [],
+        "requestBody": {},
+        "exampleResponse": {
+          "status": "OK",
+          "data": {
+            "subsector_names": ["Automotive", "Telecommunications"]
           }
         }
       },

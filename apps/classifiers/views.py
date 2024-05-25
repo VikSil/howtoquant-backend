@@ -73,10 +73,24 @@ def sectors(request):
 
 
 @api_view(['GET'])
+def sector_names(request):
+    if request.method == 'GET':
+        data = list_fetch_all(industry_sector_select_all_names)
+        return JsonResponse({'status': "OK", 'data': {"sector_names": data}}, safe=False)
+
+
+@api_view(['GET'])
 def subsectors(request):
     if request.method == 'GET':
         data = dict_fetch_all(industry_subsector_select_all)
         return JsonResponse({'status': "OK", 'data': {"subsectors": data}}, safe=False)
+
+
+@api_view(['GET'])
+def subsector_names(request):
+    if request.method == 'GET':
+        data = list_fetch_all(industry_subsector_select_all_names)
+        return JsonResponse({'status': "OK", 'data': {"subsector_names": data}}, safe=False)
 
 
 @api_view(['GET'])

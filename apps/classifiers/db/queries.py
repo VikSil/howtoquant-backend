@@ -11,8 +11,10 @@ currency_set_active = 'UPDATE classifiers_currency SET active = 1 WHERE ISO = %s
 identifier_type_select_specified = 'SELECT * FROM classifiers_identifier_type WHERE id > 4'
 
 industry_sector_select_all = 'SELECT * FROM classifiers_industry_sector'
+industry_sector_select_all_names = 'SELECT sector_name FROM classifiers_industry_sector'
 
 industry_subsector_select_all = 'SELECT * FROM classifiers_industry_subsector'
+industry_subsector_select_all_names = 'SELECT subsector_name FROM classifiers_industry_subsector'
 
 instrument_class_select_all_names = 'SELECT instrument_class FROM classifiers_instrument_class  WHERE id > 4'
 instrument_class_select_specified = 'SELECT * FROM classifiers_instrument_class WHERE id > 4'
