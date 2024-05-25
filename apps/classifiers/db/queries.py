@@ -8,6 +8,7 @@ currency_select_all = 'SELECT * FROM classifiers_currency WHERE active = %s'
 currency_select_all_codes = 'SELECT iso FROM classifiers_currency WHERE active = %s'
 currency_set_active = 'UPDATE classifiers_currency SET active = 1 WHERE ISO = %s'
 
+identifier_type_select_all_names = 'SELECT type_name FROM classifiers_identifier_type'
 identifier_type_select_specified = 'SELECT * FROM classifiers_identifier_type WHERE id > 4'
 
 industry_sector_select_all = 'SELECT * FROM classifiers_industry_sector'

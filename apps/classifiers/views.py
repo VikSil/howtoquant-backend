@@ -98,3 +98,10 @@ def ticker_types(request):
     if request.method == 'GET':
         data = dict_fetch_all(identifier_type_select_specified)
         return JsonResponse({'status': "OK", 'data': {"ticker_types": data}}, safe=False)
+
+
+@api_view(['GET'])
+def ticker_type_names(request):
+    if request.method == 'GET':
+        data = list_fetch_all(identifier_type_select_all_names)
+        return JsonResponse({'status': "OK", 'data': {"type_names": data}}, safe=False)

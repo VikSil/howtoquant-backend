@@ -354,6 +354,17 @@
             ]
           }
         }
+      },
+      "GET /api/ticker_types/names": {
+        "description": "returns a list of all ticker type names",
+        "queries": [],
+        "requestBody": {},
+        "exampleResponse": {
+          "status": "OK",
+          "data": {
+            "type_names": ["BBG Ticker", "None"]
+          }
+        }
       }
     },
     "marketdata": {
