@@ -21,6 +21,14 @@ def countries(request):
 
 
 @api_view(['GET'])
+def country_names(request):
+    if request.method == 'GET':
+        active_param = request.GET.get('active', 1)
+        data = list_fetch_all(country_select_all_names, [active_param])
+        return JsonResponse({'status': "OK", 'data': {"country_names": data}}, safe=False)
+
+
+@api_view(['GET'])
 def currencies(request):
     if request.method == 'GET':
         active_param = request.GET.get('active', 1)

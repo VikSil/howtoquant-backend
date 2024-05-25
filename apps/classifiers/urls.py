@@ -3,6 +3,7 @@ from . import views
 
 urlpatterns = [
     path("api/accounting_methods/names", views.accounting_method_names, name="api_accounting_method_names"),
+    path("api/countries/names", views.country_names, name="api_country_names"),
     path("api/countries", views.countries, name="api_countries"),
     path("api/currencies/codes", views.currency_codes, name="api_currency_codes"),
     path("api/currencies", views.currencies, name="api_currencies"),

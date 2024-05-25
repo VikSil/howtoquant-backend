@@ -1,6 +1,7 @@
 accounting_method_select_all_names = 'SELECT method_name FROM classifiers_accounting_method'
 
 country_select_all = 'SELECT * FROM classifiers_country WHERE active = %s'
+country_select_all_names = 'SELECT short_name FROM classifiers_country WHERE active = %s'
 country_set_active_where_iso2 = 'UPDATE classifiers_country SET active = 1 WHERE ISO2 = %s'
 
 currency_select_all = 'SELECT * FROM classifiers_currency WHERE active = %s'
