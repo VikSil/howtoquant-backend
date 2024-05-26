@@ -1,5 +1,6 @@
 from django.db import connection
 
+
 def dict_fetch(query, rowcount, *args):
     cursor = connection.cursor()
     cursor.execute(query, *args)
@@ -32,14 +33,16 @@ def dict_fetch_all(query, *args):
     else:
         return None
 
+
 def list_fetch_all(query, *args):
     cursor = connection.cursor()
     cursor.execute(query, *args)
     rows = cursor.fetchall()
     if rows:
-        return [item for row in rows for item in row]
+        return sorted([item for row in rows for item in row], key=str.lower)
     else:
         return []
+
 
 def fetch_one_value(query, *args):
     cursor = connection.cursor()
@@ -52,16 +55,18 @@ def fetch_one_value(query, *args):
     else:
         return None
 
+
 def execute_where(query, *args):
     cursor = connection.cursor()
     cursor.execute(query, list(args))
     connection.commit()
-    return cursor.rowcount 
+    return cursor.rowcount
+
 
 def trigger_proc(query, *args):
     cursor = connection.cursor()
     try:
-        cursor.callproc(query,*args)
+        cursor.callproc(query, *args)
         return 'OK'
     except Exception as e:
         return e

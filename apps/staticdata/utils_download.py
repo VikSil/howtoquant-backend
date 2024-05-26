@@ -8,40 +8,42 @@ from apps.classifiers.models import (
     country,
     currency,
     organization_type,
-    identifier_type
+    identifier_type,
 )
 
 
 def get_org_by_name_and_type(name: str, **kwargs):
     try:
-        if 'org_type' in kwargs: # if org_type is stated, use it in query
+        if 'org_type' in kwargs:  # if org_type is stated, use it in query
             existing_org = organization.objects.filter(
                 org_type__in=organization_type.objects.filter(type_name__in=kwargs['org_type'])
             ).get(Q(short_name=name) | Q(long_name=name))
-        else: # if org_type is not stated, query by name only
+        else:  # if org_type is not stated, query by name only
+
             existing_org = organization.objects.get(Q(short_name=name) | Q(long_name=name))
     except organization.DoesNotExist:
         existing_org = None
+
     return existing_org
 
 
 def get_or_save_organization(org_type: str, name: str, description: str = '', **kwargs):
-    existing_org = get_org_by_name_and_type(name)
+    existing_org = get_org_by_name_and_type(name, org_type=[org_type])
     if existing_org:
         return existing_org
 
     else:
-        owner_org=None
-        if 'owner_org' in kwargs: # if owner org explicitly stated
-            owner_org_type = ['Headquarters', 'Fund'] # if owner org type not stated, assume values
-            if 'owner_org_type' in kwargs: # or use explicitly stated owner org type
+        owner_org = None
+        if 'owner_org' in kwargs:  # if owner org explicitly stated
+            owner_org_type = ['Headquarters', 'Fund']  # if owner org type not stated, assume values
+            if 'owner_org_type' in kwargs:  # or use explicitly stated owner org type
                 owner_org_type = kwargs['owner_org_type']
-            owner_org = get_org_by_name_and_type(name=kwargs['owner_org'], org_type=owner_org_type) # find owner org
-        if not owner_org: # if owner org not known
-            if org_type in ['Fund', 'Book', 'Strategy']: # for these types the owner is user's headquarters
+            owner_org = get_org_by_name_and_type(name=kwargs['owner_org'], org_type=owner_org_type)  # find owner org
+        if not owner_org:  # if owner org not known
+            if org_type in ['Fund', 'Book', 'Strategy']:  # for these types the owner is user's headquarters
                 owner_org = get_org_by_name_and_type(name='Silver Pine', org_type=['Headquarters'])
             else:
-                owner_org = organization.objects.get(pk=1) # default the new org to Public Domain
+                owner_org = organization.objects.get(pk=1)  # default the new org to Public Domain
 
         new_org = organization(
             org_type=organization_type.objects.get(type_name=org_type),
@@ -57,9 +59,9 @@ def get_or_save_organization(org_type: str, name: str, description: str = '', **
         return new_org
 
 
-def get_or_save_ticker(ticker:str, inst_id:int):
+def get_or_save_ticker(ticker: str, inst_id: int, type_name: str = 'BBG Ticker'):
     try:
-        existing_ticker = identifier.objects.get(code =ticker)
+        existing_ticker = identifier.objects.get(code=ticker)
     except identifier.DoesNotExist:
         existing_ticker = None
 
@@ -68,7 +70,7 @@ def get_or_save_ticker(ticker:str, inst_id:int):
     else:
         new_ticker = identifier.objects.create(
             code=ticker,
-            identifier_type=identifier_type.objects.get(type_name='BBG Ticker'),
+            identifier_type=identifier_type.objects.get(type_name=type_name),
             instrument=instrument.objects.get(pk=inst_id),
         )
         return new_ticker
@@ -77,17 +79,19 @@ def get_or_save_ticker(ticker:str, inst_id:int):
 def save_equity(
     name: str,
     issuer: object,
-    domicile: str = 'Unspecified',
+    domicile: object,
     base_ccy: str = 'Unspecified',
     sector: str = 'Unspecified',
     subsector: str = 'Unspecified',
     inst_class: str = 'Common Stock',
 ):
+    if not domicile:
+        domicile = country.objects.get(short_name='Unspecified')
     inst_class = instrument_class.objects.get(instrument_class=inst_class)
 
     if len(sector) > 0:
         try:
-            eq_sector = industry_sector.objects.get(sector_name=sector) 
+            eq_sector = industry_sector.objects.get(sector_name=sector)
         except industry_sector.DoesNotExist:
             eq_sector = save_industry_sector(sector)
     else:
@@ -108,7 +112,7 @@ def save_equity(
 
     if existing_inst:  # update
         existing_inst = update_instrument(existing_inst, domicile=domicile, base_ccy=base_ccy, issuer=issuer)
-        existing_equity = update_equity(existing_inst, sector=eq_sector, subsector = eq_subsector)
+        existing_equity = update_equity(existing_inst, sector=eq_sector, subsector=eq_subsector)
         return existing_equity
 
     else:  # insert new
@@ -117,13 +121,13 @@ def save_equity(
         return new_equity
 
 
-def save_instrument(name: str, inst_class: str, domicile: str, base_ccy: str, issuer: object):
+def save_instrument(name: str, inst_class: str, domicile: object, base_ccy: str, issuer: object):
 
     new_instrument = instrument.objects.create(
         name=name,
         short_name=name[:35],
         instrument_class=inst_class,
-        domicile=country.objects.get(ISO2=domicile),
+        domicile=domicile,
         base_ccy=currency.objects.get(ISO=base_ccy),
         issuer=issuer,
         owner_org=organization.objects.get(pk=1),
@@ -133,7 +137,7 @@ def save_instrument(name: str, inst_class: str, domicile: str, base_ccy: str, is
 
 def update_instrument(instrument: object, **kwargs):
     if 'domicile' in kwargs:
-        instrument.domicile = country.objects.get(ISO2=kwargs.get('domicile'))
+        instrument.domicile = kwargs.get('domicile')
     if 'base_ccy' in kwargs:
         instrument.base_ccy = currency.objects.get(ISO=kwargs.get('base_ccy'))
     if 'issuer' in kwargs:
