@@ -18,7 +18,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 env = Env()
 location = BASE_DIR / 'howtoquant/.envs'
-env.read_env(BASE_DIR /'howtoquant/.envs/.env_dev')
+env.read_env(BASE_DIR /'howtoquant/.envs/.env_prod')
 
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = env('SECRET_KEY')
@@ -147,7 +147,7 @@ STATIC_URL = "static/"
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 # Solution from https://www.youtube.com/watch?v=EzJdpp2l0bA
-CORS_ALLOWED_ORIGINS = ["http://localhost:5173",]
-# CORS_ORIGIN_ALLOW_ALL = True
+# CORS_ALLOWED_ORIGINS = ["http://localhost:5173",]
+CORS_ORIGIN_ALLOW_ALL = True
 
 POLYGON_API_KEY = env('POLYGON_API_KEY')
