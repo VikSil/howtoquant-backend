@@ -1,4 +1,4 @@
-# Release Notes
+# Release notes
 
 * Data fixes in marketdata MySQL seeding script
 * Full dataset implemented in classifiers currency and country MySQL seeding scripts with 'active' flag
