@@ -225,7 +225,7 @@ INSERT INTO classifiers_country (id, name, short_name, ISO2, ISO3, ccy_id) VALUE
 (39,'The Republic of Botswana','Botswana','BW','BWA',29),
 (40,'The Federative Republic of Brazil','Brazil','BR','BRA',30),
 (41,'The British Indian Ocean Territory','British Indian Ocean Territory','IO','IOT',5),
-(42,'The Nation of Brunei, the Abode of Peace','Brunei Darussalam [f]','BN','BRN',31),
+(42,'The Nation of Brunei, the Abode of Peace','Brunei Darussalam','BN','BRN',31),
 (43,'The Republic of Bulgaria','Bulgaria','BG','BGR',32),
 (44,'Burkina Faso','Burkina Faso','BF','BFA',155),
 (45,'The Republic of Burundi','Burundi','BI','BDI',34),
