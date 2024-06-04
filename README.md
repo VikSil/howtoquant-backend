@@ -2,7 +2,7 @@
 
 This is a **proof of concept** hobby project aimed at exploration of finance topics and their technical implementation. While the functionality and architecture bares some resemblance to real-world systems and some of the data reflects true facts, no part of this project is intended as financial advice and is not to be considered as such.
 
-The deployed API can be accessed on root https://howtoquant.pythonanywhere.com/\<appname>/ with available endpoints documented [here](https://github.com/VikSil/howtoquant-backend/blob/trunk/howtoquant/assets/json/all_endpoints.json).
+The deployed API can be accessed on root https://howtoquant.pythonanywhere.com/ \<appname> with available endpoints documented [here](https://github.com/VikSil/howtoquant-backend/blob/trunk/howtoquant/assets/json/all_endpoints.json).
 
 The front-end is deployed to [howtoquant.com](https://howtoquant.com).
 
@@ -152,13 +152,13 @@ The trajectory of this project is bound to change in accordance to time constrai
             <td align = "center">#5</td>
             <td><ul>
             <li>Add message queue for process control and coordination</li>
-            <li>Implement unused market data download trunkation</li>
+            <li>Implement unused market data download truncation</li>
             </ul></td>
         </tr>
         <tr>
             <td align = "center">#6</td>
             <td><ul>
-            <li>Port least efficient functionality to Rust</li>
+            <li>Port least efficient ladder recalculation functionality to Rust</li>
             <li>Add user management</li>
             </ul></td>
         </tr>
