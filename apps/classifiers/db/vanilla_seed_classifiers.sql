@@ -449,7 +449,8 @@ INSERT INTO classifiers_organization_type (id, type_name) VALUES
 (6, 'Headquarters'),
 (7, 'Fund'),
 (8, 'Issuer'),
-(9, 'Prime Broker');
+(9, 'Prime Broker'),
+(10, 'Counterparty');
 
 INSERT INTO classifiers_industry_sector (id, sector_name) VALUES
 (1, 'Unknown'),
