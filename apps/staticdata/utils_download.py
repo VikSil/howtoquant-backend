@@ -40,7 +40,7 @@ def get_or_save_organization(org_type: str, name: str, description: str = '', **
                 owner_org_type = kwargs['owner_org_type']
             owner_org = get_org_by_name_and_type(name=kwargs['owner_org'], org_type=owner_org_type)  # find owner org
         if not owner_org:  # if owner org not known
-            if org_type in ['Fund', 'Book', 'Strategy']:  # for these types the owner is user's headquarters
+            if org_type in ['Fund', 'Book', 'Strategy', 'Counterparty']:  # for these types the owner is user's headquarters
                 owner_org = get_org_by_name_and_type(name='Silver Pine', org_type=['Headquarters'])
             else:
                 owner_org = organization.objects.get(pk=1)  # default the new org to Public Domain

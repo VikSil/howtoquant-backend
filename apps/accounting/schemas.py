@@ -36,3 +36,25 @@ new_strategy = {
     "required": ["name"],
     "additionalProperties": False,
 }
+
+new_trade = {
+    "type": "object",
+    "properties":{
+        "ticker":{"type": "string"},
+        "direction":{"enum": ["B", "S","SS", "BC"]},
+        "quantity":{"type": "number", "exclusiveMinimum": 0},
+        "price":{"type": "number", "minimum": 0},
+        "trade_date":{"type": "string","format": "date"},
+        "trade_ccy":{"type": "string"},
+        "settle_date":{"type": "string","format": "date"},
+        "settle_ccy":{"type": "string"},
+        "trade_settle_xrate":{"type": "number", "exclusiveMinimum": 0},
+        "settle_base_xrate":{"type": "number", "exclusiveMinimum": 0},
+        "book_name":{"type": "string"},
+        "strategy_name":{"type": "string"},
+        "account_name":{"type": "string"},
+        "counterparty":{"type": "string"},      
+    },
+    "required":["ticker", "direction", "quantity", "price", "book_name", "strategy_name", "counterparty"],
+    "additionalProperties": False,
+}

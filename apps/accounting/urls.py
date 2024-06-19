@@ -8,4 +8,5 @@ urlpatterns = [
     path("api/strategies", views.strategies, name="api_strategies"),
     path("api/pbaccounts/names", views.pbaccounts_names, name="api_pbaccounts_names"),
     path("api/pbaccounts", views.pbaccounts, name="api_pbaccounts"),
+    path("api/trades", views.trades, name="api_trades"),
 ]
