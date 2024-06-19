@@ -63,8 +63,7 @@ class trade(models.Model):
     settlement_ccy = models.ForeignKey(
         'classifiers.currency', on_delete=models.PROTECT, related_name='trade_settlement_ccy'
     )
-    trade_instrument_xrate = models.FloatField(unique=False, validators=[validate_greater_than_zero], default=1)
-    trade_setlement_xrate = models.FloatField(unique=False, validators=[validate_greater_than_zero], default=1)
+    trade_settlement_xrate = models.FloatField(unique=False, validators=[validate_greater_than_zero], default=1)
     book = models.ForeignKey(book, on_delete=models.PROTECT, default=2, related_name='trade_book')
     strategy = models.ForeignKey(strategy, on_delete=models.PROTECT, default=2, related_name='trade_strategy')
     account = models.ForeignKey(broker_account, on_delete=models.PROTECT, default=2, related_name='trade_account')
