@@ -147,10 +147,19 @@ def strategies(request):
         return JsonResponse({"data": result, 'status': status}, safe=False)
 
 
-@api_view(['POST'])
+@api_view(['GET', 'POST'])
 def trades(request):
     if request.method == 'GET':
-        pass
+        try:
+            data = dict_fetch_all(trades_select_all)
+        except Exception as e:
+            data = str(e)
+            status = 'NOK'
+        else:
+            status = 'OK'
+        return JsonResponse(
+            {'status': status, 'data': {"trades": data}}, safe=False
+        )
     elif request.method == 'POST':
         body = request.data
         try:

@@ -29,3 +29,18 @@ pbaccounts_select_all_names = '''
 strategies_select_all = '''
     SELECT s.id, s.name, s.description FROM accounting_strategy AS s
 '''
+
+trades_select_all = '''
+    SELECT t.id, ts.name, t.bs_indicator AS direction, t.quantity, i.short_name AS instrument,
+    t.price, ccy_t.ISO AS ccy, t.gross_consideration, t.trade_datetime, t.settlement_date, ccy_s.ISO as settlement_ccy, t.trade_settlement_xrate,
+    b.name AS book, s.name AS strategy, acc.account_name AS account, cpty.short_name AS counterparty
+    FROM accounting_trade AS t
+    LEFT JOIN classifiers_trade_status AS ts ON t.trade_status_id = ts.id
+    LEFT JOIN staticdata_instrument AS i ON t.instrument_id = i.id
+    LEFT JOIN classifiers_currency AS ccy_t ON t.ccy_id = ccy_t.id
+    LEFT JOIN accounting_book AS b ON t.book_id = b.id
+    LEFT JOIN accounting_strategy s ON t.strategy_id = s.id
+    LEFT JOIN accounting_broker_account acc ON t.account_id = acc.id
+    LEFT JOIN classifiers_currency AS ccy_s ON t.settlement_ccy_id = ccy_s.id
+    LEFT JOIN staticdata_organization as cpty ON t.counterparty_id = cpty.id    
+'''
