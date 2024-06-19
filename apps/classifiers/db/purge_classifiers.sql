@@ -1,3 +1,4 @@
+delete from classifiers_trade_status;
 delete from classifiers_market_data_source;
 delete from classifiers_industry_subsector;
 delete from classifiers_industry_sector;

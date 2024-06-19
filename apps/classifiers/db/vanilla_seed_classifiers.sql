@@ -477,3 +477,9 @@ INSERT INTO classifiers_market_data_source (id, source_name, function_name) VALU
 INSERT INTO classifiers_accounting_method (id, method_name, description) VALUES
 (1, 'FIFO', 'First In, First Out'),
 (2, 'Weighted Avg', 'Weighted Average Accounting');
+
+INSERT INTO classifiers_trade_status (code, name, description) VALUES 
+('N', 'New', 'New trade'),
+('X', 'Cancelled', 'Cancelled trade'),
+('R', 'Reversal', 'Reversal of a cancelled trade'),
+('A', 'Amended', 'Amendment of another trade');
