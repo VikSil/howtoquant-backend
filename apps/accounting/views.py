@@ -9,7 +9,7 @@ from jsonschema.exceptions import ValidationError
 from .db.queries import *
 from .schemas import *
 from .utils import *
-from howtoquant.utils import dict_fetch_all, list_fetch_all
+from howtoquant.utils import dict_fetch_all, list_fetch_all, dict_fetch_one
 from apps.staticdata.utils_download import get_org_by_name_and_type, get_or_save_organization
 
 # Create your views here.
@@ -148,18 +148,26 @@ def strategies(request):
 
 
 @api_view(['GET', 'POST'])
-def trades(request):
+def trades(request, id = None):
     if request.method == 'GET':
-        try:
-            data = dict_fetch_all(trades_select_all)
-        except Exception as e:
-            data = str(e)
-            status = 'NOK'
-        else:
-            status = 'OK'
-        return JsonResponse(
-            {'status': status, 'data': {"trades": data}}, safe=False
-        )
+        if id == None: # list of all trades requested
+            try:
+                data = dict_fetch_all(trades_select_all)
+            except Exception as e:
+                data = str(e)
+                status = 'NOK'
+            else:
+                status = 'OK'
+            return JsonResponse(
+                {'status': status, 'data': {"trades": data}}, safe=False
+            )
+        else: #specific trade data requested
+            data = dict_fetch_one(trades_select_where_id, [id])
+            if data:
+                return JsonResponse({'status': "OK", 'data':{'trade_date':data}}, safe=False)
+            else:
+                return HttpResponseBadRequest('Trade Not Found', status=404)
+            
     elif request.method == 'POST':
         body = request.data
         try:
