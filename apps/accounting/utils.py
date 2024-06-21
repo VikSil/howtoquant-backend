@@ -4,6 +4,19 @@ from apps.staticdata.utils import find_ultimate_owner_id, check_if_public
 from apps.classifiers.models import accounting_method, currency, trade_status
 from datetime import datetime
 
+def get_base_ccy(book_name:str) ->str:
+    book_obj = book.objects.get(name=book_name)
+    return book_obj.base_ccy.ISO
+    
+
+def get_default_acct_name(book_name:str) -> str:
+    book_obj = book.objects.get(name=book_name)
+    return book_obj.default_account.account_name
+
+def get_inst_ccy_by_ticker(ticker:str) ->str:
+    inst_obj = identifier.objects.get(code = ticker).instrument
+    return inst_obj.base_ccy.ISO
+
 
 def save_book(
     name: str,
