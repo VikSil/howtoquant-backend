@@ -164,7 +164,7 @@ def trades(request, id = None):
         else: #specific trade data requested
             data = dict_fetch_one(trades_select_where_id, [id])
             if data:
-                return JsonResponse({'status': "OK", 'data':{'trade_date':data}}, safe=False)
+                return JsonResponse({'status': "OK", 'data':{'trade_data':data}}, safe=False)
             else:
                 return HttpResponseBadRequest('Trade Not Found', status=404)
             

@@ -31,9 +31,9 @@ strategies_select_all = '''
 '''
 
 trades_select_all = '''
-    SELECT t.id, ts.name, t.bs_indicator AS direction, t.quantity, i.short_name AS instrument,
-    t.price, ccy_t.ISO AS ccy, t.gross_consideration, t.trade_datetime, t.settlement_date, ccy_s.ISO as settlement_ccy, t.trade_settlement_xrate,
-    b.name AS book, s.name AS strategy, acc.account_name AS account, cpty.short_name AS counterparty
+    SELECT t.id, ts.name AS status, t.bs_indicator AS "B/S", t.quantity AS qty, i.short_name AS inst,
+    t.price, ccy_t.ISO AS ccy, t.gross_consideration AS consid, DATE_FORMAT(t.trade_datetime, '%Y-%m-%d %H:%i:%s') AS trade_dt, DATE(t.settlement_date) AS settle_dt,
+    b.name AS book, s.name AS strat, acc.account_name AS acct, cpty.short_name AS cpty
     FROM accounting_trade AS t
     LEFT JOIN classifiers_trade_status AS ts ON t.trade_status_id = ts.id
     LEFT JOIN staticdata_instrument AS i ON t.instrument_id = i.id
@@ -41,15 +41,15 @@ trades_select_all = '''
     LEFT JOIN accounting_book AS b ON t.book_id = b.id
     LEFT JOIN accounting_strategy s ON t.strategy_id = s.id
     LEFT JOIN accounting_broker_account acc ON t.account_id = acc.id
-    LEFT JOIN classifiers_currency AS ccy_s ON t.settlement_ccy_id = ccy_s.id
     LEFT JOIN staticdata_organization as cpty ON t.counterparty_id = cpty.id    
 '''
 
 
 trades_select_where_id = '''
-    SELECT t.id, ts.name, t.bs_indicator AS direction, t.quantity, i.short_name AS instrument,
-    t.price, ccy_t.ISO AS ccy, t.gross_consideration, t.trade_datetime, t.settlement_date, ccy_s.ISO as settlement_ccy, t.trade_settlement_xrate,
-    b.name AS book, s.name AS strategy, acc.account_name AS account, cpty.short_name AS counterparty
+    SELECT t.id, ts.name AS status, t.bs_indicator AS "B/S_direction", t.quantity, i.short_name AS instrument,
+    t.price, ccy_t.ISO AS trade_currency, t.gross_consideration, DATE(t.trade_datetime) AS trade_date,
+    TIME(t.trade_datetime) AS trade_time, DATE(t.settlement_date) AS settlement_date, ccy_s.ISO as settlement_currency, t.trade_settlement_xrate AS "Trade/Settlement xrate", t.settlement_base_xrate AS "Settlement/Base xrate",
+    b.name AS book, s.name AS strategy, acc.account_name AS PB_account, cpty.short_name AS counterparty, DATE(t.created) AS input_date, TIME(t.created) AS input_time
     FROM accounting_trade AS t
     LEFT JOIN classifiers_trade_status AS ts ON t.trade_status_id = ts.id
     LEFT JOIN staticdata_instrument AS i ON t.instrument_id = i.id
