@@ -136,20 +136,37 @@ def save_trade(
     return new_trade
 
 
-def validate_trade_dates(trade_date: str, settlement_date: str) -> bool:
+def validate_dates(trade_date: str | None, settlement_date: str| None) -> bool:
     '''
     Function validates trade and settlement dates and throws an error if not valid
     '''
-    if len(trade_date) > 10:
-        trade_dt = datetime.strptime(trade_date, '%Y-%m-%d %H:%M:%S')
-    else:
-        trade_dt = datetime.strptime(trade_date, '%Y-%m-%d')
-    settle_dt = datetime.strptime(settlement_date, '%Y-%m-%d')
+    print('got this far too')
+    trade_dt = normalise_date(trade_date)
+    settle_dt = normalise_date(settlement_date)
+
     if trade_dt > datetime.now():
-        raise ValueError('Trade date in the future')
+        raise ValueError('Trade date cannot be the future')
+    print(trade_dt.date())
+    print(datetime.now().date())
+    if trade_dt.date() < datetime.now().date():
+        raise ValueError('Backdated trades are not supported yet')
     if trade_dt > settle_dt:
-        raise ValueError('Settlement date before trade date')
+        raise ValueError('Settlement date cannot be before trade date')
+
     return True
+
+
+def normalise_date(date:str | None) -> datetime:
+    if date is None:
+        dt = datetime.now()
+    elif len(date) == 19:
+        dt = datetime.strptime(date, '%Y-%m-%d %H:%M:%S')
+    elif len(date) == 10:
+        dt = datetime.strptime(date, '%Y-%m-%d').replace(hour=00, minute=00, second=00)
+    else:
+        raise ValueError('Wrong date format')
+
+    return dt
 
 
 def verify_trade_book_account(book_name: str, account_name: str) -> bool:
