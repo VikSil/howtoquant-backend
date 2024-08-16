@@ -20,7 +20,7 @@ The front-end repository is available [here](https://github.com/VikSil/howtoquan
 
 ## Project structure
 
-The project is built with Django framework, providing a set JSON API endpoints for retrieving and inserting data into MySQL database. The functionality is divided into apps (modules) as follows:
+The project is built with Django framework, providing a set of JSON API endpoints for retrieving and inserting data into MySQL database. The functionality is divided into apps (modules) as follows:
 
 * __Classifiers app__ - stores standartised re-usable data units representing sets of objects shared by other apps. The datasets are provided in SQL seed script for this app and canot be changed by the user.
 * __Staticdata app__ - stores information that is expected to rarely change and have infrequent additions once a mature dataset is established. By convention "static data" in finance is used in reference to instrument details/contract setup. This app also includes organizations that can be referenced by other entities and apps, such as funds, prime brokers, issuers and 3rd parties. This app provides functionality for requesting instrument data (equity only) from 3rd party API (Yahoo Finanace) and manual instrument setup.
@@ -71,7 +71,7 @@ Follow these steps to set up the project on a local machine:
 1. Create a directory where the project will be contained and [git clone](https://git-scm.com/docs/git-clone) this repository. 
 1. In console navigate to the root directory of the project (where manage.py file is located). Alternativelly, you may want to create a [virtual environment](https://developer.mozilla.org/en-US/docs/Learn/Server-side/Django/development_environment#using_django_inside_a_python_virtual_environment).
 1. Run `pip install -r requirements.txt` to install all pythonic dependencies (this will take several minutes to complete). 
-1. In project folder `howtoquant` add ./.envs/.env_dev file with environemnt variables like this:
+1. In project folder `howtoquant` add ./.envs/.env_dev file with environment variables like this:
 ```
 ENVIRONMENT=development
 
@@ -153,6 +153,7 @@ The trajectory of this project is bound to change in accordance to time constrai
             <td><ul>
             <li>Add message queue for process control and coordination</li>
             <li>Implement unused market data download truncation</li>
+            <li>Add test suite in pytest</li>
             </ul></td>
         </tr>
         <tr>
@@ -179,4 +180,4 @@ The trajectory of this project is bound to change in accordance to time constrai
 
 ## License
 
-The source code and all artifacts are awailable under [CC BY-NC-SA 4.0 DEED](https://creativecommons.org/licenses/by-nc-sa/4.0/) terms. 
+The source code and all artifacts are available under [CC BY-NC-SA 4.0 DEED](https://creativecommons.org/licenses/by-nc-sa/4.0/) terms. 
