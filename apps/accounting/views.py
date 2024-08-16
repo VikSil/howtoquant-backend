@@ -155,6 +155,13 @@ def strategies(request):
         return JsonResponse({"data": result, 'status': status}, safe=False)
 
 
+@api_view(['GET'])
+def strategies_names(request):
+    if request.method == 'GET':
+        data = list_fetch_all(strategies_select_all_names, [])
+        return JsonResponse({'status': "OK", 'data': {"strategy_names": data}}, safe=False)
+
+
 @api_view(['GET', 'POST'])
 def trades(request, id=None):
     if request.method == 'GET':

@@ -34,6 +34,10 @@ strategies_select_all = '''
     SELECT s.id, s.name, s.description FROM accounting_strategy AS s
 '''
 
+strategies_select_all_names = '''
+    SELECT s.name FROM accounting_strategy AS s
+'''
+
 trades_select_all = '''
     SELECT t.id, ts.name AS status, t.bs_indicator AS "B/S", t.quantity AS qty, i.short_name AS inst,
     t.price, ccy_t.ISO AS ccy, t.gross_consideration AS consid, DATE_FORMAT(t.trade_datetime, '%Y-%m-%d %H:%i:%s') AS trade_dt, DATE(t.settlement_date) AS settle_dt,

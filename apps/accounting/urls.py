@@ -7,6 +7,7 @@ urlpatterns = [
     path("api/books/names", views.books_names, name="api_books_names"),
     path("api/books", views.books, name="api_books"),
     path("api/strategies", views.strategies, name="api_strategies"),
+    path("api/strategies/names", views.strategies_names, name="api_strategies_names"),
     path("api/pbaccounts/names", views.pbaccounts_names, name="api_pbaccounts_names"),
     path("api/pbaccounts", views.pbaccounts, name="api_pbaccounts"),
     path("api/trades/<int:id>", views.trades, name="api_trades_by_id"),

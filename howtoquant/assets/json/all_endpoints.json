@@ -89,6 +89,21 @@
           }
         }
       },
+      "GET /api/strategies/names": {
+        "description": "returns a list of all strategy names",
+        "queries": [],
+        "requestBody": {},
+        "exampleResponse": {
+          "status": "OK",
+          "data": {
+            "strategy_names": [
+              "Africa",
+              "China Short",
+              "Long Only"
+            ]
+          }
+        }
+      },
       "POST /api/books": {
         "description": "saves a book to database",
         "queries": [],
