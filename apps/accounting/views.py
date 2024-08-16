@@ -63,6 +63,13 @@ def books(request):
         return JsonResponse({"data": result, 'status': status}, safe=False)
 
 
+@api_view(['GET'])
+def books_names(request):
+    if request.method == 'GET':
+        data = list_fetch_all(books_select_all_names, [])
+        return JsonResponse({'status': "OK", 'data': {"book_names": data}}, safe=False)
+
+
 @api_view(['GET', 'POST'])
 def pbaccounts(request):
     if request.method == 'GET':

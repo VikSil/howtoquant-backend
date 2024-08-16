@@ -22,6 +22,21 @@
           }
         }
       },
+      "GET /api/books/names": {
+        "description": "returns a list of all book names",
+        "queries": [],
+        "requestBody": {},
+        "exampleResponse": {
+          "status": "OK",
+          "data": {
+            "book_names": [
+              "ABC",
+              "Global Macro",
+              "Long Short"
+            ]
+          }
+        }
+      },
       "GET /api/pbaccounts": {
         "description": "returns a list of all prime broker accounts",
         "queries": [],

@@ -4,6 +4,7 @@ from . import views
 urlpatterns = [
     # Default landing page
     path("", views.index, name="index"),
+    path("api/books/names", views.books_names, name="api_books_names"),
     path("api/books", views.books, name="api_books"),
     path("api/strategies", views.strategies, name="api_strategies"),
     path("api/pbaccounts/names", views.pbaccounts_names, name="api_pbaccounts_names"),
