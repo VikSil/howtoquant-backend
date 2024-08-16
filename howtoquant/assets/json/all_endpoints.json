@@ -580,6 +580,17 @@
           }
         }
       },
+      "GET /api/organizations/counterparty_names": {
+        "description": "returns a list of all counterparty organization short name",
+        "queries": [],
+        "requestBody": {},
+        "exampleResponse": {
+          "status": "OK",
+          "data": {
+            "counterparty_names": ["UBS", "Morgan Sachs"]
+          }
+        }
+      },
       "GET /api/organizations/fund_names": {
         "description": "returns a list of all fund short names and headquarters short name",
         "queries": [],

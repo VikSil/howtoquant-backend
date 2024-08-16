@@ -10,6 +10,7 @@ urlpatterns = [
     path("api/identifiers", views.identifiers, name="api_identifiers"),
     path("api/instruments", views.instruments, name="api_instruments"),
     path("api/organizations/broker_names", views.all_broker_names, name="api_all_broker_names"),
+    path("api/organizations/counterparty_names", views.all_counterparty_names, name="api_all_counterparty_names"),
     path("api/organizations/fund_names", views.all_fund_names, name="api_all_fund_names"),
     path("api/organizations/issuer_names", views.all_issuer_names, name="api_all_issuer_names"),
     path("api/organizations/parent_org_names", views.all_parent_org_names, name="api_all_parent_org_names"),

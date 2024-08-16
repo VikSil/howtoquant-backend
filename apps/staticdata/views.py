@@ -40,6 +40,12 @@ def all_broker_names(request):
 
 
 @api_view(['GET'])
+def all_counterparty_names(request):
+    data = list_fetch_all(organizations_select_all_counterparty_names)
+    return JsonResponse({'status': "OK", 'data': {"counterparty_names": data}}, safe=False)
+
+
+@api_view(['GET'])
 def all_fund_names(request):
     data = list_fetch_all(organizations_select_all_fund_names)
     return JsonResponse({'status': "OK", 'data': {"fund_names": data}}, safe=False)
