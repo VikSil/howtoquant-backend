@@ -41,7 +41,7 @@ new_trade = {
     "type": "object",
     "properties":{
         "ticker":{"type": "string"},
-        "direction":{"enum": ["B", "S","SS", "BC"]},
+        "direction":{"enum": ["B", "S"]},
         "quantity":{"type": "number", "exclusiveMinimum": 0},
         "price":{"type": "number", "minimum": 0},
         "trade_date":{"type": "string","format": "date"},

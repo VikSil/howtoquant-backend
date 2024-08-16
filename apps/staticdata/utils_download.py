@@ -16,10 +16,9 @@ def get_org_by_name_and_type(name: str, **kwargs):
     try:
         if 'org_type' in kwargs:  # if org_type is stated, use it in query
             existing_org = organization.objects.filter(
-                org_type__in=organization_type.objects.filter(type_name__in=kwargs['org_type'])
+                org_type__in=organization_type.objects.filter(type_name=kwargs['org_type'])
             ).get(Q(short_name=name) | Q(long_name=name))
         else:  # if org_type is not stated, query by name only
-
             existing_org = organization.objects.get(Q(short_name=name) | Q(long_name=name))
     except organization.DoesNotExist:
         existing_org = None

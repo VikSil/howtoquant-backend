@@ -18,6 +18,19 @@ def get_inst_ccy_by_ticker(ticker:str) ->str:
     return inst_obj.base_ccy.ISO
 
 
+def normalise_date(date: str | None) -> datetime:
+    if date is None:
+        dt = datetime.now()
+    elif len(date) == 19:
+        dt = datetime.strptime(date, '%Y-%m-%d %H:%M:%S')
+    elif len(date) == 10:
+        dt = datetime.strptime(date, '%Y-%m-%d').replace(hour=00, minute=00, second=00)
+    else:
+        raise ValueError('Wrong date format')
+
+    return dt
+
+
 def save_book(
     name: str,
     acct_method: str,
@@ -140,33 +153,17 @@ def validate_dates(trade_date: str | None, settlement_date: str| None) -> bool:
     '''
     Function validates trade and settlement dates and throws an error if not valid
     '''
-    print('got this far too')
     trade_dt = normalise_date(trade_date)
     settle_dt = normalise_date(settlement_date)
 
     if trade_dt > datetime.now():
-        raise ValueError('Trade date cannot be the future')
-    print(trade_dt.date())
-    print(datetime.now().date())
+        raise ValueError('Trade date cannot be in the future')
     if trade_dt.date() < datetime.now().date():
         raise ValueError('Backdated trades are not supported yet')
     if trade_dt > settle_dt:
         raise ValueError('Settlement date cannot be before trade date')
 
     return True
-
-
-def normalise_date(date:str | None) -> datetime:
-    if date is None:
-        dt = datetime.now()
-    elif len(date) == 19:
-        dt = datetime.strptime(date, '%Y-%m-%d %H:%M:%S')
-    elif len(date) == 10:
-        dt = datetime.strptime(date, '%Y-%m-%d').replace(hour=00, minute=00, second=00)
-    else:
-        raise ValueError('Wrong date format')
-
-    return dt
 
 
 def verify_trade_book_account(book_name: str, account_name: str) -> bool:
