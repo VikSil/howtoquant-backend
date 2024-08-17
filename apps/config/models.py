@@ -7,6 +7,7 @@ class msg_queue(models.Model):
     destination = models.CharField(max_length=50)
     process = models.CharField(max_length=50)
     routine = models.CharField(max_length=100, blank=True, null=True)
+    flag = models.CharField(max_length=1)
     arg1 = models.CharField(max_length=100, blank=True, null=True)
     arg2 = models.CharField(max_length=100, blank=True, null=True)
     arg3 = models.CharField(max_length=100, blank=True, null=True)

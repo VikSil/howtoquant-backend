@@ -12,6 +12,7 @@ from .schemas import *
 from .utils import *
 from howtoquant.utils import dict_fetch_all, list_fetch_all, dict_fetch_one
 from apps.staticdata.utils_download import get_org_by_name_and_type, get_or_save_organization
+from apps.config.utils import add_to_msg_queue
 
 # Create your views here.
 
@@ -238,9 +239,13 @@ def trades(request, id=None):
         trade_data['consideration'] = trade_data['price'] * trade_data['quantity']
 
         try:
+            # save to accounting_trade table
             trade = save_trade(**{key: value for key, value in trade_data.items() if value is not None})
-
             result = model_to_dict(trade)
+
+            # add to config_msg_queue table to process into ladders later
+            msg = add_to_msg_queue('accounting_trade', result['id'], 'accounting_asset_flow', 'FLOW_BOOKER')
+
         except Exception as e:
             result = str(e)
             status = 'NOK'
