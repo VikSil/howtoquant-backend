@@ -85,9 +85,6 @@ class instrument_position(models.Model):
     strategy = models.ForeignKey(
         strategy, on_delete=models.PROTECT, default=2, related_name='instrument_position_strategy'
     )
-    position_type = models.ForeignKey(
-        'classifiers.position_type', on_delete=models.PROTECT, related_name='instrument_position_position_type'
-    )
     created = models.DateTimeField(default=now, blank=True, unique=False)
     updated = models.DateTimeField(default=now, blank=True, unique=False)
 
@@ -99,9 +96,6 @@ class cash_position(models.Model):
         broker_account, on_delete=models.PROTECT, default=2, related_name='cash_position_account'
     )
     strategy = models.ForeignKey(strategy, on_delete=models.PROTECT, default=2, related_name='cash_position_strategy')
-    position_type = models.ForeignKey(
-        'classifiers.position_type', on_delete=models.PROTECT, related_name='cash_position_position_type'
-    )
     instrument_position = models.ForeignKey(
         instrument_position, on_delete=models.CASCADE, related_name='cash_position_instrument_position'
     )
@@ -203,7 +197,7 @@ class fifo_pnl(models.Model):
 
 class position_snapshot(models.Model):
     position_id = models.PositiveBigIntegerField()
-    source = models.ForeignKey(ContentType, on_delete=models.CASCADE, related_name = 'position_snapshot_source')
+    source = models.ForeignKey(ContentType, on_delete=models.CASCADE, related_name='position_snapshot_source')
     source_fk = GenericForeignKey('source', 'position_id')
     date = models.DateTimeField(default=now)
     quantity = models.FloatField(unique=False)
@@ -213,7 +207,9 @@ class position_snapshot(models.Model):
         'marketdata.value_scheme', on_delete=models.PROTECT, related_name='position_snapshot_value_scheme'
     )
     ladder_id = models.PositiveBigIntegerField()
-    source_ladder = models.ForeignKey(ContentType, on_delete=models.CASCADE, related_name='position_snapshot_source_ladder')
+    source_ladder = models.ForeignKey(
+        ContentType, on_delete=models.CASCADE, related_name='position_snapshot_source_ladder'
+    )
     source_ladder_fk = GenericForeignKey('source_ladder', 'ladder_id')
     weighted_average_cost = models.FloatField(unique=False)
     weighted_lifetime_total_pnl = models.FloatField(unique=False)

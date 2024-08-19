@@ -9,5 +9,4 @@ DROP TABLE classifiers_industry_sector;
 DROP TABLE classifiers_accounting_method;
 DROP TABLE classifiers_accrual_type;
 DROP TABLE classifiers_asset_flow_type;
-DROP TABLE classifiers_position_type;
 DROP TABLE classifiers_trade_status;
