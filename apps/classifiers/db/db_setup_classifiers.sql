@@ -28,9 +28,6 @@ alter table classifiers_accounting_method modify column updated datetime default
 alter table classifiers_trade_status modify column created datetime default CURRENT_TIMESTAMP;
 alter table classifiers_trade_status modify column updated datetime default CURRENT_TIMESTAMP;
 
-alter table classifiers_position_type modify column created datetime default CURRENT_TIMESTAMP;
-alter table classifiers_position_type modify column updated datetime default CURRENT_TIMESTAMP;
-
 alter table classifiers_accrual_type modify column created datetime default CURRENT_TIMESTAMP;
 alter table classifiers_accrual_type modify column updated datetime default CURRENT_TIMESTAMP;
 

@@ -77,12 +77,6 @@ class trade_status(models.Model):
     updated = models.DateTimeField(default=now, blank=True, unique=False)
 
 
-class position_type(models.Model):
-    type_name = models.CharField(max_length=60, unique=True)
-    created = models.DateTimeField(default=now, blank=True, unique=False)
-    updated = models.DateTimeField(default=now, blank=True, unique=False)
-
-
 class accrual_type(models.Model):
     type_name = models.CharField(max_length=40, unique=True)
     created = models.DateTimeField(default=now, blank=True, unique=False)
