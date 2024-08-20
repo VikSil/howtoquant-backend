@@ -12,7 +12,8 @@ parentdir = os.path.dirname(currentdir)
 sys.path.insert(0, parentdir)  # add parent dir to path to import upstream modules
 
 from ..models import msg_queue
-from .utils_queue import select_proc_flag_from_queue, save_df_to_queue, set_processing_flag
+from .utils_queue import select_proc_flag_from_queue, set_processing_flag
+from howtoquant.utils import save_df_to_db
 
 
 class FlowBooker(CronJobBase):
@@ -23,12 +24,13 @@ class FlowBooker(CronJobBase):
     code = 'config.flow_booker'
 
     def do(self):
-
+        self.process_new_trades()
+    def process_new_trades(self):
         queue_df = select_proc_flag_from_queue('FLOW_BOOKER', 'N')
-        trade_df = queue_df[queue_df['source']=='accounting_trade']
+        trade_df = queue_df[queue_df['source'] == 'accounting_trade']
 
-        # Process newly booked trade
-        # Place a request on queue for position manager to check if these are new positions
+        # Place a request on queue for position manager to check
+        # if these are new positions
         msg_ids = trade_df['id'].tolist()
 
         trade_df['arg1'] = trade_df['source_id']
@@ -37,6 +39,7 @@ class FlowBooker(CronJobBase):
         trade_df['destination'] = 'accounting_instrument_position'
         trade_df['process'] = 'POS_MANAGER'
         trade_df = trade_df.drop(columns=['id'])
-        save_df_to_queue(trade_df)
 
-        set_processing_flag(msg_ids, 'P')
+        # if placing request fails, process again on the next run
+        if save_df_to_db(trade_df, 'msg_queue'):
+            set_processing_flag(msg_ids, 'P')

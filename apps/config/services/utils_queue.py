@@ -24,22 +24,6 @@ def queue_to_pandas():
     return df
 
 
-def save_df_to_queue(data: object):
-    db_user = settings.DATABASES['default']['USER']
-    db_password = settings.DATABASES['default']['PASSWORD']
-    db_name = settings.DATABASES['default']['NAME']
-    db_host = settings.DATABASES['default']['HOST']
-    db_port = settings.DATABASES['default']['PORT']
-
-    try:
-        database_url = f'mysql://{db_user}:{db_password}@{db_host}:{db_port}/{db_name}'
-        engine = create_engine(database_url, echo=False)
-        data.to_sql(msg_queue._meta.db_table, if_exists='append', con=engine, index=False)
-
-    except Exception as e:
-        logger.debug(f'Exception occured while saving data to queue: {e}')
-
-
 def select_flag_from_queue(flag: str):
     queue_df = queue_to_pandas()
     df = queue_df[queue_df.flag.str.contains(flag)]
