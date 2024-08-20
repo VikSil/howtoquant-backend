@@ -13,7 +13,7 @@ parentdir = os.path.dirname(currentdir)
 sys.path.insert(0, parentdir)  # add parent dir to path to import upstream modules
 
 from ..models import msg_queue
-from .utils_queue import select_proc_flag_from_queue, set_processing_flag
+from .utils_queue import select_proc_flag_from_queue, set_processing_flag, set_arguements
 from apps.accounting.models import trade, instrument_position, cash_position
 
 logger = logging.getLogger(__name__)
@@ -87,38 +87,42 @@ class PositionManager(CronJobBase):
         trade_df = pd.merge(trade_df, trade_ccy_position_df, on='id')
         trade_df = pd.merge(trade_df, settlement_ccy_position_df, on='id')
 
-        # flag processed messages
         positions_df['arg1'] = positions_df['arg1'].astype(int)
         positions_df = pd.merge(positions_df, trade_df, left_on='arg1', right_on='id')
 
-        successful_msg_ids = list(
-            positions_df.query(
-                'position_error==False & trade_ccy_position_error==False & settlement_ccy_position_error==False'
-            )['id_x']
-        )
-        set_processing_flag(successful_msg_ids, 'X')
+        successful_positions_df = positions_df[
+            (positions_df['position_error'] == False)
+            & (positions_df['trade_ccy_position_error'] == False)
+            & (positions_df['settlement_ccy_position_error'] == False)
+        ]
 
-        failed_msg_ids = list(
-            positions_df.query(
-                'position_error==True | trade_ccy_position_error==True | settlement_ccy_position_error==True'
-            )['id_x']
-        )
-        set_processing_flag(failed_msg_ids, 'Z')
+        failed_positions_df = positions_df[
+            (positions_df['position_error'] == True)
+            | (positions_df['trade_ccy_position_error'] == True)
+            | (positions_df['settlement_ccy_position_error'] == True)
+        ]
 
-        # flag originating messages
-        successful_msg_ids = list(
-            positions_df.query(
-                'position_error==False & trade_ccy_position_error==False & settlement_ccy_position_error==False'
-            )['source_id']
-        )
-        set_processing_flag(successful_msg_ids, 'F')
+        # flag processed messages
+        set_processing_flag(list(successful_positions_df['id_x']), 'X')
+        set_processing_flag(list(failed_positions_df['id_x']), 'Z')
 
-        failed_msg_ids = list(
-            positions_df.query(
-                'position_error==True | trade_ccy_position_error==True | settlement_ccy_position_error==True'
-            )['source_id']
-        )
-        set_processing_flag(failed_msg_ids, 'Y')
+        # communicate back to the originating messages
+        set_argument_results = [
+            set_arguements(id=row[0], arg1=row[1], arg2=row[2], arg3=row[3])
+            for row in zip(
+                successful_positions_df['source_id'],
+                successful_positions_df['position_id'],
+                successful_positions_df['trade_ccy_position_id'],
+                successful_positions_df['settlement_ccy_position_id'],
+            )
+        ]
+
+        if False in set_argument_results:
+            logger.debug(
+                f'An error occured while sending one of these messages back to FlowBroker: {successful_positions_df}'
+            )
+
+        set_processing_flag(list(failed_positions_df['source_id']), 'Y')
 
     def reduce_trade_df(self, data):
         try:

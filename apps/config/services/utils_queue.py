@@ -52,5 +52,22 @@ def select_proc_flag_from_queue(process: str, flag: str):
     return df
 
 
+def set_arguements(id, **kwargs):
+    try:
+        if 'arg1' in kwargs:
+            msg_queue.objects.filter(pk=id).update(arg1=kwargs['arg1'])
+        if 'arg2' in kwargs:
+            msg_queue.objects.filter(pk=id).update(arg2=kwargs['arg2'])
+        if 'arg3' in kwargs:
+            msg_queue.objects.filter(pk=id).update(arg3=kwargs['arg3'])
+        if 'arg4' in kwargs:
+            msg_queue.objects.filter(pk=id).update(arg4=kwargs['arg4'])
+        return True
+
+    except Exception as e:
+        logger.debug(f'Exception occured while setting arguments to the queue: {e}')
+        return False
+
+
 def set_processing_flag(ids, proc_flag):
     msg_queue.objects.filter(pk__in=ids).update(flag=proc_flag)
