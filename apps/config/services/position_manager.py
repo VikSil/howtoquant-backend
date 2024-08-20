@@ -121,6 +121,8 @@ class PositionManager(CronJobBase):
             logger.debug(
                 f'An error occured while sending one of these messages back to FlowBroker: {successful_positions_df}'
             )
+        else:
+            set_processing_flag(list(successful_positions_df['source_id']), 'F')
 
         set_processing_flag(list(failed_positions_df['source_id']), 'Y')
 
