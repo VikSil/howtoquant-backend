@@ -34,7 +34,7 @@ Data is organised in Django ORM as per ER diagrams below. Each image features on
 
 ### Classifiers app
 
-[<img src="howtoquant/assets/ER_diagrams/Classifiers_v.1.0.1.png" alt="Classifiers ER diagram" width="1000"/>](howtoquant/assets/ER_diagrams/Classifiers_v.1.0.2.png)
+[<img src="howtoquant/assets/ER_diagrams/Classifiers_v.1.0.2.png" alt="Classifiers ER diagram" width="1000"/>](howtoquant/assets/ER_diagrams/Classifiers_v.1.0.2.png)
 
 ### Staticdata app
 [<img src="howtoquant/assets/ER_diagrams/Static_data_v1.0.2.png" alt="Static data ER diagram" width="1000"/>](howtoquant/assets/ER_diagrams/Static_data_v1.0.2.png)
@@ -44,7 +44,7 @@ Data is organised in Django ORM as per ER diagrams below. Each image features on
 
 
 ### Accounting app
-[<img src="howtoquant/assets/ER_diagrams/Accounting_v.0.4.png" alt="Accounting ER diagram" width="1000"/>](howtoquant/assets/ER_diagrams/Accounting_v.0.3.png)
+[<img src="howtoquant/assets/ER_diagrams/Accounting_v.0.5.png" alt="Accounting ER diagram" width="1000"/>](howtoquant/assets/ER_diagrams/Accounting_v.0.5.png)
 
 ## Running locally
 
