@@ -8,3 +8,4 @@ delete from classifiers_instrument_class;
 delete from classifiers_organization_type;
 delete from classifiers_identifier_type;
 delete from classifiers_accounting_method;
+delete from classifiers_asset_flow_type;

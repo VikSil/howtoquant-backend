@@ -1,3 +1,7 @@
+INSERT INTO classifiers_asset_flow_type (id, type_name) VALUES
+(1, 'Instrument Flow'),
+(2, 'Cash Flow');
+
 INSERT INTO classifiers_identifier_type (id, type_name) VALUES
 (1, 'Unknown'),
 (2, 'Unspecified'),
