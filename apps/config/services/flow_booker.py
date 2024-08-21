@@ -43,11 +43,15 @@ class FlowBooker(CronJobBase):
             )
             if not flow_line:
                 # new trade flow
+                direction = 1
+                if trade_line.bs_indicator == 'S':
+                    direction = -1
+
                 new_asset_flow = asset_flow.objects.create(
                     source_fk=inst_position,
                     trade_date=trade_line.trade_datetime,
                     settlement_date=trade_line.settlement_date,
-                    quantity=trade_line.quantity,
+                    quantity=trade_line.quantity * direction,
                     price=trade_line.price * trade_line.trade_settlement_xrate,
                     asset_flow_type=asset_flow_type.objects.get(type_name='Instrument Flow'),
                     ccy=trade_line.settlement_ccy,
