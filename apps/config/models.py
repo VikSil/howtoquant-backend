@@ -7,12 +7,12 @@ class msg_queue(models.Model):
     Model/Table contains all messages to be processed or being processed by backend services
 
     Possible flags:
-    N - New - Will be picked up for processing
+    N - New - Will be picked up for processing by the designated service
     F - Flow processing - msg sent to FlowBooker
     P - Position processing - msg sent to PositionManager
     X - Terminated - work on the message complete
     Y - Downstream failure - error occured during downstream processing
-    Z - Failure - error occured during processing
+    Z - Failure - error occured during processing by the designated service
     '''
 
     source = models.CharField(max_length=50)
