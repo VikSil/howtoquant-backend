@@ -7,7 +7,7 @@ This document details how trades are processed into the system.
 Trades can be booked either via GUI or by sending in an API request.
 
 <p align = "center">
-<img src="https://github.com/VikSil/howtoquant-backend/blob/trunk/howtoquant/docs/img/minimal_POST_tade_body.png" alt="Minimal POST trade body"/>
+<img src="https://github.com/VikSil/howtoquant-backend/blob/trunk/howtoquant/docs/img/minimal_POST_trade_body.png" alt="Minimal POST trade body"/>
 </p>
 
 **Endpoint**: /accounting/api/trades
@@ -23,7 +23,7 @@ Trades can be booked either via GUI or by sending in an API request.
 
 * CONFIG_MSG_QUEUE - A record for each trade signalling to FLOW_BOOKER
 <p align = "center">
-<img src="https://github.com/VikSil/howtoquant-backend/blob/trunk/howtoquant/docs/img/FLOW_BOOKER_N_Message.png" alt="New message to FlowBooker service"/>
+<img src="https://github.com/VikSil/howtoquant-backend/blob/trunk/howtoquant/docs/img/FLOW_BOOKER_N_message.png" alt="New message to FlowBooker service"/>
 </p>
 
 
@@ -41,12 +41,12 @@ Trades can be booked either via GUI or by sending in an API request.
     
     * arg1 - ACCOUNTING_TRADE.ID
 <p align = "center">
-<img src="https://github.com/VikSil/howtoquant-backend/blob/trunk/howtoquant/docs/img/POS_MANAGER_N_Message.png" alt="New message to PositionManager service"/>
+<img src="https://github.com/VikSil/howtoquant-backend/blob/trunk/howtoquant/docs/img/POS_MANAGER_N_message.png" alt="New message to PositionManager service"/>
 </p>
 
 * Amended records to self, flag N --> P
 <p align = "center">
-<img src="https://github.com/VikSil/howtoquant-backend/blob/trunk/howtoquant/docs/img/FLOW_BOOKER_P_Message.png" alt="Message awaiting PositionManager"/>
+<img src="https://github.com/VikSil/howtoquant-backend/blob/trunk/howtoquant/docs/img/FLOW_BOOKER_P_message.png" alt="Message awaiting PositionManager"/>
 </p>
 
 ## PositionManager processing
