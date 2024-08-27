@@ -2,8 +2,9 @@
 import inspect
 import logging
 import os
-import pandas as pd
 import sys
+
+import pandas as pd
 from django_cron import CronJobBase, Schedule
 
 # local imports
@@ -12,9 +13,10 @@ currentdir = os.path.dirname(os.path.abspath(inspect.getfile(inspect.currentfram
 parentdir = os.path.dirname(currentdir)
 sys.path.insert(0, parentdir)  # add parent dir to path to import upstream modules
 
+from apps.accounting.models import cash_position, instrument_position, trade
+
 from ..models import msg_queue
-from .utils_queue import select_proc_flag_from_queue, set_processing_flag, set_arguements
-from apps.accounting.models import trade, instrument_position, cash_position
+from .utils_queue import select_proc_flag_from_queue, set_arguments, set_processing_flag
 
 logger = logging.getLogger(__name__)
 
@@ -108,11 +110,10 @@ class PositionManager(CronJobBase):
 
         # communicate back to the originating messages
         set_argument_results = [
-            set_arguements(id=row[0], arg1=row[1], arg2=row[2], arg3=row[3])
+            set_arguments(id=row[0], arg1=row[1], arg3=row[2])
             for row in zip(
                 successful_positions_df['source_id'],
                 successful_positions_df['position_id'],
-                successful_positions_df['trade_ccy_position_id'],
                 successful_positions_df['settlement_ccy_position_id'],
             )
         ]

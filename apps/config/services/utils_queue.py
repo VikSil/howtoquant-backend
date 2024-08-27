@@ -2,7 +2,6 @@
 import inspect
 import logging
 import os
-import pandas as pd
 import sys
 
 from django.conf import settings
@@ -36,7 +35,7 @@ def select_proc_flag_from_queue(process: str, flag: str):
     return df
 
 
-def set_arguements(id, **kwargs):
+def set_arguments(id, **kwargs):
     try:
         if 'arg1' in kwargs:
             msg_queue.objects.filter(pk=id).update(arg1=kwargs['arg1'])
