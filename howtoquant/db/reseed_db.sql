@@ -1,3 +1,4 @@
+source E:\05_Ultimate_Brain\Finance_Skills\HowToQuant\backend\apps\config\db\purge_config.sql
 source E:\05_Ultimate_Brain\Finance_Skills\HowToQuant\backend\apps\accounting\db\purge_accounting.sql
 source E:\05_Ultimate_Brain\Finance_Skills\HowToQuant\backend\apps\marketdata\db\purge_marketdata.sql
 source E:\05_Ultimate_Brain\Finance_Skills\HowToQuant\backend\apps\staticdata\db\purge_staticdata.sql
@@ -14,3 +15,5 @@ source E:\05_Ultimate_Brain\Finance_Skills\HowToQuant\backend\apps\marketdata\db
 
 source E:\05_Ultimate_Brain\Finance_Skills\HowToQuant\backend\apps\accounting\db\db_setup_accounting.sql
 source E:\05_Ultimate_Brain\Finance_Skills\HowToQuant\backend\apps\accounting\db\vanilla_seed_accounting.sql
+
+source E:\05_Ultimate_Brain\Finance_Skills\HowToQuant\backend\apps\config\db\db_setup_config.sql

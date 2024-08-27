@@ -1,0 +1,1 @@
+delete from config_msg_queue;
