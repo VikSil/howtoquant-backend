@@ -39,7 +39,10 @@ class FlowBooker(CronJobBase):
             trade_line = trade.objects.get(pk=trade_id)
             cash_line = cash_position.objects.filter(pk=position_id).first()
             flow_line = asset_flow.objects.filter(
-                position_id=position_id, source=ContentType.objects.get_for_model(cash_line).id
+                position_id=cash_line.id,
+                position_type=ContentType.objects.get_for_model(cash_line).id,
+                source_id=trade_line.id,
+                source_type=ContentType.objects.get_for_model(trade_line).id,
             )
             if not flow_line:
                 # new trade flow
@@ -48,7 +51,7 @@ class FlowBooker(CronJobBase):
                     direction = -1  # if buying then cash flows out
 
                 new_asset_flow = asset_flow.objects.create(
-                    source_fk=cash_line,
+                    position_fk=cash_line,
                     trade_date=trade_line.trade_datetime,
                     settlement_date=trade_line.settlement_date,
                     quantity=trade_line.gross_consideration * direction,
@@ -56,6 +59,7 @@ class FlowBooker(CronJobBase):
                     asset_flow_type=asset_flow_type.objects.get(type_name='Cash Flow'),
                     ccy=trade_line.settlement_ccy,
                     xrate=trade_line.settlement_base_xrate,
+                    source_fk=trade_line,
                 )
                 new_asset_flow.save()
 
@@ -74,9 +78,12 @@ class FlowBooker(CronJobBase):
         try:
             # filter for an existing object via the Generic Key
             trade_line = trade.objects.get(pk=trade_id)
-            inst_position = instrument_position.objects.filter(pk=position_id).first()
+            inst_line = instrument_position.objects.filter(pk=position_id).first()
             flow_line = asset_flow.objects.filter(
-                position_id=position_id, source=ContentType.objects.get_for_model(inst_position).id
+                position_id=inst_line.id,
+                position_type=ContentType.objects.get_for_model(inst_line).id,
+                source_id=trade_line.id,
+                source_type=ContentType.objects.get_for_model(trade_line).id,
             )
             if not flow_line:
                 # new trade flow
@@ -85,7 +92,7 @@ class FlowBooker(CronJobBase):
                     direction = -1
 
                 new_asset_flow = asset_flow.objects.create(
-                    source_fk=inst_position,
+                    position_fk=inst_line,
                     trade_date=trade_line.trade_datetime,
                     settlement_date=trade_line.settlement_date,
                     quantity=trade_line.quantity * direction,
@@ -93,6 +100,7 @@ class FlowBooker(CronJobBase):
                     asset_flow_type=asset_flow_type.objects.get(type_name='Instrument Flow'),
                     ccy=trade_line.ccy,
                     xrate=trade_line.trade_settlement_xrate * trade_line.settlement_base_xrate,
+                    source_fk=trade_line,
                 )
                 new_asset_flow.save()
 

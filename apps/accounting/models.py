@@ -119,8 +119,8 @@ class accrual_ladder(models.Model):
 
 class asset_flow(models.Model):
     position_id = models.PositiveBigIntegerField()
-    source = models.ForeignKey(ContentType, on_delete=models.CASCADE)
-    source_fk = GenericForeignKey('source', 'position_id')
+    position_type = models.ForeignKey(ContentType, on_delete=models.CASCADE, related_name='asset_flow_position')
+    position_fk = GenericForeignKey('position_type', 'position_id')
     trade_date = models.DateTimeField(default=now)
     settlement_date = models.DateTimeField(default=t_plus_two)
     quantity = models.FloatField(unique=False)
@@ -130,6 +130,9 @@ class asset_flow(models.Model):
     )
     ccy = models.ForeignKey('classifiers.currency', on_delete=models.PROTECT, related_name='asset_flow_ccy')
     xrate = models.FloatField(unique=False, validators=[validate_greater_than_zero], default=1)
+    source_id = models.PositiveBigIntegerField()
+    source_type = models.ForeignKey(ContentType, on_delete=models.CASCADE, related_name='asset_flow_source')
+    source_fk = GenericForeignKey('source_type', 'source_id')
     created = models.DateTimeField(default=now, blank=True, unique=False)
     updated = models.DateTimeField(default=now, blank=True, unique=False)
 
