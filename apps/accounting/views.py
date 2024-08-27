@@ -1,20 +1,20 @@
-from django.shortcuts import render
-from django.http import JsonResponse, HttpResponseBadRequest
-from django.forms.models import model_to_dict
+import copy
 from django.core.exceptions import ObjectDoesNotExist
-from rest_framework.decorators import api_view
+from django.forms.models import model_to_dict
+from django.http import JsonResponse, HttpResponseBadRequest
+from django.shortcuts import render
+from django.utils.timezone import timedelta
+
 from jsonschema import validate
 from jsonschema.exceptions import ValidationError
-import copy
+from rest_framework.decorators import api_view
 
 from .db.queries import *
 from .schemas import *
 from .utils import *
-from howtoquant.utils import dict_fetch_all, list_fetch_all, dict_fetch_one
-from apps.staticdata.utils_download import get_org_by_name_and_type, get_or_save_organization
 from apps.config.utils import add_to_msg_queue
-
-# Create your views here.
+from apps.staticdata.utils_download import get_org_by_name_and_type, get_or_save_organization
+from howtoquant.utils import dict_fetch_all, list_fetch_all, dict_fetch_one
 
 
 def index(request):
@@ -191,10 +191,13 @@ def trades(request, id=None):
 
         if ('trade_date' in trade_data) or ('settle_date' in trade_data):
             try:
-                print('got this far')
-                validate_dates(trade_date = trade_data.get('trade_date'),settlement_date = trade_data.get('settle_date'))
+                validate_dates(trade_date=trade_data.get('trade_date'), settlement_date=trade_data.get('settle_date'))
             except ValueError as e:
                 return JsonResponse({"data": str(e), 'status': 'NOK'}, safe=False)
+
+        if ('trade_date' in trade_data) and ('settle_date' not in trade_data):
+            trade_date = normalise_date(trade_data['trade_date']) + timedelta(days=2)
+            trade_data['settle_date'] = trade_date.strftime("%Y-%m-%d")
 
         if 'account_name' in trade_data:
             if not verify_trade_book_account(trade_data['book_name'], trade_data['account_name']):

@@ -1,20 +1,23 @@
-from .models import strategy, broker_account, book, trade
-from apps.staticdata.models import organization, identifier
-from apps.staticdata.utils import find_ultimate_owner_id, check_if_public
-from apps.classifiers.models import accounting_method, currency, trade_status
 from datetime import datetime
 
-def get_base_ccy(book_name:str) ->str:
+from .models import strategy, broker_account, book, trade
+from apps.classifiers.models import accounting_method, currency, trade_status
+from apps.staticdata.models import organization, identifier
+from apps.staticdata.utils import find_ultimate_owner_id, check_if_public
+
+
+def get_base_ccy(book_name: str) -> str:
     book_obj = book.objects.get(name=book_name)
     return book_obj.base_ccy.ISO
-    
 
-def get_default_acct_name(book_name:str) -> str:
+
+def get_default_acct_name(book_name: str) -> str:
     book_obj = book.objects.get(name=book_name)
     return book_obj.default_account.account_name
 
-def get_inst_ccy_by_ticker(ticker:str) ->str:
-    inst_obj = identifier.objects.get(code = ticker).instrument
+
+def get_inst_ccy_by_ticker(ticker: str) -> str:
+    inst_obj = identifier.objects.get(code=ticker).instrument
     return inst_obj.base_ccy.ISO
 
 
@@ -73,9 +76,7 @@ def save_pbaccount(
     # if PB's ultimate owner is not Public
     if not is_pb_public:
         master_fund_id = find_ultimate_owner_id(parent_fund)
-        if (
-            master_pb_id != master_fund_id
-        ):  # make sure that Fund and PB have the same ultimate owner
+        if master_pb_id != master_fund_id:  # make sure that Fund and PB have the same ultimate owner
             raise Exception('Different PB and Fund owners')
 
     new_account = broker_account.objects.create(
@@ -110,7 +111,7 @@ def save_trade(
     strategy_name: str,
     account_name: str,
     counterparty: str,
-    consideration:float,
+    consideration: float,
     status: str = 'N',
     **kwargs
 ):
@@ -149,7 +150,7 @@ def save_trade(
     return new_trade
 
 
-def validate_dates(trade_date: str | None, settlement_date: str| None) -> bool:
+def validate_dates(trade_date: str | None, settlement_date: str | None) -> bool:
     '''
     Function validates trade and settlement dates and throws an error if not valid
     '''
@@ -158,8 +159,6 @@ def validate_dates(trade_date: str | None, settlement_date: str| None) -> bool:
 
     if trade_dt > datetime.now():
         raise ValueError('Trade date cannot be in the future')
-    if trade_dt.date() < datetime.now().date():
-        raise ValueError('Backdated trades are not supported yet')
     if trade_dt > settle_dt:
         raise ValueError('Settlement date cannot be before trade date')
 
