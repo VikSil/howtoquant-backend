@@ -8,7 +8,12 @@ INSERT INTO marketdata_value_field (id, description, field_name, market_data_sou
 (3,'Low','Low',5),
 (4,'Close','Close',5),
 (5,'Adjusted Close','Adj Close',5),
-(6,'Volume','Volume',5);
+(6,'Volume','Volume',5),
+(7,'Trade Price','VolumeTade Price',5);
+
+INSERT INTO marketdata_value_scheme_pref (id, description) VALUES
+(1,'Lowest Age in List'),
+(2,'First Existing in List');
 
 delimiter //
 DROP PROCEDURE IF EXISTS populate_value_fields //
@@ -31,7 +36,14 @@ BEGIN
     (3,'Low','Daily Low Price',price_ladder_content_id,1),
     (4,'Close','Market Close Price EOD',price_ladder_content_id,1),
     (5,'Adjusted Close','Adj Close Price EOD',price_ladder_content_id,1),
-    (6,'Volume','Daily Volume',analytics_ladder_content_id,1);
+    (6,'Volume','Daily Volume',analytics_ladder_content_id,1),
+    (7,'Trade Price','Intraday Trade Price',price_ladder_content_id,1);
+
+    INSERT INTO marketdata_value_scheme_order (id, ladder_id, value_spec_id, ordering) VALUES
+    (1,price_ladder_content_id,7,1);
+
+    INSERT INTO marketdata_value_scheme (id, name, active, ladder_id, owner_org_id, value_scheme_pref_id, value_scheme_order_id) VALUES
+    (1,'Default', True, price_ladder_content_id,1,1,1);
 
 END//
 delimiter ;
@@ -44,8 +56,8 @@ INSERT INTO marketdata_value_field_to_spec (id, value_field_id, value_spec_id) V
 (3,3,3),
 (4,4,4),
 (5,5,5),
-(6,6,6);
-
+(6,6,6),
+(7,7,7);
 
 #------------------------------------------------------------
 # Stored Procedures

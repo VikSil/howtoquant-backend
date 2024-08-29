@@ -40,7 +40,7 @@ Data is organised in Django ORM as per ER diagrams below. Each image features on
 [<img src="howtoquant/assets/ER_diagrams/Static_data_v1.0.2.png" alt="Static data ER diagram" width="1000"/>](howtoquant/assets/ER_diagrams/Static_data_v1.0.2.png)
 
 ### Marketdata app
-[<img src="howtoquant/assets/ER_diagrams/Market_data_v1.0.png" alt="Market data ER diagram" width="1000"/>](howtoquant/assets/ER_diagrams/Market_data_v1.0.png)
+[<img src="howtoquant/assets/ER_diagrams/Market_data_v1.1.png" alt="Market data ER diagram" width="1000"/>](howtoquant/assets/ER_diagrams/Market_data_v1.1.png)
 
 
 ### Accounting app

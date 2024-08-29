@@ -36,19 +36,24 @@ class value_scheme_pref(models.Model):
     created = models.DateTimeField(default=now, blank=True, unique=False)
     updated = models.DateTimeField(default=now, blank=True, unique=False)
 
-class value_scheme(models.Model):
-    name = models.CharField(max_length=50, unique=True)
-    value_scheme_pref = models.ForeignKey(value_scheme_pref, on_delete=models.PROTECT, related_name = 'value_scheme_value_scheme_pref')
-    ladder = models.ForeignKey(ContentType, on_delete=models.CASCADE, related_name = 'value_scheme_ladder')
-    active = models.BooleanField(blank=False, null=False, default=True)
-    owner_org = models.ForeignKey('staticdata.organization', on_delete=models.PROTECT, related_name='value_scheme_owner')
+
+class value_scheme_order(models.Model):
+    ladder = models.ForeignKey(ContentType, on_delete=models.CASCADE)
+    ordering = models.SmallIntegerField()
+    value_spec = models.ForeignKey(value_spec, on_delete=models.PROTECT, related_name='value_scheme_order_value_spec')
     created = models.DateTimeField(default=now, blank=True, unique=False)
     updated = models.DateTimeField(default=now, blank=True, unique=False)
 
-class value_scheme_order(models.Model):
-    value_scheme = models.ForeignKey(value_scheme, on_delete=models.CASCADE, related_name = 'value_scheme_order_scheme')
-    order = models.SmallIntegerField()
-    value_field = models.ForeignKey(value_field, on_delete=models.PROTECT, related_name='value_schme_order_value_field')
+
+class value_scheme(models.Model):
+    name = models.CharField(max_length=50, unique=True)
+    value_scheme_pref = models.ForeignKey(value_scheme_pref, on_delete=models.PROTECT, related_name = 'value_scheme_value_scheme_pref')
+    value_scheme_order = models.ForeignKey(
+        value_scheme_order, on_delete=models.PROTECT, related_name='value_scheme_value_scheme_order'
+    )
+    ladder = models.ForeignKey(ContentType, on_delete=models.CASCADE, related_name = 'value_scheme_ladder')
+    active = models.BooleanField(blank=False, null=False, default=True)
+    owner_org = models.ForeignKey('staticdata.organization', on_delete=models.PROTECT, related_name='value_scheme_owner')
     created = models.DateTimeField(default=now, blank=True, unique=False)
     updated = models.DateTimeField(default=now, blank=True, unique=False)
 
