@@ -1,11 +1,13 @@
 import logging
 from django.conf import settings
 from django.db import connection
-from sqlalchemy import create_engine
+from sqlalchemy import create_engine, text
+from sqlalchemy.exc import SQLAlchemyError
+from typing import List
 
 
 from apps.config.models import msg_queue
-from apps.accounting.models import asset_flow
+from apps.accounting.models import asset_flow, cash_ladder
 
 logger = logging.getLogger(__name__)
 
@@ -88,14 +90,16 @@ def save_df_to_db(data: object, table_name: str) -> bool:
         table = msg_queue._meta.db_table
     elif table_name == 'asset_flow':
         table = asset_flow._meta.db_table
+    elif table_name == 'cash_ladder':
+        table = cash_ladder._meta.db_table
 
     try:
         database_url = f'mysql://{db_user}:{db_password}@{db_host}:{db_port}/{db_name}'
         engine = create_engine(database_url, echo=False)
         data.to_sql(table, if_exists='append', con=engine, index=False)
 
-    except Exception as e:
-        logger.debug(f'Exception occured while saving data to queue: {e}')
+    except SQLAlchemyError as e:
+        logger.debug(f'Exception occured while inserting data into the database: {e}')
         return False
 
     return True
@@ -110,3 +114,44 @@ def trigger_proc(query, *args):
         return e
     finally:
         cursor.close()
+
+
+def update_df_to_db(data: object, table_name: str, matching_columns: List) -> bool:
+    '''
+    Function takes a dataframe and attempts to update rows in the indicated table
+    where values in matching columns is the same as in the dataframe.
+    PK column will not be updated, and can be either passed in matching_columns or not
+    It is the callers responsibility to make sure that the shape of the data
+    matches that of the destination table
+    '''
+    db_user = settings.DATABASES['default']['USER']
+    db_password = settings.DATABASES['default']['PASSWORD']
+    db_name = settings.DATABASES['default']['NAME']
+    db_host = settings.DATABASES['default']['HOST']
+    db_port = settings.DATABASES['default']['PORT']
+
+    try:
+        database_url = f'mysql://{db_user}:{db_password}@{db_host}:{db_port}/{db_name}'
+        engine = create_engine(database_url, echo=False)
+
+        with engine.connect() as connection:
+            update_queries = [
+                text(
+                    f""" 
+                    UPDATE {table_name} SET
+                    {', '.join([f"{col} = :{col}" for col in data.columns if col not in matching_columns])}
+                    WHERE  {' AND '.join([f"{col} = :{col}" for col in matching_columns])}
+                """
+                )
+                for row in data.to_dict(orient='records')
+            ]
+
+            for query, params in zip(update_queries, data.to_dict(orient='records')):
+                connection.execute(query, **params)
+
+    except SQLAlchemyError as e:
+        print(e)
+        logger.debug(f'Exception occured while updating data in the database: {e}')
+        return False
+
+    return True

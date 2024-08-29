@@ -1,6 +1,32 @@
 # Trade processing workflow
 
-This document details how trades are processed into the system.
+## Services and MSG_QUEUE
+Trade processing is carried out by several Services that are periodically run as cron jobs.
+The services are:
+
+* FlowBooker
+* PositionManager
+* CashManager
+* AssetManager
+
+These services communicate with each other by placing messages into CONFIG_MSG_QUEUE table. At each run, each service check the message queue for messages addressed to itself and carries out processing in accordance with the messages found on queue. The processing is described for each service in detail below.
+
+Each message on the queue has a FLAG field that indicates the stage of processing of that message.
+There are two types of flags - generic and service specific. Generic flags are shared between services and have the same meaning on all messages. Service specific flags 'belong' to a specific service. If a message is flagged with a service specific flag, it means that the workflow control has been handed off to that service. If the flagged service and CONFIG_MSG_QUEUE.PROCESS are the same, it means that workflow control has been handed back to that service. 
+
+**Generic flag values**
+
+* N - New - Will be picked up for processing by the designated service 
+* X - Terminated - work on the message complete
+* Y - Downstream failure - error occured during downstream processing
+* Z - Failure - error occured during processing by the designated service
+
+**Service specific flag values**
+
+* F - Flow processing - workflow awaiting FlowBooker
+* P - Position processing - workflow awaiting PositionManager
+
+
 
 ## Booking
 
@@ -99,8 +125,6 @@ Trades can be booked either via GUI or by sending in an API request.
 
 ## PositionManager processing
 
-### New messages
-
 **Input msg_queue flag**: N
 
 **Processing**:
@@ -135,3 +159,31 @@ Trades can be booked either via GUI or by sending in an API request.
 <img src="https://github.com/VikSil/howtoquant-backend/blob/trunk/howtoquant/docs/img/FLOW_BOOKER_F_message.png" alt="Message awaiting FlowBooker"/>
 </p>   
 
+
+## Cash Manager procesing
+
+**Input msg_queue flag**: N
+
+**Processing**: For each cash position
+
+* Find the message on queue with the oldest settlement date
+* Retrieve all cash flows from ACCOUNTING_ASSET_FLOW for dates later or equal to that settlement date
+* Forward fill dataframe with cumulative flow quantity for each date in the range from the settlement date or last ladder date, whichever is earlier, to the latest flow date
+* Check if any records exist in ACCOUNTING_CASH_LADDER
+    * if no records exist, insert flow dataframe into ACCOUNTING_CASH_LADDER
+    * if records exist
+        * check if there are records in ACCOUNTING_CASH_LADDER earlier than the settlement date
+            * if there are earlier records, update each quantity in flows dataframe by adding the quantity from ACCOUNTING_CASH_LADDER on the day before settlement date. Update existing records in ACCOUNTING_CASH_LADDER with the new quantities from flows dataframe
+            * if there are no earlier records find the earliest date in ACCOUNTING_CASH_LADDER. Partition flows dataframe in two parts - before and on-and-after earliest ladder date. Insert the before part into the database. Use the on-and-after part to update the existing records.
+        * check if the latest date in ACCOUNTING_CASH_LADDER is less than the latest date in flows dataframe (projected settlements). If there are, select rows from flows dataframe with dates greater than the latest ladder date and insert into the database.
+
+<p align = "center">
+<img src="https://github.com/VikSil/howtoquant-backend/blob/trunk/howtoquant/docs/img/accounting_cash_ladder_records.png" alt="Cash ladder records"/>
+</p>
+
+**Output**: CONFIG_MSG_QUEUE 
+
+* Amended records to self
+    * Successfuly processed flag N --> X
+    * Failed processing flag N --> Z 
+   

@@ -1,11 +1,9 @@
 # global imports
 import inspect
 import logging
+import pandas as pd
 import os
 import sys
-
-from django.conf import settings
-from sqlalchemy import create_engine
 
 # local imports
 

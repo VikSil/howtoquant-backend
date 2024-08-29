@@ -44,7 +44,7 @@ Data is organised in Django ORM as per ER diagrams below. Each image features on
 
 
 ### Accounting app
-[<img src="howtoquant/assets/ER_diagrams/Accounting_v.0.5.png" alt="Accounting ER diagram" width="1000"/>](howtoquant/assets/ER_diagrams/Accounting_v.0.5.png)
+[<img src="howtoquant/assets/ER_diagrams/Accounting_v.0.6.png" alt="Accounting ER diagram" width="1000"/>](howtoquant/assets/ER_diagrams/Accounting_v.0.6.png)
 
 ## Running locally
 
@@ -137,7 +137,7 @@ The trajectory of this project is bound to change in accordance to time constrai
             <td><ul>
             <li>Add POST and GET endpoints for trade data</li>
             <li>Establish new trade data flow through accounting model tables (cumulative qty only)</li>
-            <li>Add rollower functionality</li>
+            <li>Add roll-forward functionality</li>
             </ul></td>
         </tr>
         <tr>

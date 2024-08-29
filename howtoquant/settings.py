@@ -229,4 +229,5 @@ POLYGON_API_KEY = env('POLYGON_API_KEY')
 CRON_CLASSES = [
     'apps.config.services.flow_booker.FlowBooker',
     'apps.config.services.position_manager.PositionManager',
+    'apps.config.services.cash_manager.CashManager',
 ]
