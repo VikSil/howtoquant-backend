@@ -31,29 +31,32 @@ class AssetManager(CronJobBase):
     code = 'config.asset_manager'
 
     def do(self):
-        queue_df = select_proc_flag_from_queue('ASSET_MANAGER', 'N')
-        asset_ladder_df = queue_df[queue_df['destination'] == 'asset_ladder']
+        rollforward_msg = select_proc_flag_from_queue('ROLLFORWARD', 'N')
 
-        # reduce the msg queue - for each position_id pick the line with the oldest arg2
-        msg_queue_ids = asset_ladder_df['id'].to_list()
-        asset_ladder_df = reduce_ladder_df(asset_ladder_df, 'arg1', 'arg2')
-        msg_queue_ids_short = asset_ladder_df['id'].to_list()
+        if rollforward_msg.empty:  # only process ladder if Rollforward not in progress
+            queue_df = select_proc_flag_from_queue('ASSET_MANAGER', 'N')
+            asset_ladder_df = queue_df[queue_df['destination'] == 'asset_ladder']
 
-        # mark newer msg queue lines as processed
-        msg_queue_ids_diff = list(set(msg_queue_ids) - set(msg_queue_ids_short))
-        set_processing_flag(msg_queue_ids_diff, 'X')
+            # reduce the msg queue - for each position_id pick the line with the oldest arg2
+            msg_queue_ids = asset_ladder_df['id'].to_list()
+            asset_ladder_df = reduce_ladder_df(asset_ladder_df, 'arg1', 'arg2')
+            msg_queue_ids_short = asset_ladder_df['id'].to_list()
 
-        processing_results = [
-            (row[0], self.process_line(row[1], row[2]))
-            for row in zip(
-                asset_ladder_df['id'],
-                asset_ladder_df['arg1'],
-                asset_ladder_df['arg2'],
-            )
-        ]
+            # mark newer msg queue lines as processed
+            msg_queue_ids_diff = list(set(msg_queue_ids) - set(msg_queue_ids_short))
+            set_processing_flag(msg_queue_ids_diff, 'X')
 
-        # mark processed lines as done or failed
-        mark_ladder_processing_msgs(processing_results)
+            processing_results = [
+                (row[0], self.process_line(row[1], row[2]))
+                for row in zip(
+                    asset_ladder_df['id'],
+                    asset_ladder_df['arg1'],
+                    asset_ladder_df['arg2'],
+                )
+            ]
+
+            # mark processed lines as done or failed
+            mark_ladder_processing_msgs(processing_results)
 
     def process_line(self, inst_pos_id, date):
         try:

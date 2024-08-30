@@ -29,28 +29,31 @@ class CashManager(CronJobBase):
     code = 'config.cash_manager'
 
     def do(self):
-        queue_df = select_proc_flag_from_queue('CASH_MANAGER', 'N')
-        cash_ladder_df = queue_df[queue_df['destination'] == 'cash_ladder']
+        rollforward_msg = select_proc_flag_from_queue('ROLLFORWARD', 'N')
 
-        # reduce the msg queue - for each position_id pick the line with the oldest arg4
-        msg_queue_ids = cash_ladder_df['id'].to_list()
-        cash_ladder_df = reduce_ladder_df(cash_ladder_df, 'arg3', 'arg4')
-        msg_queue_ids_short = cash_ladder_df['id'].to_list()
+        if rollforward_msg.empty:  # only process ladder if Rollforward not in progress
+            queue_df = select_proc_flag_from_queue('CASH_MANAGER', 'N')
+            cash_ladder_df = queue_df[queue_df['destination'] == 'cash_ladder']
 
-        # mark newer msg queue lines as processed
-        msg_queue_ids_diff = list(set(msg_queue_ids) - set(msg_queue_ids_short))
-        set_processing_flag(msg_queue_ids_diff, 'X')
+            # reduce the msg queue - for each position_id pick the line with the oldest arg4
+            msg_queue_ids = cash_ladder_df['id'].to_list()
+            cash_ladder_df = reduce_ladder_df(cash_ladder_df, 'arg3', 'arg4')
+            msg_queue_ids_short = cash_ladder_df['id'].to_list()
 
-        processing_results = [
-            (row[0], self.process_line(row[1], row[2]))
-            for row in zip(
-                cash_ladder_df['id'],
-                cash_ladder_df['arg3'],
-                cash_ladder_df['arg4'],
-            )
-        ]
-        # mark processed lines as done or failed
-        mark_ladder_processing_msgs(processing_results)
+            # mark newer msg queue lines as processed
+            msg_queue_ids_diff = list(set(msg_queue_ids) - set(msg_queue_ids_short))
+            set_processing_flag(msg_queue_ids_diff, 'X')
+
+            processing_results = [
+                (row[0], self.process_line(row[1], row[2]))
+                for row in zip(
+                    cash_ladder_df['id'],
+                    cash_ladder_df['arg3'],
+                    cash_ladder_df['arg4'],
+                )
+            ]
+            # mark processed lines as done or failed
+            mark_ladder_processing_msgs(processing_results)
 
     def process_line(self, cash_pos_id, date):
         try:

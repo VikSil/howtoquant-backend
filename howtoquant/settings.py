@@ -228,6 +228,7 @@ CORS_ALLOWED_ORIGINS = ['http://localhost:5173',]
 POLYGON_API_KEY = env('POLYGON_API_KEY')
 
 CRON_CLASSES = [
+    'apps.config.services.rollforward.Rollforward',
     'apps.config.services.flow_booker.FlowBooker',
     'apps.config.services.position_manager.PositionManager',
     'apps.config.services.cash_manager.CashManager',

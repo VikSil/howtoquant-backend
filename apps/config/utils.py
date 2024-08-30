@@ -5,7 +5,7 @@ def add_to_msg_queue(
     source_id: int,
     destination: str,
     process:str,
-    *kwargs
+    **kwargs
 ):
     new_msg = msg_queue.objects.create(
         source = source,
