@@ -1,4 +1,4 @@
-Django==5.1
+Django==5.0.8
 django-cors-headers==2.0.0
 django_cron==0.6.0
 django_environ==0.11.2

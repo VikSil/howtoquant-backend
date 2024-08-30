@@ -97,6 +97,50 @@ To start the server execute this command `python manage.py runserver`. If succes
 
 The website will now be available on the localhost. Input the following url in the browser/APi client to access documentation listing all endpoint: `http://127.0.0.1:8000/api`. Other endpoints will be accessible on `http://127.0.0.1:8000/<appname>/<endpoint>`
 
+### Monkey fixes
+
+**If you encounter below error when starting the server**:
+
+    File "C:\Python311\Lib\site-packages\corsheaders\__init__.py", line 1, in <module>
+        from .checks import check_settings  # noqa: F401
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    File "C:\Python311\Lib\site-packages\corsheaders\checks.py", line 2, in <module>
+    from collections import Sequence
+    ImportError: cannot import name 'Sequence' from 'collections' (C:\Python311\Lib\collections\__init__.py)
+
+you will need to manually edit the file `C:\Python311\Lib\site-packages\corsheaders\checks.py`
+
+Change the following line:
+
+    from collections import Sequence
+
+to 
+
+    from collections.abc import Sequence
+
+<br>
+
+
+**If you encounter below error when starting the server**:
+
+    File "C:\Python311\Lib\site-packages\corsheaders\middleware.py", line 10, in <module>
+    from .signals import check_request_enabled
+    File "C:\Python311\Lib\site-packages\corsheaders\signals.py", line 6, in <module>
+    check_request_enabled = Signal(providing_args=['request'])
+                            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    TypeError: Signal.__init__() got an unexpected keyword argument 'providing_args'
+
+you will need to manually edit the file `C:\Python311\Lib\site-packages\corsheaders\signals.pyy`
+
+Change the following line:
+
+    check_request_enabled = Signal(providing_args=['request'])
+
+to 
+
+    check_request_enabled = Signal('request')
+
+
 ## Past sprints
 
 Code and release notes of each of the past releases can be found in the respective branch of this repo, as per table below.
