@@ -1,18 +1,11 @@
 # global imports
-import inspect
 import logging
-import os
 import pandas as pd
-import sys
+
 from django_cron import CronJobBase, Schedule
 from django.contrib.contenttypes.models import ContentType
 
 # local imports
-
-currentdir = os.path.dirname(os.path.abspath(inspect.getfile(inspect.currentframe())))
-parentdir = os.path.dirname(currentdir)
-sys.path.insert(0, parentdir)  # add parent dir to path to import upstream modules
-
 from .utils_queue import select_proc_flag_from_queue, set_processing_flag
 from apps.accounting.models import trade, asset_flow, instrument_position, cash_position
 from apps.classifiers.models import asset_flow_type

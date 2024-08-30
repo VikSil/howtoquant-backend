@@ -1,19 +1,11 @@
 # global imports
-import inspect
 import logging
 import pandas as pd
-import os
-import sys
 
 from django.core.exceptions import ObjectDoesNotExist
 from django_cron import CronJobBase, Schedule
 
 # local imports
-
-currentdir = os.path.dirname(os.path.abspath(inspect.getfile(inspect.currentframe())))
-parentdir = os.path.dirname(currentdir)
-sys.path.insert(0, parentdir)  # add parent dir to path to import upstream modules
-
 from .utils_queue import select_proc_flag_from_queue, set_processing_flag
 from .utils_services import (
     add_dummy_valuation,
