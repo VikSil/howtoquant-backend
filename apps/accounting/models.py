@@ -153,7 +153,7 @@ class asset_ladder(models.Model):
     quantity = models.FloatField(unique=False)
     market_value = models.FloatField(unique=False)
     market_price = models.FloatField(unique=False)
-    value_scheme_id = models.ForeignKey(
+    value_scheme = models.ForeignKey(
         'marketdata.value_scheme', on_delete=models.PROTECT, related_name='asset_ladder_value_scheme'
     )
     created = models.DateTimeField(default=now, blank=True, unique=False)
