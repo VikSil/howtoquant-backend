@@ -7,7 +7,7 @@ from typing import List
 
 
 from apps.config.models import msg_queue
-from apps.accounting.models import asset_flow, cash_ladder
+from apps.accounting.models import asset_flow, asset_ladder, cash_ladder
 
 logger = logging.getLogger(__name__)
 
@@ -86,12 +86,14 @@ def save_df_to_db(data: object, table_name: str) -> bool:
     db_host = settings.DATABASES['default']['HOST']
     db_port = settings.DATABASES['default']['PORT']
 
-    if table_name == 'msg_queue':
-        table = msg_queue._meta.db_table
-    elif table_name == 'asset_flow':
+    if table_name == 'asset_flow':
         table = asset_flow._meta.db_table
+    elif table_name == 'asset_ladder':
+        table = asset_ladder._meta.db_table
     elif table_name == 'cash_ladder':
         table = cash_ladder._meta.db_table
+    elif table_name == 'msg_queue':
+        table = msg_queue._meta.db_table
 
     try:
         database_url = f'mysql://{db_user}:{db_password}@{db_host}:{db_port}/{db_name}'

@@ -12,7 +12,7 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 
 from pathlib import Path
 from environ import Env
-import itertools 
+import itertools
 
 # Build paths inside the project like this: location = BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -47,6 +47,7 @@ INSTALLED_APPS = [
     # External
     'rest_framework',
     'corsheaders',
+    'django_cron',
     # Internal
     'apps.accounting',
     'apps.classifiers',
@@ -230,4 +231,5 @@ CRON_CLASSES = [
     'apps.config.services.flow_booker.FlowBooker',
     'apps.config.services.position_manager.PositionManager',
     'apps.config.services.cash_manager.CashManager',
+    'apps.config.services.asset_manager.AssetManager',
 ]

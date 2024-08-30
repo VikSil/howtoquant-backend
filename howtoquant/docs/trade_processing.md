@@ -160,20 +160,47 @@ Trades can be booked either via GUI or by sending in an API request.
 </p>   
 
 
+## Asset Manager procesing
+
+**Input msg_queue flag**: N
+
+**Processing**: For each instrument position
+
+* Find the message on queue with the earliest trade date
+* Retrieve all instrument flows from ACCOUNTING_ASSET_FLOW for dates later or equal to that trade date
+* Forward fill dataframe with cumulative flow quantity for each date in the range from that trade date to the latest flow date
+* Add dummy market value and price of zero to all flows (to be revised by Price Manager)
+* Check if any records exist in ACCOUNTING_ASSET_LADDER
+    * if no records exist, insert flow dataframe into ACCOUNTING_ASSET_LADDER.
+    * if records exist check if there are records in ACCOUNTING_ASSET_LADDER earlier than that trade date
+        * if there are earlier records, update each quantity in flows dataframe by adding the quantity from ACCOUNTING_ASSET_LADDER on the day before that trade date. Update existing records in ACCOUNTING_ASSET_LADDER with the new quantities from flows dataframe.
+        * if there are no earlier records find the earliest date in ACCOUNTING_ASSET_LADDER. Partition flows dataframe in two parts - before and on-and-after earliest ladder date. Insert the before part into the database. Use the on-and-after part to update the existing records.
+
+
+<p align = "center">
+<img src="https://github.com/VikSil/howtoquant-backend/blob/trunk/howtoquant/docs/img/accounting_asset_ladder_records.png" alt="Asset ladder records"/>
+</p>
+
+**Output**: CONFIG_MSG_QUEUE 
+
+* Amended records to self
+    * Successfuly processed flag N --> X
+    * Failed processing flag N --> Z 
+
 ## Cash Manager procesing
 
 **Input msg_queue flag**: N
 
 **Processing**: For each cash position
 
-* Find the message on queue with the oldest settlement date
+* Find the message on queue with the earliest settlement date
 * Retrieve all cash flows from ACCOUNTING_ASSET_FLOW for dates later or equal to that settlement date
-* Forward fill dataframe with cumulative flow quantity for each date in the range from the settlement date or last ladder date, whichever is earlier, to the latest flow date
+* Forward fill dataframe with cumulative flow quantity for each date in the range from that settlement date or last ladder date, whichever is earlier, to the latest flow date
 * Check if any records exist in ACCOUNTING_CASH_LADDER
-    * if no records exist, insert flow dataframe into ACCOUNTING_CASH_LADDER
+    * if no records exist, insert flow dataframe into ACCOUNTING_CASH_LADDER.
     * if records exist
         * check if there are records in ACCOUNTING_CASH_LADDER earlier than the settlement date
-            * if there are earlier records, update each quantity in flows dataframe by adding the quantity from ACCOUNTING_CASH_LADDER on the day before settlement date. Update existing records in ACCOUNTING_CASH_LADDER with the new quantities from flows dataframe
+            * if there are earlier records, update each quantity in flows dataframe by adding the quantity from ACCOUNTING_CASH_LADDER on the day before that settlement date. Update existing records in ACCOUNTING_CASH_LADDER with the new quantities from flows dataframe.
             * if there are no earlier records find the earliest date in ACCOUNTING_CASH_LADDER. Partition flows dataframe in two parts - before and on-and-after earliest ladder date. Insert the before part into the database. Use the on-and-after part to update the existing records.
         * check if the latest date in ACCOUNTING_CASH_LADDER is less than the latest date in flows dataframe (projected settlements). If there are, select rows from flows dataframe with dates greater than the latest ladder date and insert into the database.
 
@@ -186,4 +213,3 @@ Trades can be booked either via GUI or by sending in an API request.
 * Amended records to self
     * Successfuly processed flag N --> X
     * Failed processing flag N --> Z 
-   
