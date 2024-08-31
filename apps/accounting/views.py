@@ -71,6 +71,28 @@ def books_names(request):
         return JsonResponse({'status': "OK", 'data': {"book_names": data}}, safe=False)
 
 
+@api_view(['GET'])
+def cash_ladder(request):
+    if request.method == 'GET':
+        today = datetime.now().date().strftime('%Y-%m-%d')
+        last_week = (datetime.now() - timedelta(days=7)).date().strftime('%Y-%m-%d')
+        start_date = request.GET.get('start_date', last_week)
+        end_date = request.GET.get('end_date', today)
+        data = dict_fetch_all(cash_positions_select_all_where_date, [start_date, end_date])
+        return JsonResponse({'status': "OK", 'data': {"cash_ladder": data}}, safe=False)
+
+
+@api_view(['GET'])
+def instrument_ladder(request):
+    if request.method == 'GET':
+        today = datetime.now().date().strftime('%Y-%m-%d')
+        last_week = (datetime.now() - timedelta(days=7)).date().strftime('%Y-%m-%d')
+        start_date = request.GET.get('start_date', last_week)
+        end_date = request.GET.get('end_date', today)
+        data = dict_fetch_all(instrument_positions_select_all_where_date, [start_date, end_date])
+        return JsonResponse({'status': "OK", 'data': {"instrument_ladder": data}}, safe=False)
+
+
 @api_view(['GET', 'POST'])
 def pbaccounts(request):
     if request.method == 'GET':

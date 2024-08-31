@@ -10,6 +10,30 @@ books_select_all_names = '''
     SELECT b.name FROM accounting_book AS b
 '''
 
+cash_positions_select_all_where_date = '''
+    SELECT cl.date, cl.position_id, cl.quantity, ccy.ISO AS ccy, b.name AS book, s.name AS strategy, bacc.account_name as account
+    FROM accounting_cash_ladder AS cl
+    LEFT JOIN accounting_cash_position AS cp ON cl.position_id = cp.id
+    LEFT JOIN classifiers_currency AS ccy ON cp.ccy_id = ccy.id
+    LEFT JOIN accounting_book AS b ON cp.book_id = b.id
+    LEFT JOIN accounting_broker_account AS bacc ON cp.account_Id = bacc.id
+    LEFT JOIN accounting_strategy AS s ON cp.strategy_id = s.id
+    WHERE cl.date >= %s AND cl.date <= %s
+'''
+
+instrument_positions_select_all_where_date = '''
+    SELECT al.date, al.position_id, al.quantity, ticker.code, b.name AS book, s.name AS strategy, bacc.account_name as account
+    FROM accounting_asset_ladder AS al
+    LEFT JOIN accounting_instrument_position AS ip ON al.position_id = ip.id
+    LEFT JOIN staticdata_instrument AS inst ON ip.instrument_id = inst.id
+    LEFT JOIN staticdata_identifier AS ticker ON ticker.instrument_id = inst.id 
+    LEFT JOIN accounting_book AS b ON ip.book_id = b.id
+    LEFT JOIN accounting_broker_account AS bacc ON ip.account_Id = bacc.id
+    LEFT JOIN accounting_strategy AS s ON ip.strategy_id = s.id
+    WHERE ticker.identifier_type_id = 6
+    AND al.date >= %s AND al.date <= %s
+'''
+
 pbaccounts_select_all = '''
     SELECT acc.id, acc.account_name, acc.external_name, b.short_name AS broker, f.short_name AS fund,
     CASE
