@@ -74,7 +74,7 @@ class AssetManager(CronJobBase):
             flows_df = aggregate_flows_df(flows_df, is_cash_ladder=False)
             # get the earliest date from ladder
             try:
-                first_ladder_day = asset_ladder.objects.filter(position_id=position_id).earliest('date').date.date()
+                first_ladder_day = asset_ladder.objects.filter(position_id=position_id).earliest('date').date
             except ObjectDoesNotExist:  # no records in cash ladder for this position
                 flows_df = expand_flows_df(flows_df, position_id)
                 flows_df = add_dummy_valuation(flows_df)

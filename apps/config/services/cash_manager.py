@@ -71,7 +71,7 @@ class CashManager(CronJobBase):
 
             # get the earliest date from ladder
             try:
-                first_ladder_day = cash_ladder.objects.filter(position_id=position_id).earliest('date').date.date()
+                first_ladder_day = cash_ladder.objects.filter(position_id=position_id).earliest('date').date
             except ObjectDoesNotExist:  # no records in cash ladder for this position
                 flows_df = expand_flows_df(flows_df, position_id)
                 return save_df_to_db(flows_df, 'cash_ladder')

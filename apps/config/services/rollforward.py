@@ -67,7 +67,7 @@ class Rollforward(CronJobBase):
                     result1 = save_df_to_db(today_cash_ladder_df, 'cash_ladder')
 
                 yesterday_asset_ladder_df = pd.DataFrame(
-                    list(asset_ladder.objects.filter(date__date__gte=yesterday).values())
+                    list(asset_ladder.objects.filter(date__gte=yesterday).values())
                 )
 
                 try:

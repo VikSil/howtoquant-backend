@@ -107,7 +107,7 @@ class accrual_ladder(models.Model):
     instrument_position = models.ForeignKey(
         instrument_position, on_delete=models.CASCADE, related_name='accrual_ladder_instrument_position'
     )
-    date = models.DateTimeField(default=now)
+    date = models.DateField(default=now)
     accrual_type = models.ForeignKey(
         'classifiers.accrual_type', on_delete=models.PROTECT, related_name='accrual_ladder_accrual_type'
     )
@@ -139,7 +139,7 @@ class asset_flow(models.Model):
 
 class cash_ladder(models.Model):
     position = models.ForeignKey(cash_position, on_delete=models.CASCADE, related_name='cash_ladder_cash_position')
-    date = models.DateTimeField(default=now)
+    date = models.DateField(default=now)
     quantity = models.FloatField(unique=False)
     created = models.DateTimeField(default=now, blank=True, unique=False)
     updated = models.DateTimeField(default=now, blank=True, unique=False)
@@ -149,7 +149,7 @@ class asset_ladder(models.Model):
     position = models.ForeignKey(
         instrument_position, on_delete=models.CASCADE, related_name='asset_ladder_instrument_position'
     )
-    date = models.DateTimeField(default=now)
+    date = models.DateField(default=now)
     quantity = models.FloatField(unique=False)
     market_value = models.FloatField(unique=False)
     market_price = models.FloatField(unique=False)

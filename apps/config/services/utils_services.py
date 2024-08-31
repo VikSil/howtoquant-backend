@@ -9,6 +9,8 @@ from howtoquant.utils import save_df_to_db, update_df_to_db
 
 logger = logging.getLogger(__name__)
 
+pd.options.mode.chained_assignment = None
+
 
 def add_dummy_valuation(flows_df):
     '''
@@ -21,7 +23,7 @@ def add_dummy_valuation(flows_df):
     flows_df['market_value'] = 0
     flows_df['market_price'] = 0
     flows_df['value_scheme_id'] = 1
-    
+
     return flows_df
 
 
@@ -90,11 +92,11 @@ def reduce_ladder_df(ladder_df, trans_column, date_column):
 
 def update_ladder(flows_df, position_id, first_ladder_day, is_cash_ladder):
     if is_cash_ladder:
-        last_ladder_day = cash_ladder.objects.filter(position_id=position_id).latest('date').date.date()
+        last_ladder_day = cash_ladder.objects.filter(position_id=position_id).latest('date').date
         ladder_name_short = 'cash_ladder'
         ladder_name_long = 'accounting_cash_ladder'
     else:
-        last_ladder_day = asset_ladder.objects.filter(position_id=position_id).latest('date').date.date()
+        last_ladder_day = asset_ladder.objects.filter(position_id=position_id).latest('date').date
         ladder_name_short = 'asset_ladder'
         ladder_name_long = 'accounting_asset_ladder'
 
@@ -115,6 +117,7 @@ def update_ladder(flows_df, position_id, first_ladder_day, is_cash_ladder):
             (pd.to_datetime(flows_df['date']).dt.date >= first_ladder_day)
             & (pd.to_datetime(flows_df['date']).dt.date <= last_ladder_day)
         ]
+        flows_overlap_df['date'] = flows_overlap_df['date'].dt.strftime('%Y-%m-%d')
 
         result = save_df_to_db(flows_before_df, ladder_name_short) and update_df_to_db(
             flows_overlap_df, ladder_name_long, ['date', 'position_id']
@@ -125,9 +128,13 @@ def update_ladder(flows_df, position_id, first_ladder_day, is_cash_ladder):
         if earliest_flow_date <= last_ladder_day:
             day_before = earliest_flow_date - timedelta(days=1)
             if is_cash_ladder:
-                qty_day_before = cash_ladder.objects.filter(date=day_before).first().quantity
+                previous_record = cash_ladder.objects.filter(date=day_before).first()
             else:
-                qty_day_before = asset_ladder.objects.filter(date=day_before).first().quantity
+                previous_record = asset_ladder.objects.filter(date=day_before).first()
+            if previous_record is not None:
+                qty_day_before = previous_record.quantity
+            else:
+                qty_day_before = 0
 
             flows_df = expand_flows_df(flows_df, position_id)
             if not is_cash_ladder:
@@ -136,14 +143,17 @@ def update_ladder(flows_df, position_id, first_ladder_day, is_cash_ladder):
             # update df with the previous day qty from ladder
             flows_df['quantity'] = flows_df['quantity'] + qty_day_before
             flows_overlap_df = flows_df[pd.to_datetime(flows_df['date']).dt.date <= last_ladder_day]
+            flows_overlap_df['date'] = flows_overlap_df['date'].dt.strftime('%Y-%m-%d')
             result = update_df_to_db(flows_overlap_df, ladder_name_long, ['date', 'position_id'])
 
         # earliest new flow after cash_ladder records
         else:
             if is_cash_ladder:
+
                 qty_last_ladder_day = cash_ladder.objects.get(date=last_ladder_day).quantity
             else:
                 qty_last_ladder_day = asset_ladder.objects.get(date=last_ladder_day).quantity
+
             last_ladder_day_df = pd.DataFrame({'date': [last_ladder_day], 'quantity': [qty_last_ladder_day]})
             flows_df = pd.concat([flows_df, last_ladder_day_df], ignore_index=True)
             flows_df = expand_flows_df(flows_df, position_id)

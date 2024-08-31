@@ -149,10 +149,10 @@ def update_df_to_db(data: object, table_name: str, matching_columns: List) -> bo
             ]
 
             for query, params in zip(update_queries, data.to_dict(orient='records')):
-                connection.execute(query, **params)
+                connection.execute(query, params)
+                connection.commit()
 
     except SQLAlchemyError as e:
-        print(e)
         logger.debug(f'Exception occured while updating data in the database: {e}')
         return False
 
