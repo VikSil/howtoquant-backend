@@ -16,7 +16,7 @@ logger = logging.getLogger(__name__)
 
 class Rollforward(CronJobBase):
 
-    FREQUENCY_IN_MINS = 15
+    FREQUENCY_IN_MINS = 5
 
     schedule = Schedule(run_every_mins=FREQUENCY_IN_MINS)
     code = 'config.rollforward'
