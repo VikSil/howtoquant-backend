@@ -1,6 +1,36 @@
 {
   "endpoints": {
     "accounting": {
+      "GET /api/asset_ladder": {
+        "description": "returns records from the instrument ladder between the queried dates or for the last week, if no dates are given",
+        "queries": ["start_date", "end_date"],
+        "requestBody": {},
+        "exampleResponse": {
+          "status": "OK",
+          "data": {
+            "asset_ladder": [
+              {
+                "date": "2024-08-27",
+                "position_id": 174,
+                "quantity": 7.0,
+                "code": "TSLA",
+                "book": "Long Short",
+                "strategy": "Long Only",
+                "account": "Morgan Sachs Account"
+              },
+              {
+                "date": "2024-08-28",
+                "position_id": 174,
+                "quantity": 35.0,
+                "code": "TSLA",
+                "book": "Long Short",
+                "strategy": "Long Only",
+                "account": "Morgan Sachs Account"
+              }
+            ]
+          }
+        }
+      },
       "GET /api/books": {
         "description": "returns a list of all books",
         "queries": [],
@@ -55,36 +85,6 @@
                 "position_id": 134,
                 "quantity": -250.0,
                 "ccy": "USD",
-                "book": "Long Short",
-                "strategy": "Long Only",
-                "account": "Morgan Sachs Account"
-              }
-            ]
-          }
-        }
-      },
-      "GET /api/instrument_ladder": {
-        "description": "returns records from the instrument ladder between the queried dates or for the last week, if no dates are given",
-        "queries": ["start_date", "end_date"],
-        "requestBody": {},
-        "exampleResponse": {
-          "status": "OK",
-          "data": {
-            "instrument_ladder": [
-              {
-                "date": "2024-08-27",
-                "position_id": 174,
-                "quantity": 7.0,
-                "code": "TSLA",
-                "book": "Long Short",
-                "strategy": "Long Only",
-                "account": "Morgan Sachs Account"
-              },
-              {
-                "date": "2024-08-28",
-                "position_id": 174,
-                "quantity": 35.0,
-                "code": "TSLA",
                 "book": "Long Short",
                 "strategy": "Long Only",
                 "account": "Morgan Sachs Account"
