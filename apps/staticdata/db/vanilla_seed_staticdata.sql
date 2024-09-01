@@ -9,9 +9,10 @@ INSERT INTO staticdata_organization (id, short_name, long_name, org_type_id, own
 (5, 'Other','Other',4,1,'Other Organization'),
 (6, 'Tesla', 'Tesla Inc',8, 1,  'Tesla Inc'),
 (7, 'Vodafone', 'Vodafone Group Plc',8, 1,  'Vodafone Group Plc'),
-(8, 'VW', 'Volkswagen Group',8, 1,  'Volkswagen'),
+(8, 'VW', 'Volkswagen Group',8, 1, 'Volkswagen'),
 (10, 'Master Fund','Silver Pine Master Fund',7,9,'Silver Pine Master Fund'),
-(11, 'Morgan Sachs','Morgan Sachs Prime Brokerage',9,1,'Morgan Sachs Prime Brokerage');
+(11, 'Morgan Sachs','Morgan Sachs Prime Brokerage',9,1,'Morgan Sachs Prime Brokerage'),
+(12, 'Counterparty', 'Default Counterparty',10, 9, 'Default Counterparty');
 
 INSERT INTO staticdata_instrument (id, name, short_name, domicile_id, base_ccy_id, instrument_class_id, issuer_id, owner_org_id) VALUES
 (1, 'Tesla Inc', 'Tesla', 5, 5, 5, 6,1),
