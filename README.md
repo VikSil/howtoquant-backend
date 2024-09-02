@@ -141,6 +141,11 @@ to
     check_request_enabled = Signal('request')
 
 
+## Deployment on pythonanywhere
+
+[Here](https://github.com/VikSil/howtoquant-backend/blob/trunk/howtoquant/docs/deployment.md) is a tutorial on how to deploy this project on pythonanywhere web-hosting service.
+
+
 ## Past sprints
 
 Code and release notes of each of the past releases can be found in the respective branch of this repo, as per table below.
