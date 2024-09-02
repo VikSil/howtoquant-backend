@@ -6,9 +6,11 @@ alter table classifiers_instrument_class modify column updated datetime default 
 
 alter table classifiers_currency modify column created datetime default CURRENT_TIMESTAMP;
 alter table classifiers_currency modify column updated datetime default CURRENT_TIMESTAMP;
+alter table classifiers_currency modify column active tinyint(1) NOT NULL default 0;
 
 alter table classifiers_country modify column created datetime default CURRENT_TIMESTAMP;
 alter table classifiers_country modify column updated datetime default CURRENT_TIMESTAMP;
+alter table classifiers_country modify column active tinyint(1) NOT NULL default 0;
 
 alter table classifiers_organization_type modify column created datetime default CURRENT_TIMESTAMP;
 alter table classifiers_organization_type modify column updated datetime default CURRENT_TIMESTAMP;
