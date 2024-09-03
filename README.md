@@ -166,6 +166,10 @@ Code and release notes of each of the past releases can be found in the respecti
             <td align = "center">#2</td>
             <td><a href = "https://github.com/VikSil/howtoquant-backend/tree/v.0.2.0">v.0.2.0</a></td>
         </tr>
+        <tr>
+            <td align = "center">#3</td>
+            <td><a href = "https://github.com/VikSil/howtoquant-backend/tree/v.0.3.0">v.0.3.0</a></td>
+        </tr>
     </tbody>
 </table>
 
@@ -182,27 +186,18 @@ The trajectory of this project is bound to change in accordance to time constrai
     </thead>
     <tbody>
         <tr>
-            <td align = "center">#3</td>
-            <td><ul>
-            <li>Add POST and GET endpoints for trade data</li>
-            <li>Establish new trade data flow through accounting model tables (cumulative qty only)</li>
-            <li>Add roll-forward functionality</li>
-            </ul></td>
-        </tr>
-        <tr>
             <td align = "center">#4</td>
             <td><ul>
-            <li>Add portfolio data seed</li>
-            <li>Add MV calculation to trade processing</li>
-            <li>Add PnL calculation to trade processing</li>
+            <li>Add test suite in pytest</li>            
+            <li>Add MV calculation to trade processing</li>            
             </ul></td>
         </tr>
         <tr>
             <td align = "center">#5</td>
             <td><ul>
-            <li>Add message queue for process control and coordination</li>
+            <li>Add PnL calculation to trade processing</li>
+            <li>Add portfolio data seed</li>            
             <li>Implement unused market data download truncation</li>
-            <li>Add test suite in pytest</li>
             </ul></td>
         </tr>
         <tr>
